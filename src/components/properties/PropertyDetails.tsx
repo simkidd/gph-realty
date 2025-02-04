@@ -5,6 +5,7 @@ import Features from "./Features";
 import Gallery from "./Gallery";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setSelectedProperty } from "@/store/features/property/propertySlice";
+import VirtualTour from "./VirtualTour";
 
 interface ITab {
   title: string;
@@ -26,7 +27,7 @@ const PropertyDetails = ({ id }: { id: string }) => {
   }, [id, properties, dispatch, selectedProperty]);
 
   console.log("selected property", selectedProperty);
-  
+
   const tabs: ITab[] = [
     {
       title: "About",
@@ -45,6 +46,7 @@ const PropertyDetails = ({ id }: { id: string }) => {
     {
       title: "Virtual Tour",
       key: "virtualTour",
+      content: <VirtualTour data={selectedProperty} />,
     },
   ];
 
@@ -67,9 +69,15 @@ const PropertyDetails = ({ id }: { id: string }) => {
 
                   <div>
                     {tabs.map((tab) => (
-                      <TabContent key={tab.key} tabKey={tab.key}>
+                      <TabContent
+                        key={tab.key}
+                        tabKey={tab.key}
+                        className="p-[30px]"
+                      >
                         {/* Render your tab content here */}
-                        <div>{tab.title} content goes here.</div>
+                        {!tab.content && (
+                          <div>{tab.title} content goes here.</div>
+                        )}
                         {tab.content}
                       </TabContent>
                     ))}
