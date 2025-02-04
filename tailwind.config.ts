@@ -9,8 +9,28 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: {
+          DEFAULT: "#9A8A78",
+        },
+      },
+      backgroundImage: {
+        "property-bg": "url(/images/bg/inner-background.jpg)",
+      },
+      screens: {
+        sm: "576px", // Small - ≥576px
+        md: "768px", // Medium - ≥768px
+        lg: "992px", // Large - ≥992px
+        xl: "1200px", // X-Large - ≥1200px
+        xxl: "1400px", // XX-Large - ≥1400px
+      },
+      container: {
+        screens: {
+          sm: "540px", // Bootstrap's container-sm max-width
+          md: "720px", // Bootstrap's container-md max-width
+          lg: "960px", // Bootstrap's container-lg max-width
+          xl: "1140px", // Bootstrap's container-xl max-width
+          xxl: "1320px",
+        },
       },
     },
   },
