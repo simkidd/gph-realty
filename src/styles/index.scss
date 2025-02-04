@@ -1,3 +1,6 @@
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
 // .swiper {
 //   --primaryColor: #256252;
 //   --swiper-theme-color: #256252 !important;
@@ -37,5 +40,34 @@
 
   &::-webkit-scrollbar {
     display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
+  }
+}
+
+.slick-dots {
+  bottom: 10px;
+  .slick-active {
+    svg {
+      color: red;
+    }
+  }
+}
+
+.property-card {
+  &:hover {
+    .slick-prev {
+      left: 15px;
+    }
+    .slick-next {
+      right: 15px;
+    }
+  }
+
+  .slick-next,
+  .slick-prev {
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    &::before {
+      color: red;
+    }
   }
 }

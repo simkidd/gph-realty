@@ -32,6 +32,9 @@ export default {
           xxl: "1320px",
         },
       },
+      boxShadow: {
+        custom: "3.346px 3.716px 22.5px rgba(0, 0, 0, 0.07)",
+      },
     },
   },
   plugins: [],

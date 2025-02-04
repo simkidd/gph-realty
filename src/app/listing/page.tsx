@@ -1,4 +1,4 @@
-import PropertyGrid from '@/components/properties/PropertyGrid'
+import PropertyGrid from '@/components/listing/PropertyGrid'
 import React from 'react'
 
 const PropertiesPage = () => {

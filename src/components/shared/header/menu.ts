@@ -8,8 +8,8 @@ export const menuList: IMenu[] = [
     href: "/",
   },
   {
-    name: "Property",
-    href: "/properties",
+    name: "Listing",
+    href: "/listing",
   },
   {
     name: "About",

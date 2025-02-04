@@ -1,5 +1,5 @@
-import PropertyDetails from "@/components/properties/PropertyDetails";
-import PropertyHeader from "@/components/properties/PropertyHeader";
+import PropertyDetails from "@/components/property/PropertyDetails";
+import PropertyHeader from "@/components/property/PropertyHeader";
 import React from "react";
 
 const SinglePropertyPage = async ({

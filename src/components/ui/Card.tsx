@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 // Define card variants using cva
 const cardVariants = cva(
-  "rounded-lg shadow-lg overflow-hidden bg-white border border-gray-200", // Base styles for the card
+  "rounded-lg shadow-custom overflow-hidden bg-white", // Base styles for the card
   {
     variants: {
       variant: {
