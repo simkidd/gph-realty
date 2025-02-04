@@ -13,7 +13,6 @@ const PropertyGrid = () => {
     dispatch(setProperties(propertyData));
   }, [dispatch]);
 
-  console.log("all properties", properties);
 
   return (
     <section className="py-[90px]">
