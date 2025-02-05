@@ -10,7 +10,7 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#9A8A78",
+          DEFAULT: "#EE6C0E",
         },
       },
       backgroundImage: {
@@ -34,6 +34,9 @@ export default {
       },
       boxShadow: {
         custom: "3.346px 3.716px 22.5px rgba(0, 0, 0, 0.07)",
+      },
+      dropShadow: {
+        custom: "-4.33px 2.5px 22.5px rgba(0, 0, 0, 0.1)",
       },
     },
   },

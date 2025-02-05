@@ -43,15 +43,6 @@
   }
 }
 
-.slick-dots {
-  bottom: 10px;
-  .slick-active {
-    svg {
-      color: red;
-    }
-  }
-}
-
 .property-card {
   &:hover {
     .slick-prev {
@@ -66,8 +57,14 @@
   .slick-prev {
     transition: all 0.3s ease-in-out;
     z-index: 1;
-    &::before {
-      color: red;
+  }
+
+  .slick-dots {
+    bottom: 10px;
+    .slick-active {
+      svg {
+        color: #EE6C0E;
+      }
     }
   }
 }

@@ -3,7 +3,15 @@ import React from "react";
 import Card from "../ui/Card";
 import Slider, { type Settings } from "react-slick";
 import Image from "next/image";
-import { Heart, Bed, Bath, SquareDotIcon, CameraIcon } from "lucide-react";
+import {
+  Heart,
+  Bed,
+  Bath,
+  SquareDotIcon,
+  CameraIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "lucide-react";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
 import { PiRadioButtonFill } from "react-icons/pi";
@@ -27,6 +35,34 @@ interface PropertyCardProps {
   property: IProperty;
 }
 
+// Custom Previous Arrow Component
+const PrevArrow = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const { onClick } = props;
+  return (
+    <Button
+      size="icon"
+      className="absolute group-hover:left-[15px] top-1/2 transform -translate-y-1/2 bg-primary text-white rounded-full shadow-md hover:bg-primary/80 z-[1] -left-[25px] transition-all duration-300 w-5 h-5"
+      onClick={onClick}
+    >
+      <ChevronLeftIcon size={20} />
+    </Button>
+  );
+};
+
+// Custom Next Arrow Component
+const NextArrow = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const { onClick } = props;
+  return (
+    <Button
+      size="icon"
+      className="absolute group-hover:right-[15px] top-1/2 transform -translate-y-1/2 bg-primary text-white hover:bg-primary/80 rounded-full z-[1] -right-[25px] transition-all duration-300 w-5 h-5"
+      onClick={onClick}
+    >
+      <ChevronRightIcon size={20} />
+    </Button>
+  );
+};
+
 const PropertyCard = ({ property }: PropertyCardProps) => {
   const settings: Settings = {
     dots: true,
@@ -35,6 +71,8 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
     dotsClass: "slick-dots",
     customPaging: () => (
       <PiRadioButtonFill
@@ -96,7 +134,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             {property.name}
           </h3>
         </Link>
-        <p className="text-red-500 text-lg font-bold">$6558.00</p>
+        <p className="text-primary text-lg font-bold">$6558.00</p>
         <p className="text-gray-500 text-sm mt-1">{property.description}</p>
 
         {/* Property Details */}
@@ -109,7 +147,6 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         {/* Date & Details Button */}
         <div className="flex justify-between items-center mt-4">
           <p className="text-gray-400 text-sm">August 4, 2022</p>
-          
         </div>
       </div>
     </Card>
