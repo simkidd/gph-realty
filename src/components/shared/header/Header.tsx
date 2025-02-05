@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/ui/Button";
 import { useIsMobile } from "@/hooks/useMobile";
-import { GlobeIcon, HeartIcon, MenuIcon, UserIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { menuList, rightMenu } from "./menu";
@@ -16,7 +16,9 @@ const Header = () => {
         <div className="w-full flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-xl">Logo</Link>
+            <Link href="/" className="text-xl">
+              Logo
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -102,21 +104,16 @@ const Header = () => {
           </ul>
 
           <ul className="flex items-center gap-3 px-6 mt-4">
-            <li className="py-2 mr-2 hover:border-primary border-b-2 border-b-transparent">
-              <Link href="">
-                <GlobeIcon size={18} />
-              </Link>
-            </li>
-            <li className="py-2 mr-2 hover:border-primary border-b-2 border-b-transparent">
-              <Link href="">
-                <HeartIcon size={18} />
-              </Link>
-            </li>
-            <li className="py-2 mr-2 hover:border-primary border-b-2 border-b-transparent">
-              <Link href="">
-                <UserIcon size={18} />
-              </Link>
-            </li>
+            {rightMenu.map((item, i) => (
+              <li
+                key={i}
+                className="py-2 mr-2 hover:border-primary border-b-2 border-b-transparent"
+              >
+                <Link href={item.href}>
+                  {item.icon && <item.icon size={18} />}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
