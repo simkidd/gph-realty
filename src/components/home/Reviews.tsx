@@ -79,6 +79,7 @@ const Reviews = () => {
     infinite: true,
     fade: true,
     speed: 500,
+    autoplay: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     prevArrow: <PrevArrow />,
@@ -141,10 +142,12 @@ const Reviews = () => {
             <h6 className="mt-4 font-medium mb-[25px] uppercase tracking-[16px] leading-[1.2] text-white">
               {review.role}
             </h6>
-            <div className="mt-2 text-yellow-500">
+            <div className="mt-2 mb-5 text-yellow-500">
               {"⭐".repeat(review.rating)}
             </div>
-            <p className="text-sm text-gray-300 mt-1">{review.name}</p>
+            <span className="text-sm bg-white text-primary rounded-full font-bold py-[10px] px-[30px]">
+              <span>{review.name}</span>
+            </span>
           </div>
         </div>
       ))}

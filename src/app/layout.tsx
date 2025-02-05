@@ -4,6 +4,7 @@ import "./globals.scss";
 import Header from "@/components/shared/header/Header";
 import StoreProvider from "@/providers/StoreProvider";
 import { Toaster } from "@/components/ui/Toaster";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NextTopLoader color="#EE6C0E" showSpinner={false} />
         <StoreProvider>
           <Header />
           <main>{children}</main>
