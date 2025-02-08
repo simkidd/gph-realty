@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.scss";
-// import Header from "@/components/shared/header/Header";
+import Header from "@/components/shared/header/Header";
 import StoreProvider from "@/providers/StoreProvider";
 import { Toaster } from "@/components/ui/Toaster";
 import NextTopLoader from "nextjs-toploader";
@@ -33,9 +33,9 @@ export default function RootLayout({
       >
         <NextTopLoader color="#EE6C0E" showSpinner={false} />
         <StoreProvider>
-          {/* <Header /> */}
-          <main>{children}</main>
-          <Toaster position="top-center" />
+          <Header />
+          {children}
+          <Toaster />
         </StoreProvider>
       </body>
     </html>
