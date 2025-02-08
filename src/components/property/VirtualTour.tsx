@@ -18,6 +18,7 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
   const [currentScene, setCurrentScene] = useState(0);
   const [currentHfov, setCurrentHfov] = useState(110);
   const thumbnailRefs = useRef<HTMLDivElement[]>([]);
+  const viewerRef = useRef<any>(null);
 
   const scenesArray = [
     {
@@ -111,9 +112,8 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
   };
 
   const enterVR = () => {
-    const viewer = document.querySelector(".pnlm-container");
-    if (viewer && (viewer as any).enterVR) {
-      (viewer as any).enterVR();
+    if (viewerRef.current && viewerRef.current.enterVR) {
+      viewerRef.current.enterVR();
     } else {
       toast("VR Mode is not supported on this device/browser.");
     }
@@ -142,8 +142,9 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
           autoLoad
           compass
           showControls={false}
-          onLoad={() => {
+          onLoad={(viewer: any) => {
             console.log("panorama loaded");
+            viewerRef.current = viewer; // Store the viewer instance in the ref
           }}
         >
           {currentSceneData.hotSpotsArr.map((hotSpot, i) => (
