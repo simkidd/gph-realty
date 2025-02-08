@@ -10,7 +10,7 @@ const ComingSoon = () => {
           <h1 className="font-bold text-4xl mt-8 uppercase text-center">
             Site Under Construction
           </h1>
-
+        {/* test mode */}
           <p className="pt-8">Check back soon...</p>
         </div>
       </div>
