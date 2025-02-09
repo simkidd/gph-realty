@@ -5,101 +5,120 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   HomeIcon,
-  MagnifyingGlassMinusIcon,
-  MagnifyingGlassPlusIcon,
+  // MagnifyingGlassMinusIcon,
+  // MagnifyingGlassPlusIcon,
 } from "@heroicons/react/24/solid";
-import { Gamepad2Icon } from "lucide-react";
+// import { Gamepad2Icon } from "lucide-react";
 import Image from "next/image";
 import { Pannellum } from "pannellum-react-update";
 import { useRef, useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 
 const VirtualTour = ({ data }: { data: IProperty | null }) => {
   const [currentScene, setCurrentScene] = useState(0);
-  const [currentHfov, setCurrentHfov] = useState(110);
+  // const [currentHfov, setCurrentHfov] = useState(110);
   const thumbnailRefs = useRef<HTMLDivElement[]>([]);
   const viewerRef = useRef<any>(null);
 
   const scenesArray = [
     {
-      sceneName: "Kitchen",
-      scenePanoImg: data?.images[0],
+      sceneName: data?.rooms[0]?.name,
+      scenePanoImg: data?.rooms[0]?.url,
       hotSpotsArr: [
         { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
       ],
     },
     {
-      sceneName: "Room 1",
-      scenePanoImg: data?.images[1],
-      hotSpotsArr: [
-        { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-        { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-      ],
-    },
-    {
-      sceneName: "Poolside",
-      scenePanoImg: data?.images[4],
-      hotSpotsArr: [
-        { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
-      ],
-    },
-    {
-      sceneName: "Kitchen",
-      scenePanoImg: data?.images[0],
+      sceneName: data?.rooms[1]?.name,
+      scenePanoImg: data?.rooms[1]?.url,
       hotSpotsArr: [
         { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-      ],
-    },
-    {
-      sceneName: "Room 1",
-      scenePanoImg: data?.images[1],
-      hotSpotsArr: [
-        { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-        { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-      ],
-    },
-    {
-      sceneName: "Poolside",
-      scenePanoImg: data?.images[4],
-      hotSpotsArr: [
-        { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
-      ],
-    },
-    {
-      sceneName: "Kitchen",
-      scenePanoImg: data?.images[0],
-      hotSpotsArr: [
-        { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-      ],
-    },
-    {
-      sceneName: "Room 1",
-      scenePanoImg: data?.images[1],
-      hotSpotsArr: [
-        { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-        { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-      ],
-    },
-    {
-      sceneName: "Poolside",
-      scenePanoImg: data?.images[4],
-      hotSpotsArr: [
-        { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
       ],
     },
   ];
 
-  const hotspotIcon = (hotSpotDiv: HTMLElement) => {
-    const image = document.createElement("img");
-    image.classList.add("image");
-    image.setAttribute("width", "30");
-    image.setAttribute("height", "30");
-    image.setAttribute(
-      "src",
-      "https://img.icons8.com/material/4ac144/256/camera.png"
-    );
-    hotSpotDiv.appendChild(image);
-  };
+  // const scenesArray = [
+  //   {
+  //     sceneName: "Kitchen",
+  //     scenePanoImg: data?.images[0],
+  //     hotSpotsArr: [
+  //       { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Room 1",
+  //     scenePanoImg: data?.images[1],
+  //     hotSpotsArr: [
+  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
+  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Poolside",
+  //     scenePanoImg: data?.images[2],
+  //     hotSpotsArr: [
+  //       { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Kitchen",
+  //     scenePanoImg: data?.images[3],
+  //     hotSpotsArr: [
+  //       { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Room 1",
+  //     scenePanoImg: data?.images[5],
+  //     hotSpotsArr: [
+  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
+  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Poolside",
+  //     scenePanoImg: data?.images[6],
+  //     hotSpotsArr: [
+  //       { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Kitchen",
+  //     scenePanoImg: data?.images[7],
+  //     hotSpotsArr: [
+  //       { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Test Room ",
+  //     scenePanoImg: data?.images[8],
+  //     hotSpotsArr: [
+  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
+  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
+  //     ],
+  //   },
+  //   {
+  //     sceneName: "Test landscape ",
+  //     scenePanoImg: data?.images[9],
+  //     hotSpotsArr: [
+  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
+  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
+  //     ],
+  //   },
+
+  // ];
+
+  // const hotspotIcon = (hotSpotDiv: HTMLElement) => {
+  //   const image = document.createElement("img");
+  //   image.classList.add("image");
+  //   image.setAttribute("width", "30");
+  //   image.setAttribute("height", "30");
+  //   image.setAttribute(
+  //     "src",
+  //     "https://img.icons8.com/material/4ac144/256/camera.png"
+  //   );
+  //   hotSpotDiv.appendChild(image);
+  // };
 
   const handleSceneChange = (newScene: number) => {
     setCurrentScene(newScene);
@@ -111,13 +130,13 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
     });
   };
 
-  const enterVR = () => {
-    if (viewerRef.current && viewerRef.current.enterVR) {
-      viewerRef.current.enterVR();
-    } else {
-      toast("VR Mode is not supported on this device/browser.");
-    }
-  };
+  // const enterVR = () => {
+  //   viewerRef.current.enterVR();
+  //   if (viewerRef.current && viewerRef.current.enterVR) {
+  //   } else {
+  //     toast("VR Mode is not supported on this device/browser.");
+  //   }
+  // };
 
   if (!data?.images?.length) {
     return <div>No images available for the virtual tour.</div>;
@@ -138,16 +157,16 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
           title={currentSceneData.sceneName}
           pitch={10}
           yaw={180}
-          hfov={currentHfov}
+          // hfov={currentHfov}
           autoLoad
           compass
-          showControls={false}
+          showControls={true}
           onLoad={(viewer: any) => {
             console.log("panorama loaded");
             viewerRef.current = viewer; // Store the viewer instance in the ref
           }}
         >
-          {currentSceneData.hotSpotsArr.map((hotSpot, i) => (
+          {/* {currentSceneData.hotSpotsArr.map((hotSpot, i) => (
             <Pannellum.Hotspot
               key={i}
               type="custom"
@@ -156,7 +175,7 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
               tooltip={hotspotIcon}
               handleClick={() => handleSceneChange(hotSpot.transition)}
             />
-          ))}
+          ))} */}
         </Pannellum>
 
         <div className="grid lg:grid-cols-9 grid-cols-1 gap-4 p-3 bg-black">
@@ -175,7 +194,7 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
                 >
                   <Image
                     src={scene.scenePanoImg || ""}
-                    alt={scene.sceneName}
+                    alt={scene.sceneName || ""}
                     width={80}
                     height={80}
                     title={scene.sceneName}
@@ -187,7 +206,7 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
           </div>
 
           <div className="col-span-1 lg:col-span-3 flex items-center lg:justify-end justify-around gap-4">
-            <button
+            {/* <button
               className="bg-white rounded-full flex items-center justify-center size-10"
               onClick={() => setCurrentHfov((prev) => Math.max(prev - 10, 30))}
               title="Zoom In"
@@ -200,7 +219,7 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
               title="Zoom Out"
             >
               <MagnifyingGlassMinusIcon className="size-6" />
-            </button>
+            </button> */}
             <button
               className="bg-white rounded-full flex items-center justify-center size-10"
               aria-label="prev"
@@ -228,13 +247,13 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
               <HomeIcon className="size-6" />
             </button>
 
-            <button
+            {/* <button
               className="bg-white rounded-full flex items-center justify-center size-10"
               onClick={enterVR}
               title="Enter VR Mode"
             >
               <Gamepad2Icon className="size-6" />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

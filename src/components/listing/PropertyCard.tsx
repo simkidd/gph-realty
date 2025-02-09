@@ -95,6 +95,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
                 className="object-cover w-full h-full"
                 width={300}
                 height={300}
+                priority
               />
             </div>
           ))}
