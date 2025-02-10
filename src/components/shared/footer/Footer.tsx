@@ -21,17 +21,17 @@ interface IContactList {
 const contactLists: IContactList[] = [
   {
     name: "Phone",
-    href: "tel:12344894",
+    href: "tel:+234 812 696 5999",
     icon: <FaPhone size={16} />,
   },
   {
     name: "Email",
-    href: "mailto:youremail@gmail.com",
+    href: "mailto:info@mantabaylimited.com",
     icon: <FaEnvelope size={16} />,
   },
   {
     name: "Address",
-    href: "123 Main St, City, State, Zip",
+    href: "https://www.google.com/maps/@4.8247647,6.9933742,20.13z?entry=ttu&g_ep=EgoyMDI1MDIwNS4xIKXMDSoASAFQAw%3D%3D",
     icon: <FaLocationDot size={16} />,
   },
 ];
@@ -93,6 +93,7 @@ const Footer = () => {
                         href={contactLists[i].href}
                         className="w-10 h-10 rounded-full text-white border border-transparent  hover:border-white transition-all duration-500 ease-in-out flex items-center justify-center bg-[#151515]"
                         title={contactLists[i].name}
+                        target="_blank"
                       >
                         {contactLists[i].icon}
                       </a>
