@@ -14,7 +14,8 @@ export default {
         },
       },
       backgroundImage: {
-        "property-bg": "url(/images/bg/inner-background.jpg)",
+        "heading-bg": "url(/images/bg/inner-background.jpg)",
+        "footer-bg": "url(/images/bg/footer-bg.jpg)",
       },
       screens: {
         sm: "576px", // Small - ≥576px

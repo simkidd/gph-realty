@@ -68,3 +68,21 @@
     }
   }
 }
+
+.scroll-top {
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    background-color 0.3s,
+    opacity 0.5s,
+    visibility 0.5s;
+
+  &:active {
+    background: #555;
+  }
+
+  &.show-button {
+    visibility: visible;
+    opacity: 1;
+  }
+}

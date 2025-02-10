@@ -5,6 +5,8 @@ import Header from "@/components/shared/header/Header";
 import StoreProvider from "@/providers/StoreProvider";
 import { Toaster } from "@/components/ui/Toaster";
 import NextTopLoader from "nextjs-toploader";
+import Footer from "@/components/shared/footer/Footer";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +36,9 @@ export default function RootLayout({
         <NextTopLoader color="#EE6C0E" showSpinner={false} />
         <StoreProvider>
           <Header />
-          {children}
+          <main className="w-full min-h-dvh">{children}</main>
+          <ScrollToTop />
+          <Footer />
           <Toaster />
         </StoreProvider>
       </body>

@@ -24,7 +24,7 @@ export const menuList: IMenu[] = [
   },
   {
     name: "Contact",
-    href: "/contact",
+    href: "/contact-us",
   },
 ];
 
