@@ -5,6 +5,7 @@ import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { menuList, rightMenu } from "./menu";
+import Image from "next/image";
 
 const Header = () => {
   const isMobile = useIsMobile();
@@ -17,7 +18,15 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="text-xl">
-              Logo
+              <div className="lg:h-[40px] h-[30px] px-2">
+                <Image
+                  src="/images/logos/gph-logo-full.png"
+                  alt="logo"
+                  width={300}
+                  height={200}
+                  className="w-full h-full object-contain"
+                />
+              </div>
             </Link>
           </div>
 
@@ -71,7 +80,7 @@ const Header = () => {
       <div
         className={`lg:hidden fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform ${
           menuOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out`}
+        } transition-transform duration-300 ease-in-out z-50`}
       >
         <div className="flex justify-end px-3 py-3 border-b border-b-gray-200">
           <Button

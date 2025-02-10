@@ -17,7 +17,7 @@ const PropertyHeader = () => {
   const { selectedProperty } = useAppSelector((state) => state.property);
 
   return (
-    <section className="lg:bg-property-bg bg-cover bg-no-repeat w-full h-auto relative">
+    <section className="lg:bg-heading-bg bg-cover bg-no-repeat w-full h-auto relative">
       <div className="lg:h-[450px]">
         <Image
           src="/images/bg/inner-background.jpg"

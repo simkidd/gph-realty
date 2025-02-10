@@ -19,12 +19,8 @@ export const menuList: IMenu[] = [
     href: "/about",
   },
   {
-    name: "Agent",
-    href: "/agents",
-  },
-  {
     name: "Contact",
-    href: "/contact",
+    href: "/contact-us",
   },
 ];
 
