@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   BathIcon,
   BedDoubleIcon,
@@ -12,6 +12,8 @@ import Image from "next/image";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
 import { useAppSelector } from "@/store/hooks";
+import { formatCurrency } from "@/utils/helpers/formatCurrency";
+import { getStatusColor } from "@/utils/helpers/getStatusColor";
 
 const PropertyHeader = () => {
   const { selectedProperty } = useAppSelector((state) => state.property);
@@ -37,25 +39,33 @@ const PropertyHeader = () => {
                 <h2 className="font-bold capitalize text-[30px] leading-[1.1]">
                   {selectedProperty?.name}
                 </h2>
-                <Badge variant="success" className="text-nowrap mb-auto">
-                  For Sale
+
+                <Badge
+                  className={`${getStatusColor(
+                    selectedProperty?.status as string
+                  )} text-white rounded-md text-nowrap mb-auto`}
+                  size="sm"
+                >
+                  {selectedProperty?.status}
                 </Badge>
               </div>
-              <p className="mt-2 mb-4">
-                {selectedProperty?.location}
-              </p>
+              <p className="mt-2 mb-4">{selectedProperty?.location}</p>
 
               <ul className="flex flex-wrap gap-4 mb-4">
                 <li>
                   <div className="flex items-center">
                     <BedDoubleIcon size={16} className="mr-[10px]" />
-                    <span className="text-sm">4 Bedrooms</span>
+                    <span className="text-sm">
+                      {selectedProperty?.beds} Bedrooms
+                    </span>
                   </div>
                 </li>
                 <li>
                   <div className="flex items-center">
                     <BathIcon size={16} className="mr-[10px]" />
-                    <span className="text-sm">4 Bathrooms</span>
+                    <span className="text-sm">
+                      {selectedProperty?.baths} Bathrooms
+                    </span>
                   </div>
                 </li>
                 <li>
@@ -67,7 +77,9 @@ const PropertyHeader = () => {
                 <li>
                   <div className="flex items-center">
                     <RulerIcon size={16} className="mr-[10px]" />
-                    <span className="text-sm">5000 Sq ft</span>
+                    <span className="text-sm">
+                      {selectedProperty?.squareFeet} Sq ft
+                    </span>
                   </div>
                 </li>
               </ul>
@@ -97,7 +109,7 @@ const PropertyHeader = () => {
                 <StarIcon size={18} className="text-[#ffcc33]" />
               </div>
               <h2 className="text-[30px] font-bold leading-[1.1] tracking-[0.001em] capitalize text-primary lg:text-right">
-                $20,45,472
+                {formatCurrency(selectedProperty?.price as number)}
                 <span className="text-base font-medium">/ start From</span>
               </h2>
               <div className="mt-4 flex items-center lg:justify-end gap-2">

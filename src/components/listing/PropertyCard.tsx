@@ -16,6 +16,12 @@ import Badge from "../ui/Badge";
 import Button from "../ui/Button";
 import { PiRadioButtonFill } from "react-icons/pi";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/helpers/formatCurrency";
+import { getStatusColor } from "@/utils/helpers/getStatusColor";
+
+interface PropertyCardProps {
+  property: IProperty;
+}
 
 // Helper function for property details
 const detailItem = (
@@ -30,10 +36,6 @@ const detailItem = (
     </span>
   </div>
 );
-
-interface PropertyCardProps {
-  property: IProperty;
-}
 
 // Custom Previous Arrow Component
 const PrevArrow = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
@@ -100,14 +102,15 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             </div>
           ))}
         </Slider>
-
         <Badge
-          className="bg-red-500 text-white rounded-md absolute top-4 left-4"
+          className={`${getStatusColor(
+            property.status
+          )} text-white rounded-md absolute top-4 left-4`}
           size="sm"
         >
-          Sale
+          {property.status}
         </Badge>
-
+        
         <Badge
           className="bg-gray-800 text-white rounded-md absolute top-4 right-4"
           size="sm"
@@ -115,7 +118,6 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           <CameraIcon size={16} className="mr-2" />
           {property.images.length}
         </Badge>
-
         <Button
           size="icon"
           variant="outline"
@@ -135,14 +137,28 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             {property.name}
           </h3>
         </Link>
-        <p className="text-primary text-lg font-bold">$6558.00</p>
+        <p className="text-primary text-lg font-bold">
+          {formatCurrency(property.price)}
+        </p>
         <p className="text-gray-500 text-sm mt-1">{property.description}</p>
 
         {/* Property Details */}
         <div className="flex items-center gap-4 mt-4 text-gray-600 text-sm">
-          {detailItem(<Bed className="w-4 h-4" />, "Bed", 4)}
-          {detailItem(<Bath className="w-4 h-4" />, "Baths", 4)}
-          {detailItem(<SquareDotIcon className="w-4 h-4" />, "Sq Ft", 5000)}
+          {detailItem(
+            <Bed className="w-4 h-4" />,
+            "Bed",
+            property.beds as number
+          )}
+          {detailItem(
+            <Bath className="w-4 h-4" />,
+            "Baths",
+            property.baths as number
+          )}
+          {detailItem(
+            <SquareDotIcon className="w-4 h-4" />,
+            "Sq Ft",
+            property.squareFeet as number
+          )}
         </div>
 
         {/* Date & Details Button */}

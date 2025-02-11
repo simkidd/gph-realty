@@ -21,17 +21,17 @@ interface IContactList {
 const contactLists: IContactList[] = [
   {
     name: "Phone",
-    href: "tel:12344894",
+    href: "tel:+234 812 696 5999",
     icon: <FaPhone size={16} />,
   },
   {
     name: "Email",
-    href: "mailto:youremail@gmail.com",
+    href: "mailto:info@mantabaylimited.com",
     icon: <FaEnvelope size={16} />,
   },
   {
     name: "Address",
-    href: "123 Main St, City, State, Zip",
+    href: "https://www.google.com/maps/@4.8247647,6.9933742,20.13z?entry=ttu&g_ep=EgoyMDI1MDIwNS4xIKXMDSoASAFQAw%3D%3D",
     icon: <FaLocationDot size={16} />,
   },
 ];
@@ -62,7 +62,7 @@ const Footer = () => {
           <div className="grid lg:grid-cols-4 gap-8">
             <div className="lg:col-span-1">
               <div className="bg-[#202020] p-[30px]">
-                <div className="w-fit mb-4 mt-2 mx-auto">
+                <div className="w-fit mb-4 mt-2">
                   <Link href="/" className="text-2xl font-bold text-white">
                     <div className="w-[150px] ">
                       <Image
@@ -77,22 +77,22 @@ const Footer = () => {
                 </div>
 
                 <p className="font-medium mt-[8px] mb-[30px] text-white text-sm leading-normal">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  tristique, mauris eu tristique tristique, risus enim gravida
-                  risus, id viverra nisi lectus id neque.
+                  Connecting people with the best real estate deals, ensuring
+                  trust and transparency.
                 </p>
 
-                <h6 className="uppercase font-bold mb-[15px] text-white/85 text-base leading-[1.2] text-center">
+                <h6 className="uppercase font-bold mb-[15px] text-white/85 text-base leading-[1.2]">
                   Contact Us
                 </h6>
 
-                <ul className="gap-2 flex items-center justify-center">
+                <ul className="gap-2 flex items-center">
                   {contactLists.map(({}, i) => (
                     <li key={i}>
                       <a
                         href={contactLists[i].href}
                         className="w-10 h-10 rounded-full text-white border border-transparent  hover:border-white transition-all duration-500 ease-in-out flex items-center justify-center bg-[#151515]"
                         title={contactLists[i].name}
+                        target="_blank"
                       >
                         {contactLists[i].icon}
                       </a>
