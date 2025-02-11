@@ -66,6 +66,7 @@ const NextArrow = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
 };
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
+  console.log("propertyCard>>", property);
   const settings: Settings = {
     dots: true,
     arrows: true,

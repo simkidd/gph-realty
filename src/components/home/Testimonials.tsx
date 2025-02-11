@@ -4,7 +4,7 @@ import Reviews from "./Reviews";
 
 const Testimonials = () => {
   return (
-    <section className="bg-slate-600 py-[90px]">
+    <section className="bg-black py-[90px]">
       <div className="container mx-auto px-3">
         <div className="pb-[50px] text-white flex flex-col items-center group">
           <Badge className="rounded-[5px] font-medium capitalize bg-primary text-white">Our</Badge>

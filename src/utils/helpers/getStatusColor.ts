@@ -1,4 +1,5 @@
 export const getStatusColor = (status: string) => {
+  console.log("helper>>>", status)
   switch (status) {
     case "In Development":
       return "bg-blue-500"; // Blue for development
