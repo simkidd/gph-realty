@@ -16,6 +16,7 @@ export default {
       backgroundImage: {
         "heading-bg": "url(/images/bg/inner-background.jpg)",
         "footer-bg": "url(/images/bg/footer-bg.jpg)",
+        "subscribe-bg": "url(/images/bg/subscribe-bg.jpg)",
       },
       screens: {
         sm: "576px", // Small - ≥576px

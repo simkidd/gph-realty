@@ -16,6 +16,7 @@ import Badge from "../ui/Badge";
 import Button from "../ui/Button";
 import { PiRadioButtonFill } from "react-icons/pi";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/helpers/formatCurrency";
 
 // Helper function for property details
 const detailItem = (
@@ -135,7 +136,9 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             {property.name}
           </h3>
         </Link>
-        <p className="text-primary text-lg font-bold">$6558.00</p>
+        <p className="text-primary text-lg font-bold">
+          {formatCurrency(property.price)}
+        </p>
         <p className="text-gray-500 text-sm mt-1">{property.description}</p>
 
         {/* Property Details */}

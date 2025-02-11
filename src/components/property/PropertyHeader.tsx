@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   BathIcon,
   BedDoubleIcon,
@@ -12,6 +12,7 @@ import Image from "next/image";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
 import { useAppSelector } from "@/store/hooks";
+import { formatCurrency } from "@/utils/helpers/formatCurrency";
 
 const PropertyHeader = () => {
   const { selectedProperty } = useAppSelector((state) => state.property);
@@ -41,9 +42,7 @@ const PropertyHeader = () => {
                   For Sale
                 </Badge>
               </div>
-              <p className="mt-2 mb-4">
-                {selectedProperty?.location}
-              </p>
+              <p className="mt-2 mb-4">{selectedProperty?.location}</p>
 
               <ul className="flex flex-wrap gap-4 mb-4">
                 <li>
@@ -97,7 +96,7 @@ const PropertyHeader = () => {
                 <StarIcon size={18} className="text-[#ffcc33]" />
               </div>
               <h2 className="text-[30px] font-bold leading-[1.1] tracking-[0.001em] capitalize text-primary lg:text-right">
-                $20,45,472
+                {formatCurrency(selectedProperty?.price as number)}
                 <span className="text-base font-medium">/ start From</span>
               </h2>
               <div className="mt-4 flex items-center lg:justify-end gap-2">

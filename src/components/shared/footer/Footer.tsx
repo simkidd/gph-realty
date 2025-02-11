@@ -62,7 +62,7 @@ const Footer = () => {
           <div className="grid lg:grid-cols-4 gap-8">
             <div className="lg:col-span-1">
               <div className="bg-[#202020] p-[30px]">
-                <div className="w-fit mb-4 mt-2 mx-auto">
+                <div className="w-fit mb-4 mt-2">
                   <Link href="/" className="text-2xl font-bold text-white">
                     <div className="w-[150px] ">
                       <Image
@@ -77,9 +77,8 @@ const Footer = () => {
                 </div>
 
                 <p className="font-medium mt-[8px] mb-[30px] text-white text-sm leading-normal">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  tristique, mauris eu tristique tristique, risus enim gravida
-                  risus, id viverra nisi lectus id neque.
+                  Connecting people with the best real estate deals, ensuring
+                  trust and transparency.
                 </p>
 
                 <h6 className="uppercase font-bold mb-[15px] text-white/85 text-base leading-[1.2] text-center">

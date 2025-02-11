@@ -3,13 +3,32 @@ import Button from "@/components/ui/Button";
 import { useIsMobile } from "@/hooks/useMobile";
 import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { menuList, rightMenu } from "./menu";
 import Image from "next/image";
 
 const Header = () => {
   const isMobile = useIsMobile();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="w-full absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10 text-white h-[60px] lg:h-[80px] flex items-center">
@@ -78,6 +97,7 @@ const Header = () => {
 
       {/* Mobile Menu (Slide-in from Right) */}
       <div
+        ref={mobileMenuRef}
         className={`lg:hidden fixed top-0 right-0 h-full w-64 bg-white text-black shadow-lg transform ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out z-50`}
