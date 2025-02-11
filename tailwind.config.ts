@@ -17,6 +17,7 @@ export default {
         "heading-bg": "url(/images/bg/inner-background.jpg)",
         "footer-bg": "url(/images/bg/footer-bg.jpg)",
         "subscribe-bg": "url(/images/bg/subscribe-bg.jpg)",
+        "map-image": "url(/images/bg/map.png)",
       },
       screens: {
         sm: "576px", // Small - ≥576px
@@ -36,9 +37,11 @@ export default {
       },
       boxShadow: {
         custom: "3.346px 3.716px 22.5px rgba(0, 0, 0, 0.07)",
+        "custom-2": "0 0 35px rgba(0, 0, 0, 0.08)",
       },
       dropShadow: {
         custom: "-4.33px 2.5px 22.5px rgba(0, 0, 0, 0.1)",
+        "custom-2": "5px 5px 12px rgba(255, 92, 65, 0.2)",
       },
     },
   },
