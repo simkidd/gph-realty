@@ -20,22 +20,11 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
   const thumbnailRefs = useRef<HTMLDivElement[]>([]);
   const viewerRef = useRef<any>(null);
 
-  const scenesArray = [
-    {
-      sceneName: data?.rooms[0]?.name,
-      scenePanoImg: data?.rooms[0]?.url,
-      hotSpotsArr: [
-        { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-      ],
-    },
-    {
-      sceneName: data?.rooms[1]?.name,
-      scenePanoImg: data?.rooms[1]?.url,
-      hotSpotsArr: [
-        { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-      ],
-    },
-  ];
+  const scenesArray =
+    data?.rooms?.map((room) => ({
+      sceneName: room.name,
+      scenePanoImg: room.url,
+    })) || [];
 
   // const scenesArray = [
   //   {
@@ -138,17 +127,18 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
   //   }
   // };
 
-  if (!data?.images?.length) {
-    return <div>No images available for the virtual tour.</div>;
+  if (!scenesArray.length) {
+    return <div>No rooms available for the virtual tour.</div>;
   }
 
   const currentSceneData = scenesArray[currentScene];
 
   return (
     <div>
-      <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
+      <h4 className="font-semibold mb-2 text-[22px] capitalize leading-[1.2] tracking-wide">
         360-degree View
       </h4>
+      <p className="text-neutral-600 mb-8">See panoramic view for rooms</p>
       <div className="relative w-full">
         <Pannellum
           width="100%"

@@ -81,11 +81,11 @@ const Footer = () => {
                   trust and transparency.
                 </p>
 
-                <h6 className="uppercase font-bold mb-[15px] text-white/85 text-base leading-[1.2] text-center">
+                <h6 className="uppercase font-bold mb-[15px] text-white/85 text-base leading-[1.2]">
                   Contact Us
                 </h6>
 
-                <ul className="gap-2 flex items-center justify-center">
+                <ul className="gap-2 flex items-center">
                   {contactLists.map(({}, i) => (
                     <li key={i}>
                       <a

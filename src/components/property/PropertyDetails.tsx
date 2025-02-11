@@ -26,9 +26,7 @@ const PropertyDetails = ({ id }: { id: string }) => {
     }
   }, [id, properties, dispatch, selectedProperty]);
 
-  console.log("selected property", selectedProperty);
-
-  const tabs: ITab[] = [
+  const allTabs: ITab[] = [
     {
       title: "About",
       key: "about",
@@ -49,6 +47,11 @@ const PropertyDetails = ({ id }: { id: string }) => {
       content: <VirtualTour data={selectedProperty} />,
     },
   ];
+
+  // Filter out "Virtual Tour" if the property doesn't have it
+  const tabs = selectedProperty?.virtualTour
+    ? allTabs
+    : allTabs.filter((tab) => tab.key !== "virtualTour");
 
   return (
     <section className="lg:mt-[30px] lg:py-[90px]">

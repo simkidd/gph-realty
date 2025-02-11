@@ -44,6 +44,7 @@ const RangeSlider: React.FC<SliderProps> = ({
         type="text"
         value={`${minValue} - ${maxValue}`}
         className="text-[#878787] text-sm"
+        readOnly
       />
       <div
         className={

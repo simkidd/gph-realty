@@ -15,14 +15,10 @@ export const propertyData: IProperty[] = [
       "/images/projects/5-duplex/DP_6 - Photo.jpg",
       "/images/projects/5-duplex/DP_7 - Photo.jpg",
     ],
-    status: "In Construction",
+    status: "For Sale",
     location: "Port Harcourt",
     slug: "",
     rooms: [
-      {
-        name: "Test room",
-        url: "/images/projects/5-duplex/IMG_3703.JPG",
-      },
       {
         name: "Test landscape",
         url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
@@ -47,14 +43,10 @@ export const propertyData: IProperty[] = [
       "/images/projects/5-duplex/A_3 - Photo.jpg",
       "/images/projects/5-duplex/wood_4 - Photo.jpg",
     ],
-    status: "Completed",
+    status: "Sold",
     location: "Port Harcourt",
     slug: "",
     rooms: [
-      {
-        name: "Test room",
-        url: "/images/projects/5-duplex/IMG_3703.JPG",
-      },
       {
         name: "Test landscape",
         url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
@@ -62,10 +54,10 @@ export const propertyData: IProperty[] = [
     ],
     type: "Apartments",
     beds: 5,
-    baths: 3,
-    squareFeet: 1200,
+    baths: 4,
+    squareFeet: 2200,
     price: 25000000,
-    virtualTour: true,
+    virtualTour: false,
     createdAt: new Date().toISOString(),
   },
 ];
