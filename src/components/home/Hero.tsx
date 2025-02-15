@@ -27,6 +27,7 @@ const HeroSection = () => {
           Browse premium properties with expert guidance and seamless service.
         </p>
 
+
         {/* Search Bar */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
