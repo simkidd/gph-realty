@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import { IProperty } from "@/interfaces/property.interface";
+import React, { Suspense, useMemo } from "react";
 import { TabContent, TabNav, Tabs } from "../ui/Tab";
 import Features from "./Features";
 import Gallery from "./Gallery";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setSelectedProperty } from "@/store/features/property/propertySlice";
 import VirtualTour from "./VirtualTour";
 
 interface ITab {
@@ -13,45 +12,51 @@ interface ITab {
   content?: React.ReactNode;
 }
 
-const PropertyDetails = ({ id }: { id: string }) => {
-  const dispatch = useAppDispatch();
-  const { properties, selectedProperty } = useAppSelector(
-    (state) => state.property
-  );
+const PropertyDetails = ({ property }: { property: IProperty }) => {
+  // Memoized tabs configuration
+  const tabs = useMemo(() => {
+    const baseTabs: ITab[] = [
+      {
+        title: "About",
+        key: "about",
+        content: (
+          <div className="prose max-w-none">{property?.description}</div>
+        ),
+      },
+      {
+        title: "Features",
+        key: "feature",
+        content: <Features />,
+      },
+      {
+        title: "Gallery",
+        key: "gallery",
+        content: <Gallery images={property?.images || []} />,
+      },
+    ];
 
-  useEffect(() => {
-    if (!selectedProperty || selectedProperty.id !== id) {
-      const property = properties.find((p) => p.id === id) || null;
-      dispatch(setSelectedProperty(property));
+    if (property?.virtualTour) {
+      baseTabs.push({
+        title: "Virtual Tour",
+        key: "virtualTour",
+        content: (
+          <Suspense fallback={<div>Loading virtual tour...</div>}>
+            <VirtualTour data={property} />
+          </Suspense>
+        ),
+      });
     }
-  }, [id, properties, dispatch, selectedProperty]);
 
-  const allTabs: ITab[] = [
-    {
-      title: "About",
-      key: "about",
-    },
-    {
-      title: "Feature",
-      key: "feature",
-      content: <Features />,
-    },
-    {
-      title: "Gallery",
-      key: "gallery",
-      content: <Gallery images={selectedProperty?.images} />,
-    },
-    {
-      title: "Virtual Tour",
-      key: "virtualTour",
-      content: <VirtualTour data={selectedProperty} />,
-    },
-  ];
+    return baseTabs;
+  }, [property]);
 
-  // Filter out "Virtual Tour" if the property doesn't have it
-  const tabs = selectedProperty?.virtualTour
-    ? allTabs
-    : allTabs.filter((tab) => tab.key !== "virtualTour");
+  if (!property) {
+    return (
+      <div className="container mx-auto text-center py-20">
+        <h2 className="text-2xl font-semibold">Property not found</h2>
+      </div>
+    );
+  }
 
   return (
     <section className="lg:mt-[30px] lg:py-[90px]">

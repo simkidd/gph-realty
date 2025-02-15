@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import { FaClock, FaDollarSign, FaMapPin } from "react-icons/fa6";
 import { HiOutlineShieldCheck } from "react-icons/hi";
 import { IconType } from "react-icons/lib";
+import { motion } from "framer-motion";
 
 interface ICardData {
   icon: IconType;
@@ -33,43 +35,84 @@ const cardData: ICardData[] = [
 ];
 
 const WhyUs = () => {
-  // const pseudoBefore = ``
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
 
   return (
-    <section className="relative py-20 bg-white">
-      <div className="container mx-auto px-3">
-        <div className="text-center pb-[53px]">
+    <section className="relative py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center pb-16"
+        >
           <div className="pb-3">
-            <h6 className="font-medium text-[13px] uppercase text-primary">
-              Find more choose
+            <h6 className="font-semibold text-sm uppercase text-primary tracking-wider">
+              Why Partner With Us
             </h6>
           </div>
-          <div className="group text-center flex flex-col items-center">
-            <h2 className="leading-[1.3] text-[30px] font-bold text-[#1c2d3a]">
-              Why Choose Our Properties
-            </h2>
-            <hr className="w-[80px] h-[2px] bg-primary group-hover:w-[150px] transition-all duration-500 my-5" />
-          </div>
-        </div>
+          <motion.div
+            className="group inline-flex flex-col items-center"
+            whileHover="hover"
+          >
+            <div className="group text-center flex flex-col items-center">
+              <h2 className="leading-[1.3] text-3xl lg:text-4xl font-bold text-[#1c2d3a]">
+                Redefining Real Estate <br />{" "}
+                <span className="text-primary">Excellence</span>
+              </h2>
+              <hr className="w-[80px] h-[2px] bg-primary group-hover:w-[150px] transition-all duration-500 my-5" />
+            </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-[1170px] mx-auto">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto"
+        >
           {cardData.map((item, i) => {
             const Icon = item.icon;
             return (
-              <div key={i} className="mb-9 text-center group">
-                <div className="relative flex items-center justify-center w-[120px] h-[120px] rounded-full border-2 z-[1] mb-[42px] mx-auto bg-transparent before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0  before:content-[''] before:rounded-full before:z-[-1] before:scale-50 before:opacity-0 before:transition-all before:duration-500 before:ease-[cubic-bezier(0.62,0.21,0.45,1.52)] before:bg-primary before:origin-center before:group-hover:opacity-100 before:group-hover:scale-[scaleX(1.0)] before:[transform-style:preserve-3d] border-gray-300 group">
+              <motion.div
+                key={i}
+                variants={cardVariants}
+                className="mb-9 text-center group"
+              >
+                {/* Icon Circle */}
+                <div className="relative flex items-center justify-center w-[120px] h-[120px] rounded-full border-2 z-[1] mb-[42px] mx-auto bg-transparent before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:content-[''] before:rounded-full before:z-[-1] before:scale-50 before:opacity-0 before:transition-all before:duration-500 before:ease-[cubic-bezier(0.62,0.21,0.45,1.52)] before:bg-primary before:origin-center before:group-hover:opacity-100 before:group-hover:scale-[scaleX(1.0)] before:[transform-style:preserve-3d] border-gray-300 group">
                   <Icon className="relative w-[45px] h-[45px] text-primary before:transition-all before:duration-200 group-hover:text-white" />
                 </div>
+
+                {/* Content */}
                 <div>
                   <h3 className="text-lg leading-7 font-semibold mb-3 capitalize">
                     {item.title}
                   </h3>
-                  <p className="text-sm">{item.description}</p>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {item.description}
+                  </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

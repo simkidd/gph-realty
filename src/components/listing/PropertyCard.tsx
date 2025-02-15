@@ -21,6 +21,7 @@ import { getStatusColor } from "@/utils/helpers/getStatusColor";
 
 interface PropertyCardProps {
   property: IProperty;
+  viewMode?: "grid" | "list";
 }
 
 // Helper function for property details
@@ -65,8 +66,7 @@ const NextArrow = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   );
 };
 
-const PropertyCard = ({ property }: PropertyCardProps) => {
-  console.log("propertyCard>>", property);
+const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
   const settings: Settings = {
     dots: true,
     arrows: true,
@@ -86,12 +86,23 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
   };
 
   return (
-    <Card className="rounded-xl overflow-hidden bg-white group property-card">
+    <Card
+      className={`rounded-xl flex overflow-hidden bg-white group property-card ${
+        viewMode === "list" ? "flex-row h-full" : "flex-col"
+      }`}
+    >
       {/* Image Slider */}
-      <div className="relative">
-        <Slider {...settings}>
+      <div
+        className={`relative ${
+          viewMode === "list" ? "w-1/2 lg:w-1/3 h-full" : "w-full"
+        }`}
+      >
+        <Slider {...settings} className="overflow-hidden">
           {property.images.slice(0, 4).map((img, i) => (
-            <div key={i} className="h-[200px]">
+            <div
+              key={i}
+              className={viewMode === "list" ? "h-full" : "h-[200px]"}
+            >
               <Image
                 src={img}
                 alt={`image-${i}`}
@@ -111,7 +122,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         >
           {property.status}
         </Badge>
-        
+
         <Badge
           className="bg-gray-800 text-white rounded-md absolute top-4 right-4"
           size="sm"
@@ -129,22 +140,34 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       </div>
 
       {/* Property Info */}
-      <div className="p-4">
+      <div
+        className={`p-4 ${
+          viewMode === "list"
+            ? "w-1/2 lg:w-2/3 flex flex-col justify-between"
+            : ""
+        }`}
+      >
         <p className="text-xs font-semibold text-gray-500 uppercase">
           {property.location}
         </p>
         <Link href={`/listing/property/${property.id}`}>
-          <h3 className="text-lg font-semibold  line-clamp-2 group-hover:text-primary">
+          <h3 className="font-semibold line-clamp-2 group-hover:text-primary">
             {property.name}
           </h3>
         </Link>
-        <p className="text-primary text-lg font-bold">
+        <p className="text-primary font-bold mt-2">
           {formatCurrency(property.price)}
         </p>
-        <p className="text-gray-500 text-sm mt-1">{property.description}</p>
+        <p
+          className={`text-gray-500 mt-1 text-sm ${
+            viewMode === "list" ? "line-clamp-3" : " line-clamp-2"
+          }`}
+        >
+          {property.description}
+        </p>
 
         {/* Property Details */}
-        <div className="flex items-center gap-4 mt-4 text-gray-600 text-sm">
+        <div className="flex items-center flex-wrap gap-4 gap-y-2 mt-4 text-gray-600 text-sm">
           {detailItem(
             <Bed className="w-4 h-4" />,
             "Bed",
@@ -163,8 +186,15 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         </div>
 
         {/* Date & Details Button */}
-        <div className="flex justify-between items-center mt-4">
+        <div
+          className="flex justify-between items-center flex-wrap gap-2 mt-4"
+        >
           <p className="text-gray-400 text-sm">August 4, 2022</p>
+          {viewMode === "list" && (
+            <Button variant="outline" size="sm">
+              View Details
+            </Button>
+          )}
         </div>
       </div>
     </Card>

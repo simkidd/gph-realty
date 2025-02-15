@@ -1,5 +1,6 @@
 import PropertyDetails from "@/components/property/PropertyDetails";
 import PropertyHeader from "@/components/property/PropertyHeader";
+import { propertyData } from "@/data/propertyData";
 import React from "react";
 
 const SinglePropertyPage = async ({
@@ -9,10 +10,12 @@ const SinglePropertyPage = async ({
 }) => {
   const { id } = await params;
 
+  const property = propertyData.find((p) => p.id === id) || null;
+
   return (
     <>
-      <PropertyHeader />
-      <PropertyDetails id={id} />
+      <PropertyHeader property={property!} />
+      <PropertyDetails property={property!} />
     </>
   );
 };
