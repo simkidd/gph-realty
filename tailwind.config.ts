@@ -7,6 +7,10 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    fontFamily: {
+      roboto: ['"Roboto", sans-serif'],
+      montserrat: ['"Montserrat", sans-serif'],
+    },
     extend: {
       colors: {
         primary: {
