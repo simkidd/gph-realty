@@ -15,7 +15,7 @@ export const propertyData: IProperty[] = [
       "/images/projects/5-duplex/DP_6 - Photo.jpg",
       "/images/projects/5-duplex/DP_7 - Photo.jpg",
     ],
-    status: "For Sale",
+    status: "sale",
     location: "Port Harcourt",
     slug: "",
     rooms: [
@@ -43,7 +43,7 @@ export const propertyData: IProperty[] = [
       "/images/projects/5-duplex/A_3 - Photo.jpg",
       "/images/projects/5-duplex/wood_4 - Photo.jpg",
     ],
-    status: "Sold",
+    status: "sold",
     location: "Port Harcourt",
     slug: "",
     rooms: [

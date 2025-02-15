@@ -1,23 +1,23 @@
 import { IProperty } from "@/interfaces/property.interface";
-import React from "react";
-import Card from "../ui/Card";
-import Slider, { type Settings } from "react-slick";
-import Image from "next/image";
+import { formatCurrency } from "@/utils/helpers/formatCurrency";
 import {
-  Heart,
-  Bed,
   Bath,
-  SquareDotIcon,
+  Bed,
   CameraIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  Heart,
+  SquareDotIcon,
 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { PiRadioButtonFill } from "react-icons/pi";
+import Slider, { type Settings } from "react-slick";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
-import { PiRadioButtonFill } from "react-icons/pi";
-import Link from "next/link";
-import { formatCurrency } from "@/utils/helpers/formatCurrency";
-import { getStatusColor } from "@/utils/helpers/getStatusColor";
+import Card from "../ui/Card";
+import { StatusBadge } from "./StatusBadge";
 
 interface PropertyCardProps {
   property: IProperty;
@@ -114,14 +114,11 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
             </div>
           ))}
         </Slider>
-        <Badge
-          className={`${getStatusColor(
-            property.status
-          )} text-white rounded-md absolute top-4 left-4`}
-          size="sm"
-        >
-          {property.status}
-        </Badge>
+
+        <StatusBadge
+          status={property.status}
+          className="absolute top-4 left-4"
+        />
 
         <Badge
           className="bg-gray-800 text-white rounded-md absolute top-4 right-4"
@@ -186,9 +183,7 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
         </div>
 
         {/* Date & Details Button */}
-        <div
-          className="flex justify-between items-center flex-wrap gap-2 mt-4"
-        >
+        <div className="flex justify-between items-center flex-wrap gap-2 mt-4">
           <p className="text-gray-400 text-sm">August 4, 2022</p>
           {viewMode === "list" && (
             <Button variant="outline" size="sm">

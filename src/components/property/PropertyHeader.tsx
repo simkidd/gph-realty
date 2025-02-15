@@ -1,7 +1,6 @@
 "use client";
 import { IProperty } from "@/interfaces/property.interface";
 import { formatCurrency } from "@/utils/helpers/formatCurrency";
-import { getStatusColor } from "@/utils/helpers/getStatusColor";
 import {
   BathIcon,
   BedDoubleIcon,
@@ -12,6 +11,7 @@ import {
   StarIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { StatusBadge } from "../listing/StatusBadge";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
 
@@ -33,19 +33,17 @@ const PropertyHeader = ({ property }: { property: IProperty }) => {
           <div className="grid lg:grid-cols-7 gap-4 justify-between p-[30px] bg-white shadow-md">
             {/* left */}
             <div className="lg:col-span-5">
-              <div className="flex items-center flex-wrap lg:flex-nowrap gap-2">
+              <div className="flex items-center flex-wrap">
                 <h2 className="font-bold capitalize text-[30px] leading-[1.1]">
                   {property?.name}
                 </h2>
+              </div>
 
-                <Badge
-                  className={`${getStatusColor(
-                    property?.status as string
-                  )} text-white rounded-md text-nowrap mb-auto`}
-                  size="sm"
-                >
-                  {property?.status}
-                </Badge>
+              <div className="mt-2 flex">
+                <StatusBadge
+                  status={property?.status}
+                  className="rounded-md text-nowrap mb-auto"
+                />
               </div>
               <p className="mt-2 mb-4">{property?.location}</p>
 

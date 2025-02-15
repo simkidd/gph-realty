@@ -4,12 +4,12 @@ export interface IProperty {
   description: string;
   images: string[];
   status:
-    | "In Development"
-    | "In Construction"
-    | "Completed"
-    | "For Sale"
-    | "For Rent"
-    | "Sold";
+    | "development"
+    | "construction"
+    | "completed"
+    | "sale"
+    | "rent"
+    | "sold";
   location: string;
   price: number;
   slug: string;
