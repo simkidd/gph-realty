@@ -21,7 +21,7 @@ import { getStatusColor } from "@/utils/helpers/getStatusColor";
 
 interface PropertyCardProps {
   property: IProperty;
-  viewMode: "grid" | "list";
+  viewMode?: "grid" | "list";
 }
 
 // Helper function for property details
