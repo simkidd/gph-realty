@@ -20,9 +20,10 @@ export interface IProperty {
   squareFeet?: number;
   amenities?: string[];
   address?: string;
-  features?: string[];
+  features: string[];
   virtualTour?: boolean;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface IRoom {
