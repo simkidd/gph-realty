@@ -33,7 +33,6 @@ const cardData: ICardData[] = [
 ];
 
 const WhyUs = () => {
-  // const pseudoBefore = ``
 
   return (
     <section className="relative py-20 bg-white">

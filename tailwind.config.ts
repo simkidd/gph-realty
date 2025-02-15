@@ -23,6 +23,7 @@ export default {
         "subscribe-bg": "url(/images/bg/subscribe-bg.jpg)",
         "review-bg": "url(/images/bg/review-bg.jpg)",
         "map-image": "url(/images/bg/map.png)",
+        "hero-bg": "url(/images/bg/hero-bg.jpg)",
       },
       screens: {
         sm: "576px", // Small - ≥576px
@@ -47,6 +48,15 @@ export default {
       dropShadow: {
         custom: "-4.33px 2.5px 22.5px rgba(0, 0, 0, 0.1)",
         "custom-2": "5px 5px 12px rgba(255, 92, 65, 0.2)",
+      },
+      animation: {
+        fadeInUp: "fadeInUp 0.5s ease-out",
+      },
+      keyframes: {
+        fadeInUp: {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
       },
     },
   },
