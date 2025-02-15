@@ -1,4 +1,7 @@
 "use client";
+import { IProperty } from "@/interfaces/property.interface";
+import { formatCurrency } from "@/utils/helpers/formatCurrency";
+import { getStatusColor } from "@/utils/helpers/getStatusColor";
 import {
   BathIcon,
   BedDoubleIcon,
@@ -11,13 +14,8 @@ import {
 import Image from "next/image";
 import Badge from "../ui/Badge";
 import Button from "../ui/Button";
-import { useAppSelector } from "@/store/hooks";
-import { formatCurrency } from "@/utils/helpers/formatCurrency";
-import { getStatusColor } from "@/utils/helpers/getStatusColor";
 
-const PropertyHeader = () => {
-  const { selectedProperty } = useAppSelector((state) => state.property);
-
+const PropertyHeader = ({ property }: { property: IProperty }) => {
   return (
     <section className="lg:bg-heading-bg bg-cover bg-no-repeat w-full h-auto relative">
       <div className="lg:h-[450px]">
@@ -37,35 +35,31 @@ const PropertyHeader = () => {
             <div className="lg:col-span-5">
               <div className="flex items-center flex-wrap lg:flex-nowrap gap-2">
                 <h2 className="font-bold capitalize text-[30px] leading-[1.1]">
-                  {selectedProperty?.name}
+                  {property?.name}
                 </h2>
 
                 <Badge
                   className={`${getStatusColor(
-                    selectedProperty?.status as string
+                    property?.status as string
                   )} text-white rounded-md text-nowrap mb-auto`}
                   size="sm"
                 >
-                  {selectedProperty?.status}
+                  {property?.status}
                 </Badge>
               </div>
-              <p className="mt-2 mb-4">{selectedProperty?.location}</p>
+              <p className="mt-2 mb-4">{property?.location}</p>
 
               <ul className="flex flex-wrap gap-4 mb-4">
                 <li>
                   <div className="flex items-center">
                     <BedDoubleIcon size={16} className="mr-[10px]" />
-                    <span className="text-sm">
-                      {selectedProperty?.beds} Bedrooms
-                    </span>
+                    <span className="text-sm">{property?.beds} Bedrooms</span>
                   </div>
                 </li>
                 <li>
                   <div className="flex items-center">
                     <BathIcon size={16} className="mr-[10px]" />
-                    <span className="text-sm">
-                      {selectedProperty?.baths} Bathrooms
-                    </span>
+                    <span className="text-sm">{property?.baths} Bathrooms</span>
                   </div>
                 </li>
                 <li>
@@ -78,7 +72,7 @@ const PropertyHeader = () => {
                   <div className="flex items-center">
                     <RulerIcon size={16} className="mr-[10px]" />
                     <span className="text-sm">
-                      {selectedProperty?.squareFeet} Sq ft
+                      {property?.squareFeet} Sq ft
                     </span>
                   </div>
                 </li>
@@ -109,7 +103,7 @@ const PropertyHeader = () => {
                 <StarIcon size={18} className="text-[#ffcc33]" />
               </div>
               <h2 className="text-[30px] font-bold leading-[1.1] tracking-[0.001em] capitalize text-primary lg:text-right">
-                {formatCurrency(selectedProperty?.price as number)}
+                {formatCurrency(property?.price as number)}
                 <span className="text-base font-medium">/ start From</span>
               </h2>
               <div className="mt-4 flex items-center lg:justify-end gap-2">
