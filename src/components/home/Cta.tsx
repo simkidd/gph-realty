@@ -22,12 +22,12 @@ const Cta = () => {
 
         <div className="mt-8 flex flex-col md:flex-row justify-center gap-4">
           <Link href="/listing">
-            <Button className="px-6 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary transition">
+            <Button className="px-6 ">
               View Listings
             </Button>
           </Link>
           <Link href="/contact">
-            <Button className="px-6 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-primary transition">
+            <Button className="px-6  ">
               Contact an Agent
             </Button>
           </Link>
