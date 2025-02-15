@@ -18,7 +18,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="relative z-10 text-center max-w-3xl mx-auto px-6"
+        className="relative  text-center max-w-3xl mx-auto px-6"
       >
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
           Discover Your <span className="text-primary">Dream Home</span> Today
