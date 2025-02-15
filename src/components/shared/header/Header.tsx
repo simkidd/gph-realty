@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { menuList, rightMenu } from "./menu";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const isMobile = useIsMobile();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const mobileMenuRef = useRef<HTMLDivElement>(null);
@@ -29,6 +31,14 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const isActive = (href: string) => {
+    return (
+      href === pathname ||
+      href === pathname.replace(/\/$/, "") ||
+      pathname.startsWith(href + "/")
+    );
+  };
 
   return (
     <header className="w-full absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] z-10 text-white h-[60px] lg:h-[80px] flex items-center">
@@ -59,7 +69,9 @@ const Header = () => {
                 >
                   <Link
                     href={nav.href}
-                    className="mr-10 text-sm font-bold uppercase tracking-[0.8px] hover:text-primary transition-colors duration-300 ease-in-out"
+                    className={`mr-10 text-sm font-bold uppercase tracking-[0.8px] hover:text-primary transition-colors duration-300 ease-in-out ${
+                      isActive(nav.href) && "text-primary"
+                    }`}
                   >
                     {nav.name}
                   </Link>
