@@ -10,7 +10,7 @@ import {
   FaXTwitter,
 } from "react-icons/fa6";
 import { PiInstagramLogoFill } from "react-icons/pi";
-import { RiSendPlaneFill } from "react-icons/ri";
+import NewsletterForm from "./NewsletterForm";
 
 interface IContactList {
   name: string;
@@ -212,25 +212,13 @@ const Footer = () => {
 
                     <div className="lg:mt-[30px] mt-4">
                       <p className="text-sm text-[#d2d2d2] leading-6">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Delectus harum blanditiis, minima nobis quibusdam
-                        quaerat!
+                        Get exclusive property updates and market insights
+                        straight to your inbox.
                       </p>
 
-                      <form>
-                        <div className="relative flex items-stretch w-full lg:mt-[45px] mt-5 ">
-                          <input
-                            type="text"
-                            placeholder="Email address"
-                            className="bg-[#202020] text-white rounded-tl-[23px] rounded-bl-[23px] py-[10px] px-[30px] w-full placeholder:text-neutral-500 outline-none"
-                          />
-                          <span className="">
-                            <button className="bg-primary text-white h-full rounded-tr-[23px] rounded-br-[23px] flex items-center p-[10px] pr-[15px] cursor-pointer">
-                              <RiSendPlaneFill />
-                            </button>
-                          </span>
-                        </div>
-                      </form>
+                      <div className="mt-5 lg:mt-[45px] ">
+                        <NewsletterForm />
+                      </div>
                     </div>
                   </div>
                 </div>
