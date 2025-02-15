@@ -26,7 +26,7 @@ const Cta = () => {
               View Listings
             </Button>
           </Link>
-          <Link href="/contact">
+          <Link href="/contact-us">
             <Button className="px-6  ">
               Contact an Agent
             </Button>
