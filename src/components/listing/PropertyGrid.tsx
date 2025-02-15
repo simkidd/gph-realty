@@ -3,7 +3,12 @@ import { propertyData } from "@/data/propertyData";
 import { useIsMobile } from "@/hooks/useMobile";
 import { setProperties } from "@/store/features/property/propertySlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { ArrowLeftCircleIcon, FilterIcon } from "lucide-react";
+import {
+  ArrowLeftCircleIcon,
+  FilterIcon,
+  LayoutGridIcon,
+  ListIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import PropertyCard from "./PropertyCard";
 import PropertyCardSkeleton from "./PropertyCardSkeleton";
@@ -29,6 +34,7 @@ const PropertyGrid = () => {
   const [openFilter, setOpenFilter] = useState(false);
   const isMobile = useIsMobile();
   const [loading, setLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const [filters, setFilters] = useState<FilterProps>({
     status: "",
@@ -222,17 +228,50 @@ const PropertyGrid = () => {
                       </div>
                     </li>
                   )}
+
+                  <li className="flex items-center gap-2 ">
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`p-2 rounded-md ${
+                        viewMode === "grid"
+                          ? "bg-primary text-white"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
+                    >
+                      <LayoutGridIcon size={20} />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("list")}
+                      className={`p-2 rounded-md ${
+                        viewMode === "list"
+                          ? "bg-primary text-white"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }`}
+                    >
+                      <ListIcon size={20} />
+                    </button>
+                  </li>
                 </ul>
               </div>
             </div>
+
             <div>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div
+                className={`grid ${
+                  viewMode === "grid"
+                    ? "grid-cols-1 lg:grid-cols-3"
+                    : "grid-cols-1"
+                } gap-6`}
+              >
                 {loading ? (
                   [...Array(6)].map((_, i) => <PropertyCardSkeleton key={i} />)
                 ) : filteredProperties.length > 0 ? (
                   filteredProperties.map((property, i) => (
-                    <div key={i}>
-                      <PropertyCard property={property} />
+                    <div
+                      key={i}
+                      className={viewMode === "list" ? "lg:col-span-3" : ""}
+                    >
+                      <PropertyCard property={property} viewMode={viewMode} />
                     </div>
                   ))
                 ) : (
