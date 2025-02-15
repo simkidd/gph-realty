@@ -21,6 +21,7 @@ export default {
         "heading-bg": "url(/images/bg/inner-background.jpg)",
         "footer-bg": "url(/images/bg/footer-bg.jpg)",
         "subscribe-bg": "url(/images/bg/subscribe-bg.jpg)",
+        "review-bg": "url(/images/bg/review-bg.jpg)",
         "map-image": "url(/images/bg/map.png)",
       },
       screens: {

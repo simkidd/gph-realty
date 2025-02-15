@@ -103,7 +103,7 @@ const Reviews = () => {
   };
 
   return (
-    <Slider {...settings} className="mt-6">
+    <Slider {...settings} className="">
       {reviews.map((review, index) => (
         <div key={index} className="w-full inline-block">
           <div className="lg:w-[65%] w-full text-center px-[60px] py-10 bg-white/10 rounded-[10px] mt-[67px] mx-auto relative">
