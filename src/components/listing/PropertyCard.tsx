@@ -21,7 +21,7 @@ import { StatusBadge } from "./StatusBadge";
 
 interface PropertyCardProps {
   property: IProperty;
-  viewMode: "grid" | "list";
+  viewMode?: "grid" | "list";
 }
 
 // Helper function for property details
