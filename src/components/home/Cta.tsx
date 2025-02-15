@@ -22,12 +22,12 @@ const Cta = () => {
 
         <div className="mt-8 flex flex-col md:flex-row justify-center gap-4">
           <Link href="/listing">
-            <Button className="px-6 ">
+            <Button className="px-6 py-3">
               View Listings
             </Button>
           </Link>
           <Link href="/contact-us">
-            <Button className="px-6  ">
+            <Button className="px-6 py-3 ">
               Contact an Agent
             </Button>
           </Link>
