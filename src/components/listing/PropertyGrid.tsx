@@ -1,6 +1,6 @@
 "use client";
 import { propertyData } from "@/data/propertyData";
-import { useIsMobile } from "@/hooks/useMobile";
+import { useIsMobile, useIsTablet } from "@/hooks/useMobile";
 import { setProperties } from "@/store/features/property/propertySlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -33,6 +33,7 @@ const PropertyGrid = () => {
   const [sortBy, setSortBy] = useState("");
   const [openFilter, setOpenFilter] = useState(false);
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
@@ -186,7 +187,7 @@ const PropertyGrid = () => {
 
           {/* property cards */}
           <div className="lg:col-span-9 col-span-12">
-            <div className="mb-[30px] pb-[25px] border-b border-b-gray-200 flex lg:items-start justify-between flex-col lg:flex-row gap-4">
+            <div className="mb-[30px] pb-[25px] border-b border-b-gray-200 flex lg:items-start justify-between flex-col md:flex-row gap-4">
               {/* left */}
               <div>
                 <h2 className="font-bold text-[30px] capitalize leading-[1.1] tracking-[0.001em] mb-1">
@@ -215,7 +216,8 @@ const PropertyGrid = () => {
                       position={isMobile ? "bottom-left" : "bottom-right"}
                     />
                   </li>
-                  {isMobile && (
+                  
+                  {isTablet && (
                     <li className="ml-auto">
                       <div className="border rounded relative">
                         <span
@@ -259,7 +261,7 @@ const PropertyGrid = () => {
               <div
                 className={`grid ${
                   viewMode === "grid"
-                    ? "grid-cols-1 lg:grid-cols-3"
+                    ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
                     : "grid-cols-1"
                 } gap-6`}
               >
@@ -291,15 +293,15 @@ const PropertyGrid = () => {
         </div>
 
         {/* Overlay when filter is open */}
-        {isMobile && openFilter && (
+        {isTablet && openFilter && (
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-10"
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
             onClick={() => setOpenFilter(false)}
           ></div>
         )}
         {/* mobile sidebar filter */}
         <div
-          className={`lg:hidden fixed top-0 left-0 h-full w-full max-w-[300px] bg-white shadow-lg z-20 transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-none ${
+          className={`lg:hidden fixed top-0 left-0 h-full w-full max-w-[300px] bg-white shadow-lg z-50 transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-none ${
             openFilter ? "translate-x-0" : "-translate-x-full"
           }`}
         >
