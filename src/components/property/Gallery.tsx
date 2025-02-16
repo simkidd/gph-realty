@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface GalleryProps {
   images: string[] | undefined;
@@ -15,13 +16,16 @@ interface GalleryProps {
 const Gallery = ({ images }: GalleryProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const thumbnailRefs = useRef<HTMLDivElement[]>([]);
+  const mainImageRef = useRef<HTMLImageElement>(null);
 
   if (!images || images.length === 0) {
     return <div>No images available</div>;
   }
 
   const handleImageChange = (newImage: number) => {
+    setIsLoading(true);
     setSelectedImageIndex(newImage);
     // Ensure the active thumbnail is in view
     thumbnailRefs.current[newImage]?.scrollIntoView({
@@ -90,10 +94,10 @@ const Gallery = ({ images }: GalleryProps) => {
                   ref={(el) => {
                     if (el) thumbnailRefs.current[index] = el;
                   }}
-                  className={`shrink-0 w-24 cursor-pointer border-2 border-transparent hover:border-primary-200 transition duration-300 rounded-md overflow-hidden ${
+                  className={`shrink-0 w-24 cursor-pointer border-2  hover:border-primary transition duration-300 rounded-md overflow-hidden ${
                     selectedImageIndex === index
-                      ? "border-primary font-bold"
-                      : "opacity-50"
+                      ? "border-primary"
+                      : "opacity-50 border-transparent"
                   }`}
                   onClick={() => handleImageChange(index)}
                 >
@@ -111,28 +115,50 @@ const Gallery = ({ images }: GalleryProps) => {
         )}
 
         {/* Display the main image */}
-        <div className="mb-4 w-full relative cursor-zoom-in">
-          <Image
-            src={images[selectedImageIndex]}
-            alt="Main Image"
-            width={500}
-            height={500}
-            className="w-full h-full object-cover transition duration-300 ease-in-out"
-            priority
-            onClick={() => setIsModalOpen(true)}
-          />
+        <div className="mb-4 group w-full relative cursor-zoom-in bg-gray-100 rounded-lg overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedImageIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Image
+                ref={mainImageRef}
+                src={images[selectedImageIndex]}
+                alt="Main display"
+                width={1200}
+                height={800}
+                className="w-full h-auto object-cover aspect-video"
+                priority
+                onClick={() => setIsModalOpen(true)}
+                onLoadingComplete={() => setIsLoading(false)}
+              />
+            </motion.div>
+          </AnimatePresence>
 
-          <div className="absolute bottom-2 left-2 text-white">
-            <FullscreenIcon />
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+          )}
+
+          <div className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full">
+            <FullscreenIcon className="w-5 h-5" />
           </div>
         </div>
 
         {/* Display the rest of the gallery images */}
-        <div className="w-full flex items-center gap-2 overflow-auto scrollbar-none">
+        <div className="w-full flex items-center gap-2 overflow-x-auto scrollbar-none">
           {images.map((image, index) => (
             <div
               key={index}
-              className="shrink-0 lg:w-[112px] lg:h-[90px] h-[60px]"
+              className={`shrink-0 lg:w-[90px] lg:h-[70px] h-[60px] rounded-md overflow-hidden border-2 ${
+                selectedImageIndex === index
+                  ? " border-primary"
+                  : "bg-transparent"
+              }`}
             >
               <Image
                 src={image}
@@ -141,7 +167,7 @@ const Gallery = ({ images }: GalleryProps) => {
                 height={500}
                 className={`w-full h-full object-cover transition duration-300 ease-in-out cursor-pointer border-transparent ${
                   selectedImageIndex === index
-                    ? "border-2 border-primary font-bold"
+                    ? ""
                     : "opacity-50"
                 }`}
                 loading="lazy"

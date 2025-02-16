@@ -43,7 +43,13 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
         title: "Virtual Tour",
         key: "virtualTour",
         content: (
-          <Suspense fallback={<div>Loading virtual tour...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+              </div>
+            }
+          >
             <VirtualTour data={property} />
           </Suspense>
         ),
@@ -83,7 +89,7 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
                       <TabContent
                         key={tab.key}
                         tabKey={tab.key}
-                        className="p-[30px]"
+                        className="lg:p-[30px] py-6 px-4"
                       >
                         {/* Render your tab content here */}
                         {!tab.content && (

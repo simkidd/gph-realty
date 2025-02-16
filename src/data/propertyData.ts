@@ -35,6 +35,74 @@ export const propertyData: IProperty[] = [
         name: "Test landscape",
         url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
       },
+      {
+        name: "Picture 6",
+        url: "/images/projects/5-duplex/DP_6 - Photo.jpg",
+      },
+      {
+        name: "Picture 7",
+        url: "/images/projects/5-duplex/DP_7 - Photo.jpg",
+      },
+      {
+        name: "Test landscape",
+        url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
+      },
+      {
+        name: "Picture 6",
+        url: "/images/projects/5-duplex/DP_6 - Photo.jpg",
+      },
+      {
+        name: "Picture 7",
+        url: "/images/projects/5-duplex/DP_7 - Photo.jpg",
+      },
+      {
+        name: "Test landscape",
+        url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
+      },
+      {
+        name: "Picture 6",
+        url: "/images/projects/5-duplex/DP_6 - Photo.jpg",
+      },
+      {
+        name: "Picture 7",
+        url: "/images/projects/5-duplex/DP_7 - Photo.jpg",
+      },
+      {
+        name: "Test landscape",
+        url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
+      },
+      {
+        name: "Picture 6",
+        url: "/images/projects/5-duplex/DP_6 - Photo.jpg",
+      },
+      {
+        name: "Picture 7",
+        url: "/images/projects/5-duplex/DP_7 - Photo.jpg",
+      },
+      {
+        name: "Test landscape",
+        url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
+      },
+      {
+        name: "Picture 6",
+        url: "/images/projects/5-duplex/DP_6 - Photo.jpg",
+      },
+      {
+        name: "Picture 7",
+        url: "/images/projects/5-duplex/DP_7 - Photo.jpg",
+      },
+      {
+        name: "Test landscape",
+        url: "/images/projects/5-duplex/tomas-cocacola-4AxeQEi0gQc-unsplash.jpg",
+      },
+      {
+        name: "Picture 6",
+        url: "/images/projects/5-duplex/DP_6 - Photo.jpg",
+      },
+      {
+        name: "Picture 7",
+        url: "/images/projects/5-duplex/DP_7 - Photo.jpg",
+      },
     ],
     type: "Apartments",
     beds: 5,
