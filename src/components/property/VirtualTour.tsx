@@ -5,113 +5,62 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   HomeIcon,
-  // MagnifyingGlassMinusIcon,
-  // MagnifyingGlassPlusIcon,
 } from "@heroicons/react/24/solid";
-// import { Gamepad2Icon } from "lucide-react";
 import Image from "next/image";
 import { Pannellum } from "pannellum-react-update";
-import { useRef, useState } from "react";
-// import { toast } from "sonner";
+import { useEffect, useRef, useState } from "react";
+
+type Scene = {
+  sceneName: string;
+  scenePanoImg: string;
+  hotSpots?: HotSpot[];
+};
+
+type HotSpot = {
+  pitch: number;
+  yaw: number;
+  targetScene: number;
+  tooltip?: string;
+};
 
 const VirtualTour = ({ data }: { data: IProperty | null }) => {
   const [currentScene, setCurrentScene] = useState(0);
-  // const [currentHfov, setCurrentHfov] = useState(110);
-  const thumbnailRefs = useRef<HTMLDivElement[]>([]);
-  const viewerRef = useRef<any>(null);
-
-  const scenesArray =
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const thumbnailRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const scenes: Scene[] =
     data?.rooms?.map((room) => ({
       sceneName: room.name,
       scenePanoImg: room.url,
     })) || [];
 
-  // const scenesArray = [
-  //   {
-  //     sceneName: "Kitchen",
-  //     scenePanoImg: data?.images[0],
-  //     hotSpotsArr: [
-  //       { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Room 1",
-  //     scenePanoImg: data?.images[1],
-  //     hotSpotsArr: [
-  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Poolside",
-  //     scenePanoImg: data?.images[2],
-  //     hotSpotsArr: [
-  //       { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Kitchen",
-  //     scenePanoImg: data?.images[3],
-  //     hotSpotsArr: [
-  //       { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Room 1",
-  //     scenePanoImg: data?.images[5],
-  //     hotSpotsArr: [
-  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Poolside",
-  //     scenePanoImg: data?.images[6],
-  //     hotSpotsArr: [
-  //       { pitch: -51.354378017934465, yaw: -114.99647316748677, transition: 1 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Kitchen",
-  //     scenePanoImg: data?.images[7],
-  //     hotSpotsArr: [
-  //       { pitch: -9.06119427236566, yaw: -92.7752861238165, transition: 1 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Test Room ",
-  //     scenePanoImg: data?.images[8],
-  //     hotSpotsArr: [
-  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-  //     ],
-  //   },
-  //   {
-  //     sceneName: "Test landscape ",
-  //     scenePanoImg: data?.images[9],
-  //     hotSpotsArr: [
-  //       { pitch: -50.943576619160616, yaw: -174.6239076277068, transition: 0 },
-  //       { pitch: -20.48368170929848, yaw: -10.26897749453302, transition: 2 },
-  //     ],
-  //   },
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "ArrowLeft":
+          handleSceneChange(Math.max(currentScene - 1, 0));
+          break;
+        case "ArrowRight":
+          handleSceneChange(Math.min(currentScene + 1, scenes.length - 1));
+          break;
+        case "Home":
+          handleSceneChange(0);
+          break;
+      }
+    };
 
-  // ];
-
-  // const hotspotIcon = (hotSpotDiv: HTMLElement) => {
-  //   const image = document.createElement("img");
-  //   image.classList.add("image");
-  //   image.setAttribute("width", "30");
-  //   image.setAttribute("height", "30");
-  //   image.setAttribute(
-  //     "src",
-  //     "https://img.icons8.com/material/4ac144/256/camera.png"
-  //   );
-  //   hotSpotDiv.appendChild(image);
-  // };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentScene, scenes.length]);
 
   const handleSceneChange = (newScene: number) => {
+    if (newScene < 0 || newScene >= scenes.length) return;
+
+    setIsLoading(true);
+    setError(null);
     setCurrentScene(newScene);
-    // Ensure the active thumbnail is in view
+
     thumbnailRefs.current[newScene]?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
@@ -119,135 +68,124 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
     });
   };
 
-  // const enterVR = () => {
-  //   viewerRef.current.enterVR();
-  //   if (viewerRef.current && viewerRef.current.enterVR) {
-  //   } else {
-  //     toast("VR Mode is not supported on this device/browser.");
-  //   }
-  // };
-
-  if (!scenesArray.length) {
-    return <div>No rooms available for the virtual tour.</div>;
+  if (!scenes.length) {
+    return (
+      <div className="text-center p-8 text-gray-500">
+        No virtual tour available for this property
+      </div>
+    );
   }
 
-  const currentSceneData = scenesArray[currentScene];
-
   return (
-    <div>
-      <h4 className="font-semibold mb-2 text-[22px] capitalize leading-[1.2] tracking-wide">
-        360-degree View
-      </h4>
-      <p className="text-neutral-600 mb-8">See panoramic view for rooms</p>
-      <div className="relative w-full">
+    <section aria-label="Virtual tour" className="space-y-4">
+      <header>
+        <h2 className="font-semibold text-2xl text-gray-900 mb-2">
+          360° Virtual Tour
+        </h2>
+        <p className="text-gray-600">Explore {scenes.length} panoramic views</p>
+      </header>
+
+      <div className="relative rounded-xl overflow-hidden shadow-lg">
+        {/* Loading overlay */}
+        {isLoading && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-10">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-200" />
+          </div>
+        )}
+
+        {/* Error message */}
+        {error && (
+          <div className="absolute inset-0 bg-black/80 flex items-center justify-center z-20">
+            <p className="text-red-400 text-lg">{error}</p>
+          </div>
+        )}
+
         <Pannellum
           width="100%"
-          height="500px"
-          image={currentSceneData.scenePanoImg}
-          title={currentSceneData.sceneName}
+          height="600px"
+          image={scenes[currentScene].scenePanoImg}
+          title={scenes[currentScene].sceneName}
           pitch={10}
           yaw={180}
-          // hfov={currentHfov}
           autoLoad
           compass
-          showControls={true}
-          onLoad={(viewer: any) => {
-            console.log("panorama loaded");
-            viewerRef.current = viewer; // Store the viewer instance in the ref
+          showControls
+          onLoad={() => {
+            setIsLoading(false);
+            setError(null);
           }}
-        >
-          {/* {currentSceneData.hotSpotsArr.map((hotSpot, i) => (
-            <Pannellum.Hotspot
-              key={i}
-              type="custom"
-              pitch={hotSpot.pitch}
-              yaw={hotSpot.yaw}
-              tooltip={hotspotIcon}
-              handleClick={() => handleSceneChange(hotSpot.transition)}
-            />
-          ))} */}
-        </Pannellum>
+          onError={(err: string) => setError(err)}
+          // ref={viewerRef}
+        ></Pannellum>
 
-        <div className="grid lg:grid-cols-9 grid-cols-1 gap-4 p-3 bg-black">
-          <div className="col-span-1 lg:col-span-6">
-            <div className="w-full flex items-center gap-3 overflow-x-auto scrollbar-none">
-              {scenesArray.map((scene, index) => (
-                <div
-                  key={index}
-                  ref={(el) => {
-                    if (el) thumbnailRefs.current[index] = el;
-                  }}
-                  className={`shrink-0 h-14 w-20 border-4 border-transparent hover:border-primary-200 transition duration-300 rounded-sm cursor-pointer ${
-                    currentScene === index ? "!border-primary-200" : ""
-                  }`}
-                  onClick={() => handleSceneChange(index)}
-                >
-                  <Image
-                    src={scene.scenePanoImg || ""}
-                    alt={scene.sceneName || ""}
-                    width={80}
-                    height={80}
-                    title={scene.sceneName}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+        {/* Controls overlay */}
+        <div className="shrink-0 absolute top-3 right-4 flex justify-between items-center z-30 gap-2">
+          <div className="flex gap-2">
+            <button
+              className="bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+              onClick={() => handleSceneChange(currentScene - 1)}
+              disabled={currentScene === 0}
+              aria-label="Previous scene"
+            >
+              <ChevronLeftIcon className="w-6 h-6 text-gray-800" />
+            </button>
+            <button
+              className="bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+              onClick={() => handleSceneChange(currentScene + 1)}
+              disabled={currentScene === scenes.length - 1}
+              aria-label="Next scene"
+            >
+              <ChevronRightIcon className="w-6 h-6 text-gray-800" />
+            </button>
           </div>
 
-          <div className="col-span-1 lg:col-span-3 flex items-center lg:justify-end justify-around gap-4">
-            {/* <button
-              className="bg-white rounded-full flex items-center justify-center size-10"
-              onClick={() => setCurrentHfov((prev) => Math.max(prev - 10, 30))}
-              title="Zoom In"
-            >
-              <MagnifyingGlassPlusIcon className="size-6" />
-            </button>
+          <div className="flex gap-2">
             <button
-              className="bg-white rounded-full flex items-center justify-center size-10"
-              onClick={() => setCurrentHfov((prev) => Math.min(prev + 10, 120))}
-              title="Zoom Out"
-            >
-              <MagnifyingGlassMinusIcon className="size-6" />
-            </button> */}
-            <button
-              className="bg-white rounded-full flex items-center justify-center size-10"
-              aria-label="prev"
-              title="Previous"
-              onClick={() => handleSceneChange(Math.max(currentScene - 1, 0))}
-            >
-              <ChevronLeftIcon className="size-6" />
-            </button>
-            <button
-              className="bg-white rounded-full flex items-center justify-center size-10"
-              aria-label="next"
-              title="Next"
-              onClick={() =>
-                handleSceneChange(
-                  Math.min(currentScene + 1, scenesArray.length - 1)
-                )
-              }
-            >
-              <ChevronRightIcon className="size-6" />
-            </button>
-            <button
-              className="bg-white rounded-full flex items-center justify-center size-10"
+              className="bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all"
               onClick={() => handleSceneChange(0)}
+              aria-label="Return to start"
             >
-              <HomeIcon className="size-6" />
+              <HomeIcon className="w-6 h-6 text-gray-800" />
             </button>
-
-            {/* <button
-              className="bg-white rounded-full flex items-center justify-center size-10"
-              onClick={enterVR}
-              title="Enter VR Mode"
-            >
-              <Gamepad2Icon className="size-6" />
-            </button> */}
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Thumbnail rail */}
+      <div className="relative">
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-none">
+          {scenes.map((scene, index) => (
+            <div
+              key={index}
+              ref={(el) => {
+                if (el) thumbnailRefs.current[index] = el;
+              }}
+              className={`shrink-0 relative w-24 h-16 rounded-lg overflow-hidden cursor-pointer transition-all border-2 ${
+                currentScene === index
+                  ? "border-primary shadow-lg"
+                  : "border-transparent opacity-80 hover:opacity-100"
+              }`}
+              onClick={() => handleSceneChange(index)}
+              role="button"
+              aria-label={`View ${scene.sceneName}`}
+            >
+              <Image
+                src={scene.scenePanoImg}
+                alt={scene.sceneName}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100px, 150px"
+                loading={index < 3 ? "eager" : "lazy"}
+              />
+              <div className="absolute inset-0 bg-black/40 hover:bg-black/20 transition-colors" />
+              <span className="absolute bottom-1 left-1 text-white text-xs font-medium truncate max-w-[90%]">
+                {scene.sceneName}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

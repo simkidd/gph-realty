@@ -27,7 +27,7 @@ const tabNavVariants = cva(
       variant: {
         default:
           "text-gray-700 hover:text-gray-900 border-b-2 border-transparent",
-        active: "text-blue-600 border-blue-600 border-b-2",
+        active: "text-primary border-primary border-b-2",
       },
       size: {
         sm: "text-xs px-2 py-1",

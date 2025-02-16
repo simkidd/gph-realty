@@ -5,6 +5,9 @@ import { TabContent, TabNav, Tabs } from "../ui/Tab";
 import Features from "./Features";
 import Gallery from "./Gallery";
 import VirtualTour from "./VirtualTour";
+import { reviews } from "@/data/reviewdata";
+import { ReviewItem } from "./ReviewItem";
+import { ReviewForm } from "./ReviewForm";
 
 interface ITab {
   title: string;
@@ -26,7 +29,7 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
       {
         title: "Features",
         key: "feature",
-        content: <Features />,
+        content: <Features property={property} />,
       },
       {
         title: "Gallery",
@@ -40,7 +43,13 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
         title: "Virtual Tour",
         key: "virtualTour",
         content: (
-          <Suspense fallback={<div>Loading virtual tour...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+              </div>
+            }
+          >
             <VirtualTour data={property} />
           </Suspense>
         ),
@@ -80,7 +89,7 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
                       <TabContent
                         key={tab.key}
                         tabKey={tab.key}
-                        className="p-[30px]"
+                        className="lg:p-[30px] py-6 px-4"
                       >
                         {/* Render your tab content here */}
                         {!tab.content && (
@@ -95,18 +104,28 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
 
               {/* reviews */}
               <div className="bg-white shadow-md">
-                <div className="p-[30px]">
-                  <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
-                    Reviews
-                  </h4>
-                  <div></div>
+                <div className="lg:p-[30px] py-6 px-4">
+                  <div className="flex justify-between items-center mb-5">
+                    <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
+                      Reviews
+                    </h4>
+                    <span className="text-gray-500">
+                      {reviews.length} reviews
+                    </span>
+                  </div>
+
+                  <div className="space-y-6">
+                    {reviews.map((review) => (
+                      <ReviewItem key={review.id} review={review} />
+                    ))}
+                  </div>
+
                   <hr className="my-[30px]" />
                   <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
                     Write a Review
                   </h4>
-                  <div>
-                    <form></form>
-                  </div>
+
+                  <ReviewForm />
                 </div>
               </div>
             </div>

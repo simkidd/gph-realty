@@ -6,6 +6,8 @@ import StoreProvider from "@/providers/StoreProvider";
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.scss";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata: Metadata = {
   title: "GPH Realty",
@@ -19,15 +21,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`font-montserrat antialiased`}
-      >
+      <body className={`font-montserrat antialiased`}>
         <NextTopLoader color="#EE6C0E" showSpinner={false} />
         <StoreProvider>
-          <Header />
-          <main className="w-full min-h-dvh">{children}</main>
-          <ScrollToTop />
-          <Footer />
+          <Suspense fallback={<Loading />}>
+            <Header />
+            <main className="w-full min-h-dvh">{children}</main>
+            <ScrollToTop />
+            <Footer />
+          </Suspense>
           <Toaster />
         </StoreProvider>
       </body>

@@ -78,8 +78,9 @@ const Hero = () => {
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute lg:-bottom-24 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 20, 0] }}
+          className="absolute lg:-bottom-24 left-1/2"
+          initial={{ x: "-50%", y: 0 }}
+          animate={{ x: "-50%", y: [0, 20, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           <div className="w-8 h-14 rounded-full border-2 border-white/50 flex items-center justify-center">
