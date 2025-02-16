@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import { HiLocationMarker } from "react-icons/hi";
 import { motion } from "framer-motion";
@@ -10,24 +10,27 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.2,
-      delayChildren: 0.3
-    }
-  }
+      delayChildren: 0.3,
+    },
+  },
 };
 
 const itemVariants = {
   hidden: { y: 20, opacity: 0 },
-  visible: { y: 0, opacity: 1 }
+  visible: { y: 0, opacity: 1 },
 };
 
 const statsVariants = {
   hidden: { scale: 0 },
-  visible: { scale: 1 }
+  visible: { scale: 1 },
 };
 
 const markerVariants = {
   hidden: { scale: 0 },
-  visible: { scale: 1, transition: { type: "spring", stiffness: 260, damping: 20 } }
+  visible: {
+    scale: 1,
+    transition: { type: "spring", stiffness: 260, damping: 20 },
+  },
 };
 
 const AboutContent = () => {
@@ -42,7 +45,7 @@ const AboutContent = () => {
             variants={containerVariants}
             className="text-center"
           >
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="group text-center flex flex-col items-center"
             >
@@ -52,7 +55,7 @@ const AboutContent = () => {
               <hr className="w-[80px] h-[2px] bg-primary group-hover:w-[150px] transition-all duration-500 my-5" />
             </motion.div>
 
-            <motion.p 
+            <motion.p
               variants={itemVariants}
               className="mb-[50px] text-[#3b4249] text-[15.52]"
             >
@@ -72,7 +75,7 @@ const AboutContent = () => {
                   variants={containerVariants}
                   className="mb-[36px]"
                 >
-                  <motion.h3 
+                  <motion.h3
                     variants={itemVariants}
                     className="text-primary font-semibold mb-[10px] text-2xl leading-[1.2] tracking-[0.03em]"
                   >
@@ -88,7 +91,11 @@ const AboutContent = () => {
                       variants={containerVariants}
                       className="mt-4 list-disc pl-5"
                     >
-                      {["Instant virtual tour access", "Smart market analytics", "24/7 digital consultations"].map((item, i) => (
+                      {[
+                        "Instant virtual tour access",
+                        "Smart market analytics",
+                        "24/7 digital consultations",
+                      ].map((item, i) => (
                         <motion.li
                           key={i}
                           variants={itemVariants}
@@ -110,9 +117,9 @@ const AboutContent = () => {
                 >
                   <ul className="flex">
                     {[
-                      { value: "1,250+", label: "Happy Clients" },
+                      { value: "95%", label: "Client Trust Score" },
                       { value: "4.9/5", label: "Service Rating" },
-                      { value: "98%", label: "Deal Success Rate" }
+                      { value: "98%", label: "Deal Success Rate" },
                     ].map((stat, i) => (
                       <motion.li
                         key={i}
@@ -130,7 +137,7 @@ const AboutContent = () => {
                   </ul>
                 </motion.div>
               </div>
-              
+
               <div className="lg:col-span-7 col-span-12 bg-map-image bg-contain bg-center bg-no-repeat block bg-blend-overlay bg-white/90 relative before:content-[''] before:block before:pt-[36%]">
                 <motion.div
                   initial="hidden"
@@ -142,8 +149,11 @@ const AboutContent = () => {
                   {[
                     { position: "top-[25%] right-[20%]" },
                     { position: "top-[18%] left-[20%]" },
-                    { position: "bottom-[39%] left-[47%] animate-bounce", bounce: true },
-                    { position: "top-[30%] right-[30%]" }
+                    {
+                      position: "bottom-[39%] left-[47%] animate-bounce",
+                      bounce: true,
+                    },
+                    { position: "top-[30%] right-[30%]" },
                   ].map((marker, i) => (
                     <motion.div
                       key={i}
@@ -154,13 +164,13 @@ const AboutContent = () => {
                         duration: 2,
                         repeat: Infinity,
                         ease: "easeInOut",
-                        ...(marker.bounce && { type: "spring", stiffness: 100 })
+                        ...(marker.bounce && {
+                          type: "spring",
+                          stiffness: 100,
+                        }),
                       }}
                     >
-                      <HiLocationMarker
-                        size={40}
-                        className="text-primary"
-                      />
+                      <HiLocationMarker size={40} className="text-primary" />
                     </motion.div>
                   ))}
                 </motion.div>
