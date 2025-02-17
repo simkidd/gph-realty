@@ -5,8 +5,8 @@ import { TabContent, TabNav, Tabs } from "../ui/Tab";
 import Features from "./Features";
 import Gallery from "./Gallery";
 import VirtualTour from "./VirtualTour";
-import { reviews } from "@/data/reviewdata";
-import { ReviewItem } from "./ReviewItem";
+// import { reviews } from "@/data/reviewdata";
+// import { ReviewItem } from "./ReviewItem";
 import { ReviewForm } from "./ReviewForm";
 
 interface ITab {
@@ -105,7 +105,7 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
               {/* reviews */}
               <div className="bg-white shadow-md">
                 <div className="lg:p-[30px] py-6 px-4">
-                  <div className="flex justify-between items-center mb-5">
+                  {/* <div className="flex justify-between items-center mb-5">
                     <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
                       Reviews
                     </h4>
@@ -118,9 +118,9 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
                     {reviews.map((review) => (
                       <ReviewItem key={review.id} review={review} />
                     ))}
-                  </div>
+                  </div> */}
 
-                  <hr className="my-[30px]" />
+                  {/* <hr className="my-[30px]" /> */}
                   <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
                     Write a Review
                   </h4>
