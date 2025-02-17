@@ -194,7 +194,7 @@ const PropertyGrid = () => {
                   Properties Listing
                 </h2>
                 <span className="text-gray-500">
-                  Showing <span className="text-primary">1-15 of 69</span>{" "}
+                  Showing <span className="text-primary">1-1 of 1</span>{" "}
                   Listings
                 </span>
               </div>
