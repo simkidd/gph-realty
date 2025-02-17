@@ -133,7 +133,7 @@ const Gallery = ({ images }: GalleryProps) => {
                 className="w-full h-auto object-cover aspect-video"
                 priority
                 onClick={() => setIsModalOpen(true)}
-                onLoadingComplete={() => setIsLoading(false)}
+                onLoad={() => setIsLoading(false)}
               />
             </motion.div>
           </AnimatePresence>
