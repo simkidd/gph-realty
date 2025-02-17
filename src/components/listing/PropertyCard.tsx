@@ -88,7 +88,7 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
   return (
     <Card
       className={`rounded-xl flex overflow-hidden bg-white group property-card ${
-        viewMode === "list" ? "flex-row h-full" : "flex-col"
+        viewMode === "list" ? "flex-row" : "flex-col"
       }`}
     >
       {/* Image Slider */}
@@ -97,16 +97,16 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
           viewMode === "list" ? "w-1/2 lg:w-1/3 h-full" : "w-full"
         }`}
       >
-        <Slider {...settings} className="overflow-hidden">
+        <Slider {...settings} className="overflow-hidden h-full">
           {property.images.slice(0, 4).map((img, i) => (
             <div
               key={i}
-              className={viewMode === "list" ? "h-full" : "h-[200px]"}
+              className={`${viewMode === "list" ? "h-[180px]" : "h-[200px]"}`}
             >
               <Image
                 src={img}
                 alt={`image-${i}`}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-[200px]"
                 width={300}
                 height={300}
                 priority
@@ -139,9 +139,7 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
       {/* Property Info */}
       <div
         className={`p-4 ${
-          viewMode === "list"
-            ? "w-1/2 lg:w-2/3 flex flex-col justify-between"
-            : ""
+          viewMode === "list" ? "w-1/2 lg:w-2/3 flex flex-col" : ""
         }`}
       >
         <p className="text-xs font-semibold text-gray-500 uppercase">
@@ -157,14 +155,20 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
         </p>
         <p
           className={`text-gray-500 mt-1 text-sm ${
-            viewMode === "list" ? "line-clamp-3" : " line-clamp-2"
+            viewMode === "list" ? "hidden" : " line-clamp-2"
           }`}
         >
           {property.description}
         </p>
 
         {/* Property Details */}
-        <div className="flex items-center flex-wrap gap-4 gap-y-2 mt-4 text-gray-600 text-sm">
+        <div
+          className={`${
+            viewMode === "list"
+              ? "hidden"
+              : "flex items-center flex-wrap gap-4 gap-y-2 mt-4 text-gray-600 text-sm"
+          }`}
+        >
           {detailItem(
             <Bed className="w-4 h-4" />,
             "Bed",
@@ -183,8 +187,12 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
         </div>
 
         {/* Date & Details Button */}
-        <div className="flex justify-between items-center flex-wrap gap-2 mt-4">
-          <p className="text-gray-400 text-sm">August 4, 2022</p>
+        <div
+          className={`flex justify-between items-center flex-wrap gap-2 ${
+            viewMode === "list" ? "mt-auto" : " mt-4"
+          }`}
+        >
+          {/* <p className="text-gray-400 text-sm">August 4, 2022</p> */}
           {viewMode === "list" && (
             <Button variant="outline" size="sm">
               View Details
