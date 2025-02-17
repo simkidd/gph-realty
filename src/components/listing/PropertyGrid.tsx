@@ -44,7 +44,7 @@ const PropertyGrid = () => {
     rooms: "",
     beds: "",
     baths: "",
-    priceRange: [0, 100000000],
+    priceRange: [0, 900000000],
     area: [0, 5000],
   });
 
@@ -125,7 +125,7 @@ const PropertyGrid = () => {
       rooms: "",
       beds: "",
       baths: "",
-      priceRange: [0, 100000000],
+      priceRange: [0, 900000000],
       area: [0, 5000],
     });
 

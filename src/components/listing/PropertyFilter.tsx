@@ -30,7 +30,7 @@ const PropertyFilter = ({
             <div className="col-span-1 lg:col-span-2">
               <PropertyFilterDropdown
                 label="Property Status"
-                options={["For Sale", "For Rent"]}
+                options={["On Sale", "For Rent"]}
                 selectedValue={filters.status}
                 onSelect={(value) => handleFilterChange("status", value)}
               />
@@ -46,7 +46,7 @@ const PropertyFilter = ({
             <div className="col-span-1 lg:col-span-2">
               <PropertyFilterDropdown
                 label="Property Location"
-                options={["New York", "Los Angeles", "Chicago"]}
+                options={["Port Harcourt"]}
                 selectedValue={filters.location}
                 onSelect={(value) => handleFilterChange("location", value)}
               />
@@ -54,7 +54,7 @@ const PropertyFilter = ({
             <div className="col-span-1 lg:col-span-2">
               <PropertyFilterDropdown
                 label="Max Rooms"
-                options={["1", "2", "3", "4+", "Any"]}
+                options={["1", "2", "3", "4", "5"]}
                 selectedValue={filters.rooms}
                 onSelect={(value) => handleFilterChange("rooms", value)}
               />
@@ -62,7 +62,7 @@ const PropertyFilter = ({
             <div className="col-span-1">
               <PropertyFilterDropdown
                 label="Bed"
-                options={["1", "2", "3", "4+"]}
+                options={["1", "2", "3", "4", "5"]}
                 selectedValue={filters.beds}
                 onSelect={(value) => handleFilterChange("beds", value)}
               />
@@ -70,7 +70,7 @@ const PropertyFilter = ({
             <div className="col-span-1">
               <PropertyFilterDropdown
                 label="Bath"
-                options={["1", "2", "3", "4+"]}
+                options={["1", "2", "3", "4", "5"]}
                 selectedValue={filters.baths}
                 onSelect={(value) => handleFilterChange("baths", value)}
               />
@@ -81,7 +81,7 @@ const PropertyFilter = ({
               <RangeSlider
                 label="Price"
                 min={0}
-                max={100000000}
+                max={900000000}
                 value={filters.priceRange}
                 onChange={(value) => handleFilterChange("priceRange", value)}
               />
