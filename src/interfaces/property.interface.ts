@@ -7,7 +7,7 @@ export interface IProperty {
     | "development"
     | "construction"
     | "completed"
-    | "sale"
+    | "on-sale"
     | "rent"
     | "sold";
   location: string;

@@ -120,7 +120,7 @@ const PropertyDetails = ({ property }: { property: IProperty }) => {
                     ))}
                   </div> */}
 
-                  <hr className="my-[30px]" />
+                  {/* <hr className="my-[30px]" /> */}
                   <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
                     Write a Review
                   </h4>

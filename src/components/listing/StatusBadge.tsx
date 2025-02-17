@@ -5,7 +5,7 @@ type Status =
   | "development"
   | "construction"
   | "completed"
-  | "sale"
+  | "on-sale"
   | "rent"
   | "sold";
 
@@ -14,12 +14,15 @@ interface StatusBadgeProps {
   className?: string;
 }
 
+// Function to remove hyphens and format text
+const formatStatus = (status: string) => status.replace(/-/g, " ");
+
 export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
   const statusStyles = {
     development: "bg-blue-500 text-white",
     construction: "bg-yellow-500 text-gray-800",
     completed: "bg-purple-500 text-white",
-    sale: "bg-green-500 text-white",
+    'on-sale': "bg-green-500 text-white",
     rent: "bg-orange-500 text-white",
     sold: "bg-red-500 text-white",
   };
@@ -33,7 +36,7 @@ export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
       )}
       size="sm"
     >
-      {status}
+      {formatStatus(status)}
     </Badge>
   );
 };
