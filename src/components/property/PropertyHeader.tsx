@@ -63,7 +63,7 @@ const PropertyHeader = ({ property }: { property: IProperty }) => {
                 <li>
                   <div className="flex items-center">
                     <SofaIcon size={16} className="mr-[10px]" />
-                    <span className="text-sm">2 Halls</span>
+                    <span className="text-sm">2 Lobbies</span>
                   </div>
                 </li>
                 <li>
