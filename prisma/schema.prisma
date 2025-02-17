@@ -78,12 +78,12 @@ model Property {
   id          String   @id @default(cuid())
   name        String
   description String
-  images      String[]
+  images      Json // Array of { publicId: string, imageUrl: string }
   status      String // "development" | "construction" | "completed" | "sale" | "rent" | "sold"
   location    String
   price       Float
   slug        String   @unique
-  rooms       Room[]
+  rooms       Json? // Stores array of room objects: { name, publicId, imageUrl }[]
   type        String?
   beds        Int?
   baths       Int?
@@ -97,12 +97,4 @@ model Property {
   updatedAt   DateTime @updatedAt
 
   @@map("properties")
-}
-
-model Room {
-  id         String   @id @default(cuid())
-  name       String
-  url        String
-  property   Property @relation(fields: [propertyId], references: [id])
-  propertyId String
 }

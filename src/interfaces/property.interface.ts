@@ -2,7 +2,7 @@ export interface IProperty {
   id: string;
   name: string;
   description: string;
-  images: string[];
+  images: IImage[];
   status:
     | "development"
     | "construction"
@@ -13,7 +13,7 @@ export interface IProperty {
   location: string;
   price: number;
   slug: string;
-  rooms: IRoom[];
+  rooms?: IRoom[];
   type?: string;
   beds?: number;
   baths?: number;
@@ -28,5 +28,11 @@ export interface IProperty {
 
 export interface IRoom {
   name: string;
-  url: string;
+  publicId: string; // Cloudinary public_id
+  imageUrl: string; // Cloudinary secure_url
+}
+
+export interface IImage {
+  publicId: string; // Cloudinary public_id
+  imageUrl: string; // Cloudinary secure_url
 }
