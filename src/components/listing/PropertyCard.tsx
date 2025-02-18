@@ -14,9 +14,9 @@ import Link from "next/link";
 import React from "react";
 import { PiRadioButtonFill } from "react-icons/pi";
 import Slider, { type Settings } from "react-slick";
-import Badge from "../ui/Badge";
-import Button from "../ui/Button";
-import Card from "../ui/Card";
+import Badge from "../ui-custom/Badge";
+import Button from "../ui-custom/Button";
+import Card from "../ui-custom/Card";
 import { StatusBadge } from "./StatusBadge";
 
 interface PropertyCardProps {

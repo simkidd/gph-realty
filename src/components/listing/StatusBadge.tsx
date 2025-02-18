@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"; // Assuming you have a cn utility
-import Badge from "../ui/Badge";
+import Badge from "../ui-custom/Badge";
 
 type Status = 
   | "development"

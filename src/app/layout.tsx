@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/Toaster";
+import { Toaster } from "@/components/ui-custom/Toaster";
 import SessionProvider from "@/providers/SessionProvider";
 import StoreProvider from "@/providers/StoreProvider";
 import type { Metadata } from "next";
@@ -17,6 +17,8 @@ export default async function Layout({
   children: React.ReactNode;
 }>) {
   const session = await getSession();
+
+  console.log("session from root layout", session);
 
   return (
     <html lang="en" suppressHydrationWarning>

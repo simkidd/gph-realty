@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 const reviews = [

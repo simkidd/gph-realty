@@ -37,7 +37,7 @@ export const rightMenu: IMenu[] = [
   },
   {
     name: "Account",
-    href: "/auth/sign-in",
+    href: "/profile",
     icon: UserIcon,
   },
 ];

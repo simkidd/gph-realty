@@ -12,8 +12,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { StatusBadge } from "../listing/StatusBadge";
-import Badge from "../ui/Badge";
-import Button from "../ui/Button";
+import Badge from "../ui-custom/Badge";
+import Button from "../ui-custom/Button";
 
 const PropertyHeader = ({ property }: { property: IProperty }) => {
   return (

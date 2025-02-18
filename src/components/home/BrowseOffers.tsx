@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import PropertyCard from "../listing/PropertyCard";
 import PropertyCardSkeleton from "../listing/PropertyCardSkeleton";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
 
 const BrowseOffers = () => {
   const dispatch = useAppDispatch();

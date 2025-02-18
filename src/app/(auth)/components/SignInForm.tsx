@@ -1,9 +1,10 @@
 "use client";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { signIn, useSession, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 const schema = z.object({
   email: z.string().email({ message: "Invalid email" }),
@@ -15,11 +16,13 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const SignInForm = () => {
-  const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  console.log("session: " + session)
+  const callbackUrl = searchParams.get("callbackUrl");
+
   const {
     register,
     handleSubmit,
@@ -34,15 +37,18 @@ const SignInForm = () => {
       setErrorMessage(null); // Clear previous errors
 
       const res = await signIn("credentials", {
-        redirect: false,
         email: data.email,
         password: data.password,
+        redirect: false,
+        callbackUrl: typeof callbackUrl === "string" ? callbackUrl : "/",
       });
 
       console.log("res>>>", res);
 
       if (res?.error) {
         setErrorMessage(res.error); // Store the error message in state
+      } else {
+        router.push(callbackUrl || "/");
       }
     } catch (error) {
       console.log("error>>>", error);
@@ -51,20 +57,6 @@ const SignInForm = () => {
       setLoading(false);
     }
   };
-
-  if (session) {
-    return (
-      <div className="p-4">
-        <p>Signed in as {session.user?.email}</p>
-        <button
-          className="px-4 py-2 bg-red-500 text-white"
-          onClick={() => signOut()}
-        >
-          Sign out
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="flex items-center justify-center">

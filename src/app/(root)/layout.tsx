@@ -1,10 +1,9 @@
 import Footer from "@/components/shared/footer/Footer";
 import Header from "@/components/shared/header/Header";
-import ScrollToTop from "@/components/ui/ScrollToTop";
+import ScrollToTop from "@/components/ui-custom/ScrollToTop";
 import type { Metadata } from "next";
-import NextTopLoader from "nextjs-toploader";
-import "../globals.scss";
 import { Suspense } from "react";
+import "../globals.scss";
 import Loading from "../loading";
 
 export const metadata: Metadata = {
@@ -19,7 +18,6 @@ export default async function RootLayout({
 }>) {
   return (
     <>
-      <NextTopLoader color="#EE6C0E" showSpinner={false} />
       <Suspense fallback={<Loading />}>
         <Header />
         <main className="w-full min-h-dvh">{children}</main>

@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
 import Link from "next/link";
 
 const Cta = () => {

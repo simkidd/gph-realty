@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaStar } from "react-icons/fa6";
 import { z } from "zod";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
 
 const reviewSchema = z.object({
   rating: z.number().min(1, "Rating is required"),

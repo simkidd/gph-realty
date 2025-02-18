@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/Button";
 import { useIsMobile } from "@/hooks/useMobile";
 import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";

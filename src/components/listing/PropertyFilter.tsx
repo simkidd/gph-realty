@@ -2,8 +2,8 @@
 import React from "react";
 import PropertyFilterDropdown from "./PropertyFilterDropdown";
 import { FilterProps } from "./PropertyGrid";
-import RangeSlider from "../ui/RangeSlider";
-import Button from "../ui/Button";
+import RangeSlider from "../ui-custom/RangeSlider";
+import Button from "../ui-custom/Button";
 
 interface PropertyFilterProps {
   filters: FilterProps;

@@ -1,3 +1,4 @@
+
 export default function DashboardLayout({
   children,
 }: {
@@ -5,7 +6,9 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <main>{children}</main>
+      <main className="relative w-full lg:w-[calc(100%-16rem)]">
+        <div className="">{children}</div>
+      </main>
     </>
   );
 }
