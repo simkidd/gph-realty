@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "GPH Realty",
@@ -11,18 +13,28 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <div className="w-full min-h-dvh flex items-center justify-center bg-[#f9f9f9]">
-        <div className="px-3 mx-auto w-full">
-          <div></div>
-          <div className="grid lg:grid-cols-12 ">
-            <div className="lg:col-span-5 mx-auto max-w-full lg:w-[70%] grid items-center">
-              <div className="shadow-custom rounded-lg my-[30px] relative flex flex-col bg-white">
-                {children}
-              </div>
+    <div className="w-full min-h-dvh flex items-center justify-center bg-[#f9f9f9]">
+      <div className="w-full">
+        <div className="grid lg:grid-cols-12 ">
+          <div className="lg:col-span-5 mx-auto max-w-full lg:w-[70%] grid items-center">
+            <div className="flex items-center justify-center lg:justify-start">
+              <Link href="/" className="text-xl">
+                <div className="lg:h-[40px] h-[30px] px-2 ">
+                  <Image
+                    src="/images/logos/gph-logo-full-black.png"
+                    alt="logo"
+                    width={300}
+                    height={200}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </Link>
             </div>
-            <div className="lg:col-span-7 hidden md:block h-dvh bg-white bg-no-repeat bg-cover bg-review-bg"></div>
+            <div className="shadow-custom rounded-lg my-5 lg:my-[30px] relative flex flex-col bg-white">
+              {children}
+            </div>
           </div>
+          <div className="lg:col-span-7 hidden md:block h-dvh bg-white bg-no-repeat bg-cover bg-review-bg"></div>
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@ const SignInForm = () => {
       console.log("res>>>", res);
 
       if (res?.error) {
-        toast.error(res.error);
+        toast.error(res?.error);
       } else {
         router.push(callbackUrl);
       }
@@ -105,12 +105,9 @@ const SignInForm = () => {
         {errors.password && (
           <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
         )}
-        <div className="pl-[35px] mt-[5px] text-sm text-[rgba(88,97,103,0.4)]">
-          Password should be a minimum of 8 characters and should contains
-          letters and numbers
-        </div>
+        
       </div>
-      <div className="flex mb-[30px] items-center justify-between">
+      <div className="flex mb-[30px] items-center justify-between gap-6">
         <label className="block mb-0 text-sm">
           <input className="accent-primary mr-2 " type="checkbox" />
           Remember me

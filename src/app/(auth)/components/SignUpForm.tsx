@@ -1,8 +1,11 @@
 "use client";
 
 import Button from "@/components/ui-custom/Button";
+import { signUpUser } from "@/lib/api/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { EyeClosed, EyeIcon, LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -14,11 +17,11 @@ const signUpSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
-type SignUpFormData = z.infer<typeof signUpSchema>;
+export type SignUpFormData = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -28,24 +31,21 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
   });
 
-  const onSubmit = async (data: SignUpFormData) => {
-    setLoading(true);
+  const signUpMutation = useMutation({
+    mutationFn: signUpUser,
+    onSuccess: (data) => {
+      toast.success(data?.message || "Account created successfully!");
+      router.push("/auth/sign-in");
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      console.log("error", error?.response?.data?.error);
+      toast.error(error?.response?.data?.error || error?.message);
+    },
+  });
 
-    try {
-      const response = await fetch("/api/auth/sign-up", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const res = await response.json();
-      console.log("first result: ", res);
-      toast.success(res?.message);
-    } catch (error) {
-      console.log("error>>>", error);
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data: SignUpFormData) => {
+    signUpMutation.mutate(data);
   };
 
   return (
@@ -118,8 +118,12 @@ const SignUpForm = () => {
       </div>
 
       <div className="">
-        <Button type="submit" className="w-full mb-4" disabled={loading}>
-          {loading ? "Creating..." : "Create Account"}
+        <Button
+          type="submit"
+          className="w-full mb-4"
+          disabled={signUpMutation.isPending}
+        >
+          {signUpMutation.isPending ? "Creating..." : "Create Account"}
         </Button>
       </div>
     </form>

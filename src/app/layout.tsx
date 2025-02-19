@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.scss";
+import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "GPH Realty",
@@ -27,7 +28,9 @@ export default async function Layout({
         <NextTopLoader color="#EE6C0E" showSpinner={false} />
         <SessionProvider session={session!}>
           <StoreProvider>
-            <main>{children}</main>
+            <QueryProvider>
+              <main>{children}</main>
+            </QueryProvider>
             <Toaster position="top-right" richColors expand={true} />
           </StoreProvider>
         </SessionProvider>
