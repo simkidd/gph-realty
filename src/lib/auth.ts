@@ -19,14 +19,14 @@ declare module "next-auth" {
   }
 
   interface User {
-    id: string
+    id: string;
     role: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    id: string
+    id: string;
     role: string;
   }
 }
@@ -54,7 +54,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials?.password) {
-            throw new Error("Missing credentials");
+            throw new Error("Please provide both email and password.");
           }
 
           const user = await prisma.user.findUnique({
@@ -62,7 +62,7 @@ export const authOptions: AuthOptions = {
           });
 
           if (!user || !user.password) {
-            throw new Error("Invalid credentials");
+            throw new Error("Account not found");
           }
 
           const isValid = await bcrypt.compare(
@@ -71,7 +71,7 @@ export const authOptions: AuthOptions = {
           );
 
           if (!isValid) {
-            throw new Error("Invalid credentials");
+            throw new Error("Invalid password.");
           }
 
           return {
@@ -83,12 +83,17 @@ export const authOptions: AuthOptions = {
           };
         } catch (error) {
           console.error("Authorization error:", error);
-          return null;
+          throw new Error(
+            error instanceof Error
+              ? error.message
+              : "An error occurred during sign-in."
+          );
         }
       },
     }),
   ],
-  debug: process.env.NODE_ENV !== "production",
+  // debug: process.env.NODE_ENV !== "production",
+  debug: true,
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt" as const,
@@ -115,6 +120,6 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/auth/sign-in",
     newUser: "/auth/sign-up",
-    error: "/auth/sign-in",
+    error: "/auth/error",
   },
 };
