@@ -1,8 +1,11 @@
 "use client";
 
+import Button from "@/components/ui-custom/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeClosed, EyeIcon, LockIcon, MailIcon, UserIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const signUpSchema = z.object({
@@ -15,8 +18,7 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -28,8 +30,6 @@ const SignUpForm = () => {
 
   const onSubmit = async (data: SignUpFormData) => {
     setLoading(true);
-    setErrorMessage(null);
-    setSuccessMessage(null);
 
     try {
       const response = await fetch("/api/auth/sign-up", {
@@ -38,80 +38,91 @@ const SignUpForm = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-      console.log("first result: ", result);
-
-      if (!response.ok) {
-        setErrorMessage(result.error);
-      } else {
-        setSuccessMessage(result.message);
-      }
+      const res = await response.json();
+      console.log("first result: ", res);
+      toast.success(res?.message);
     } catch (error) {
-      console.log(error);
-      setErrorMessage("An unexpected error occurred.");
+      console.log("error>>>", error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
-
-      {errorMessage && <p className="text-red-500 mb-2">{errorMessage}</p>}
-      {successMessage && (
-        <p className="text-green-500 mb-2">{successMessage}</p>
-      )}
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">Name</label>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-[30px]">
+        <div className="relative flex flex-wrap w-full items-stretch">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 ">
+            <div className="flex items-center rounded-sm text-[#212529] px-0 py-[0.375rem] ">
+              <UserIcon size={16} />
+            </div>
+          </div>
           <input
-            {...register("name")}
             type="text"
-            className="w-full p-2 border rounded"
+            {...register("name")}
+            className="pl-10 w-[1%] grow shrink border-b borber-[#eee] text-base leading-[1.5] text-[#212529] rounded-[.25rem] transition-[bordercolor_0.15s_ease-in-out] px-3 py-[0.375rem] focus:outline-0"
             placeholder="Enter your name"
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm">{errors.name.message}</p>
-          )}
         </div>
-
-        <div>
-          <label className="block text-sm font-medium">Email</label>
+        {errors.name && (
+          <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+        )}
+      </div>
+      <div className="mb-[30px]">
+        <div className="relative flex flex-wrap w-full items-stretch">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 ">
+            <div className="flex items-center rounded-sm text-[#212529] px-0 py-[0.375rem] ">
+              <MailIcon size={16} />
+            </div>
+          </div>
           <input
+            type="text"
             {...register("email")}
-            type="email"
-            className="w-full p-2 border rounded"
-            placeholder="Enter your email"
+            className="pl-10 w-[1%] grow shrink border-b borber-[#eee] text-base leading-[1.5] text-[#212529] rounded-[.25rem] transition-[bordercolor_0.15s_ease-in-out] px-3 py-[0.375rem] focus:outline-0"
+            placeholder="Enter email address"
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
-          )}
         </div>
-
-        <div>
-          <label className="block text-sm font-medium">Password</label>
+        {errors.email && (
+          <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+        )}
+      </div>
+      <div className="mb-[30px]">
+        <div className="relative flex flex-wrap w-full">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 ">
+            <div className="flex items-center rounded-sm text-[#212529] py-[0.375rem] ">
+              <LockIcon size={16} />
+            </div>
+          </div>
           <input
+            type={showPassword ? "text" : "password"}
             {...register("password")}
-            type="password"
-            className="w-full p-2 border rounded"
-            placeholder="Enter your password"
+            className="pl-10 w-[1%] grow shrink basis-auto border-b borber-[#eee] text-base leading-[1.5] text-[#212529] rounded-[.25rem] transition-[bordercolor_0.15s_ease-in-out] px-3 py-[0.375rem] focus:outline-0"
+            placeholder="Password"
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
-          )}
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">
+            <div
+              className="flex items-center rounded-sm text-[#212529] py-[0.375rem]"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeIcon size={18} /> : <EyeClosed size={18} />}
+            </div>
+          </div>
         </div>
+        {errors.password && (
+          <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+        )}
+        <div className="pl-[35px] mt-[5px] text-sm text-[rgba(88,97,103,0.4)]">
+          Password should be a minimum of 8 characters and should contains
+          letters and numbers
+        </div>
+      </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
-          disabled={loading}
-        >
-          {loading ? "Signing Up..." : "Sign Up"}
-        </button>
-      </form>
-    </div>
+      <div className="">
+        <Button type="submit" className="w-full mb-4" disabled={loading}>
+          {loading ? "Creating..." : "Create Account"}
+        </Button>
+      </div>
+    </form>
   );
 };
 

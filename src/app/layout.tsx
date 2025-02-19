@@ -1,8 +1,9 @@
 import { Toaster } from "@/components/ui-custom/Toaster";
+import { authOptions } from "@/lib/auth";
 import SessionProvider from "@/providers/SessionProvider";
 import StoreProvider from "@/providers/StoreProvider";
 import type { Metadata } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.scss";
 
@@ -16,7 +17,7 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
 
   console.log("session from root layout", session);
 
@@ -27,7 +28,7 @@ export default async function Layout({
         <SessionProvider session={session!}>
           <StoreProvider>
             <main>{children}</main>
-            <Toaster />
+            <Toaster position="top-right" richColors expand={true} />
           </StoreProvider>
         </SessionProvider>
       </body>

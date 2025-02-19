@@ -1,6 +1,4 @@
 import { Metadata } from "next";
-import { Suspense } from "react";
-import Loading from "../loading";
 
 export const metadata: Metadata = {
   title: "GPH Realty",
@@ -13,10 +11,20 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Suspense fallback={<Loading />}>
-        <main className="w-full min-h-dvh bg-red-500">{children}</main>
-      </Suspense>
-    </>
+    <div>
+      <div className="w-full min-h-dvh flex items-center justify-center bg-[#f9f9f9]">
+        <div className="px-3 mx-auto w-full">
+          <div></div>
+          <div className="grid lg:grid-cols-12 ">
+            <div className="lg:col-span-5 mx-auto max-w-full lg:w-[70%] grid items-center">
+              <div className="shadow-custom rounded-lg my-[30px] relative flex flex-col bg-white">
+                {children}
+              </div>
+            </div>
+            <div className="lg:col-span-7 hidden md:block h-dvh bg-white bg-no-repeat bg-cover bg-review-bg"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

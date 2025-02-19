@@ -1,16 +1,20 @@
 "use client";
+import Button from "@/components/ui-custom/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeClosed, EyeIcon, LockIcon, MailIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const schema = z.object({
-  email: z.string().email({ message: "Invalid email" }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
+    .min(6, { message: "Password must be at least 8 characters" }),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -19,9 +23,9 @@ const SignInForm = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const callbackUrl = searchParams.get("callbackUrl");
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const {
     register,
@@ -34,77 +38,93 @@ const SignInForm = () => {
   const onSubmit = async (data: FormData) => {
     try {
       setLoading(true);
-      setErrorMessage(null); // Clear previous errors
 
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
-        callbackUrl: typeof callbackUrl === "string" ? callbackUrl : "/",
+        callbackUrl,
       });
 
       console.log("res>>>", res);
 
       if (res?.error) {
-        setErrorMessage(res.error); // Store the error message in state
+        toast.error(res.error);
       } else {
-        router.push(callbackUrl || "/");
+        router.push(callbackUrl);
       }
     } catch (error) {
       console.log("error>>>", error);
-      setErrorMessage("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center">
-      {/* <button onClick={() => signIn("google")}>Continue with Google</button> */}
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-lg shadow-lg w-96"
-      >
-        <h2 className="text-xl font-semibold mb-4">Sign In</h2>
-
-        {errorMessage && (
-          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
-        )}
-
-        <div className="mb-4">
-          <label className="block mb-1">Email</label>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-[30px]">
+        <div className="relative flex flex-wrap w-full items-stretch">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 ">
+            <div className="flex items-center rounded-sm text-[#212529] px-0 py-[0.375rem] ">
+              <MailIcon size={16} />
+            </div>
+          </div>
           <input
+            type="text"
             {...register("email")}
-            type="email"
-            className="w-full border px-3 py-2 rounded"
+            className="pl-10 w-[1%] grow shrink border-b borber-[#eee] text-base leading-[1.5] text-[#212529] rounded-[.25rem] transition-[bordercolor_0.15s_ease-in-out] px-3 py-[0.375rem] focus:outline-0"
+            placeholder="Enter email address"
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
-          )}
         </div>
-
-        <div className="mb-4">
-          <label className="block mb-1">Password</label>
+        {errors.email && (
+          <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+        )}
+      </div>
+      <div className="mb-[30px]">
+        <div className="relative flex flex-wrap w-full">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 ">
+            <div className="flex items-center rounded-sm text-[#212529] py-[0.375rem] ">
+              <LockIcon size={16} />
+            </div>
+          </div>
           <input
+            type={showPassword ? "text" : "password"}
             {...register("password")}
-            type="password"
-            className="w-full border px-3 py-2 rounded"
+            className="pl-10 w-[1%] grow shrink basis-auto border-b borber-[#eee] text-base leading-[1.5] text-[#212529] rounded-[.25rem] transition-[bordercolor_0.15s_ease-in-out] px-3 py-[0.375rem] focus:outline-0"
+            placeholder="Password"
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
-          )}
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer">
+            <div
+              className="flex items-center rounded-sm text-[#212529] py-[0.375rem]"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeIcon size={18} /> : <EyeClosed size={18} />}
+            </div>
+          </div>
         </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-500 text-white py-2 rounded"
-        >
-          {loading ? "Signing in..." : "Sign In"}
-        </button>
-      </form>
-    </div>
+        {errors.password && (
+          <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+        )}
+        <div className="pl-[35px] mt-[5px] text-sm text-[rgba(88,97,103,0.4)]">
+          Password should be a minimum of 8 characters and should contains
+          letters and numbers
+        </div>
+      </div>
+      <div className="flex mb-[30px] items-center justify-between">
+        <label className="block mb-0 text-sm">
+          <input className="accent-primary mr-2 " type="checkbox" />
+          Remember me
+        </label>
+        <Link href="/" className="text-[rgba(88,97,103,0.7)] text-sm">
+          Forgot password ?
+        </Link>
+      </div>
+      <div className="">
+        <Button type="submit" className="w-full mb-4" disabled={loading}>
+          {loading ? "Logging in..." : "Log in"}
+        </Button>
+      </div>
+    </form>
   );
 };
 
