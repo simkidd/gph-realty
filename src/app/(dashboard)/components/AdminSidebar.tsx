@@ -49,7 +49,7 @@ const AdminSidebar = () => {
       <SidebarHeader>
         <div className="flex items-center py-2">
           <Link href="/" className="text-xl">
-            <div className="lg:h-[40px] h-[30px] px-2 ">
+            <div className="lg:h-[35px] h-[30px] px-2 ">
               <Image
                 src="/images/logos/gph-logo-full-black.png"
                 alt="logo"
@@ -69,11 +69,11 @@ const AdminSidebar = () => {
               <SidebarMenuItem key={i}>
                 <SidebarMenuButton
                   isActive={isItemActive(item.url)}
-                  className="px-4"
+                  className="p-0"
                 >
                   <Link
                     href={item.url}
-                    className="h-full w-full flex items-center"
+                    className="h-full w-full flex items-center px-4 py-2"
                   >
                     <item.icon size={18} className="mr-2" />
                     <span>{item.title}</span>

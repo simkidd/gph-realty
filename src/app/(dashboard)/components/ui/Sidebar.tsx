@@ -285,7 +285,7 @@ export const SidebarMenuButton = forwardRef<
       ref={ref}
       data-active={isActive}
       className={cn(
-        "w-full text-left text-sm flex items-center gap-2 p-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors outline-none focus:ring-2 focus:ring-primary data-[active=true]:bg-primary/50 hover:bg-primary/10 [&>svg]:size-4 [&>svg]:shrink-0 disabled:pointer-events-none disabled:opacity-50",
+        "w-full text-left text-sm flex items-center gap-2 p-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors outline-none focus:ring-2 focus:ring-primary data-[active=true]:bg-primary data-[active=true]:text-white data-[active=true]:font-medium hover:bg-primary/40 [&>svg]:size-4 [&>svg]:shrink-0 disabled:pointer-events-none disabled:opacity-50 overflow-hidden",
         className
       )}
       onClick={handleClick}

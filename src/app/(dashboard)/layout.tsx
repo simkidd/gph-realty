@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider>
       <AdminSidebar />
-      <main className="w-full lg:pl-[16rem]">
+      <main className="w-full min-h-dvh lg:pl-[16rem]">
         <AdminHeader />
         <div className="w-full h-full flex-1 p-4">{children}</div>
       </main>

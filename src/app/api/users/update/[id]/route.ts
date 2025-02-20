@@ -33,7 +33,7 @@ export async function PATCH(
 
     return NextResponse.json({
       message: "User updated successfully",
-      data: updatedUser,
+      user: updatedUser,
     });
   } catch (error) {
     return NextResponse.json(
