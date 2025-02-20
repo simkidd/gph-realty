@@ -46,11 +46,11 @@ const SignInForm = () => {
         callbackUrl,
       });
 
-      console.log("res>>>", res);
 
       if (res?.error) {
         toast.error(res?.error);
       } else {
+        toast.success('Login successful');
         router.push(callbackUrl);
       }
     } catch (error) {
