@@ -1,0 +1,5 @@
+export const config = {
+  CLOUDINARY_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_SECRET: process.env.CLOUDINARY_API_SECRET,
+};

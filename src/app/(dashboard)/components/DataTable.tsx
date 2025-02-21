@@ -32,7 +32,7 @@ interface DataTableProps<TData> {
   onPageChange?: (newPage: number) => void;
 }
 
-const getPaginationRange = (current: number, total: number) => {
+export const getPaginationRange = (current: number, total: number) => {
   let start = Math.max(1, current - 2);
   let end = Math.min(total, current + 2);
 

@@ -9,8 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -89,26 +90,28 @@ model Review {
 }
 
 model Property {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  images      Json // Array of { publicId: string, imageUrl: string }
-  status      String // "development" | "construction" | "completed" | "sale" | "rent" | "sold"
-  location    String
-  price       Float
-  slug        String   @unique
-  rooms       Json? // Stores array of room objects: { name, publicId, imageUrl }[]
-  type        String?
-  beds        Int?
-  baths       Int?
-  squareFeet  Int?
-  amenities   String[]
-  address     String?
-  features    String[]
-  virtualTour Boolean?
-  reviews     Review[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  name         String
+  description  String
+  images       Json? // Array of { publicId: string, imageUrl: string }
+  status       String   @default("available")
+  location     String
+  price        Float
+  slug         String   @unique
+  rooms        Json? // Stores array of room objects: { name, publicId, imageUrl }[]
+  type         String?
+  beds         Int?
+  baths        Int?
+  lobbies      Int?
+  squareFeet   Int?
+  amenities    String[]
+  draft        Boolean  @default(true)
+  features     String[]
+  virtualTour  Boolean?
+  reviews      Review[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  propertyCode String?  @unique
 
   @@map("properties")
 }

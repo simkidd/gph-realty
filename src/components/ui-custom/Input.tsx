@@ -28,17 +28,45 @@ const inputVariants = cva(
 
 // Define the InputProps interface
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
-    VariantProps<typeof inputVariants> {}
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "prefix">,
+    VariantProps<typeof inputVariants> {
+  prefix?: React.ReactNode;
+  suffix?: React.ReactNode;
+  containerClass?: string;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, variant, inputSize, ...props }, ref) => {
+  (
+    { className, variant, inputSize, prefix, suffix, containerClass, ...props },
+    ref
+  ) => {
     return (
-      <input
-        ref={ref}
-        className={cn(inputVariants({ variant, inputSize }), className)}
-        {...props}
-      />
+      <div className={cn("relative", containerClass)}>
+        {prefix && (
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+            {prefix}
+          </div>
+        )}
+        <input
+          ref={ref}
+          className={cn(
+            inputVariants({ variant, inputSize }),
+            className,
+            prefix ? "pl-8" : "",
+            suffix ? "pr-8" : ""
+          )}
+          style={{
+            paddingLeft: prefix ? "2rem" : undefined,
+            paddingRight: suffix ? "2rem" : undefined,
+          }}
+          {...props}
+        />
+        {suffix && (
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+            {suffix}
+          </div>
+        )}
+      </div>
     );
   }
 );

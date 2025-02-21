@@ -1,6 +1,5 @@
 "use client";
 import { IProperty } from "@/interfaces/property.interface";
-import { formatCurrency } from "@/utils/helpers/formatCurrency";
 import {
   BathIcon,
   BedDoubleIcon,
@@ -14,6 +13,7 @@ import Image from "next/image";
 import { StatusBadge } from "../listing/StatusBadge";
 import Badge from "../ui-custom/Badge";
 import Button from "../ui-custom/Button";
+import { formatCurrency } from "@/utils/helpers";
 
 const PropertyHeader = ({ property }: { property: IProperty }) => {
   return (

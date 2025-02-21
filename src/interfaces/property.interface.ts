@@ -3,13 +3,7 @@ export interface IProperty {
   name: string;
   description: string;
   images: IImage[];
-  status:
-    | "development"
-    | "construction"
-    | "completed"
-    | "on-sale"
-    | "rent"
-    | "sold";
+  status: "available" | "unavailable";
   location: string;
   price: number;
   slug: string;
@@ -19,11 +13,12 @@ export interface IProperty {
   baths?: number;
   squareFeet?: number;
   amenities?: string[];
-  address?: string;
   features: string[];
   virtualTour?: boolean;
   createdAt: string;
   updatedAt: string;
+  draft: boolean;
+  lobbies?: number;
 }
 
 export interface IRoom {
@@ -35,4 +30,18 @@ export interface IRoom {
 export interface IImage {
   publicId: string; // Cloudinary public_id
   imageUrl: string; // Cloudinary secure_url
+}
+
+export interface PropertyFilterInput {
+  search?: string;
+  page?: number;
+  limit?: number;
+  status?: string;
+  location?: string;
+  type?: string;
+  rooms?: number;
+  beds?: number;
+  baths?: number;
+  priceRange?: [number, number];
+  area?: [number, number];
 }

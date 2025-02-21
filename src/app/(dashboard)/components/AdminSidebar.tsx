@@ -1,5 +1,9 @@
 "use client";
+import { CircleGaugeIcon, HomeIcon, Users2Icon } from "lucide-react";
+import { signOut } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -7,13 +11,8 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarSeparator,
+  SidebarMenuItem
 } from "./ui/Sidebar";
-import { signOut } from "next-auth/react";
-import { usePathname } from "next/navigation";
-import { HomeIcon, CircleGaugeIcon, Users2Icon } from "lucide-react";
-import Image from "next/image";
 
 const items = [
   {
@@ -61,7 +60,6 @@ const AdminSidebar = () => {
           </Link>
         </div>
       </SidebarHeader>
-      <SidebarSeparator />
       <SidebarContent>
         <SidebarMenu className="py-4 px-2">
           {items.map((item, i) => {

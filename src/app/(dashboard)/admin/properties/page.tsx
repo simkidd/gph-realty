@@ -1,11 +1,16 @@
-import React from 'react'
+import AdminPropertiesList from "../../components/properties/AdminPropertiesList";
+import AdminPropertyHeader from "../../components/properties/AdminPropertyHeader";
 
 const PropertiesPage = () => {
   return (
-    <div className='p-6'>
-      <h1 className="text-2xl font-bold mb-6">Properties</h1>
-    </div>
-  )
-}
+    <div className="p-6 container mx-auto relative">
+      <AdminPropertyHeader />
 
-export default PropertiesPage
+      <div className="relative">
+        <AdminPropertiesList />
+      </div>
+    </div>
+  );
+};
+
+export default PropertiesPage;

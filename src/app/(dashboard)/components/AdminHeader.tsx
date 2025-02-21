@@ -14,9 +14,9 @@ const AdminHeader = () => {
 
         <div className="ml-auto pr-2">
           <div className="flex items-center">
-            <UserCircle2 className="w-8 h-8" />
+            <UserCircle2 className="w-6 h-6" />
             <div className="flex flex-col ml-2">
-              <span className="font-semibold">{session?.user?.name}</span>
+              <span className="font-semibold text-sm">{session?.user?.name}</span>
               <span className="text-xs">{session?.user?.role}</span>
             </div>
           </div>
