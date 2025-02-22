@@ -10,6 +10,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { DataTable } from "../DataTable";
+import { formatText } from "@/utils/helpers";
 
 const ActionsComp = ({
   user,
@@ -139,7 +140,11 @@ const UsersTable = () => {
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => {
-        return <span className="">{row.original?.role}</span>;
+        return (
+          <span className="capitalize">
+            {formatText(row.original?.role).toLowerCase()}
+          </span>
+        );
       },
     },
     {

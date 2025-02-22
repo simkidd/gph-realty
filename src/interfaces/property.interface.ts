@@ -11,7 +11,7 @@ export interface IProperty {
   type?: string;
   beds?: number;
   baths?: number;
-  squareFeet?: number;
+  area?: number;
   amenities?: string[];
   features: string[];
   virtualTour?: boolean;
@@ -44,4 +44,5 @@ export interface PropertyFilterInput {
   baths?: number;
   priceRange?: [number, number];
   area?: [number, number];
+  draft?: boolean;
 }

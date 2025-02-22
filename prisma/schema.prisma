@@ -103,7 +103,7 @@ model Property {
   beds         Int?
   baths        Int?
   lobbies      Int?
-  squareFeet   Int?
+  area         Int?
   amenities    String[]
   draft        Boolean  @default(true)
   features     String[]
