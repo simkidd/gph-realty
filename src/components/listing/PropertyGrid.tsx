@@ -85,7 +85,7 @@ const PropertyGrid = () => {
     }
     if (filters.rooms) {
       filteredProperties = filteredProperties.filter(
-        (property) => property.rooms.length === parseInt(filters.rooms)
+        (property) => property?.rooms?.length === parseInt(filters.rooms)
       );
     }
     if (filters.beds) {

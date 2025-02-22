@@ -326,24 +326,33 @@ export function PropertyImageUploadForm() {
         </div>
       )}
 
-      <div className="flex gap-4 items-center justify-end">
+      <div className="flex gap-4 items-center justify-between">
         <Button
           type="button"
-          variant="outline"
+          variant="destructive"
           onClick={() => router.push("/admin/properties")}
         >
           Cancel
         </Button>
-        <Button
-          type="submit"
-          disabled={
-            isLoading ||
-            (uploadType === "property" && propertyFiles.length === 0) ||
-            (uploadType === "room" && roomFiles.length === 0)
-          }
-        >
-          {isLoading ? "Uploading..." : "Upload Images"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            type="submit"
+            disabled={
+              isLoading ||
+              (uploadType === "property" && propertyFiles.length === 0) ||
+              (uploadType === "room" && roomFiles.length === 0)
+            }
+          >
+            {isLoading ? "Uploading..." : "Upload Images"}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.push("/admin/properties")}
+          >
+            Continue
+          </Button>
+        </div>
       </div>
     </form>
   );

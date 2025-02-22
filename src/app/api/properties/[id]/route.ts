@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await context.params;
 
     const property = await prisma.property.findUnique({
       where: { id },
@@ -21,8 +21,10 @@ export async function GET(
     }
     return NextResponse.json(property);
   } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error occurred";
     return NextResponse.json(
-      { error: `Failed to fetch property>>> ${error}` },
+      { error: `Failed to fetch property: ${errorMessage}` },
       { status: 500 }
     );
   }

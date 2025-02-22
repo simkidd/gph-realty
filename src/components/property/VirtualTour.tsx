@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { IProperty } from "@/interfaces/property.interface";
 import {
@@ -8,7 +7,7 @@ import {
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { Pannellum } from "pannellum-react-update";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 type Scene = {
   sceneName: string;
@@ -31,28 +30,10 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
   const scenes: Scene[] =
     data?.rooms?.map((room) => ({
       sceneName: room.name,
-      scenePanoImg: room.url,
+      scenePanoImg: room.imageUrl,
     })) || [];
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "ArrowLeft":
-          handleSceneChange(Math.max(currentScene - 1, 0));
-          break;
-        case "ArrowRight":
-          handleSceneChange(Math.min(currentScene + 1, scenes.length - 1));
-          break;
-        case "Home":
-          handleSceneChange(0);
-          break;
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentScene, scenes.length]);
+  
 
   const handleSceneChange = (newScene: number) => {
     if (newScene < 0 || newScene >= scenes.length) return;
