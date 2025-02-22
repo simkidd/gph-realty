@@ -40,7 +40,7 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   try {
-    const res = await getAllProperties({ limit: 1000 });
+    const res = await getAllProperties({ limit: 1000, draft: true });
     const properties: IProperty[] = res?.data;
 
     return properties.map((property) => ({

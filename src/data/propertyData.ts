@@ -63,7 +63,7 @@ export const propertyData: IProperty[] = [
     type: "Apartments",
     beds: 5,
     baths: 6,
-    squareFeet: 456,
+    area: 456,
     price: 400000000,
     virtualTour: true,
     createdAt: "2024-03-01T08:00:00Z",

@@ -62,6 +62,7 @@ const PropertyGrid = () => {
   const [params, setParams] = useState<PropertyFilterInput>({
     page: currentPage,
     limit: itemsPerPage,
+    draft: true,
   });
 
   const { totalPages, totalProperties, properties, isPending } =
@@ -83,6 +84,7 @@ const PropertyGrid = () => {
     const newParams: PropertyFilterInput = {
       page: currentPage,
       limit: itemsPerPage,
+      draft: true,
     };
 
     // Explicitly check and add each filter parameter
