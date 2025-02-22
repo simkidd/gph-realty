@@ -61,7 +61,7 @@ const AdminPropertiesList = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(
@@ -165,7 +165,6 @@ const AdminPropertiesList = () => {
         </div>
       </div>
 
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {isPending ? (
           [...Array(6)].map((_, i) => <PropertyCardSkeleton key={i} />)
@@ -185,42 +184,47 @@ const AdminPropertiesList = () => {
 
       {/* Pagination Controls */}
       {properties.length > 0 && totalPages > 1 && (
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                aria-disabled={currentPage === 1}
-                className={cn(
-                  "text-sm",
-                  currentPage === 1 && "pointer-events-none opacity-50"
-                )}
-              />
-            </PaginationItem>
-            {getPaginationRange(currentPage, totalPages).map((page) => (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  isActive={page === currentPage}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </PaginationLink>
+        <div className="mt-10">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  aria-disabled={currentPage === 1}
+                  className={cn(
+                    "text-sm",
+                    currentPage === 1 && "pointer-events-none opacity-50"
+                  )}
+                />
               </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                aria-disabled={currentPage === totalPages}
-                className={cn(
-                  "text-sm",
-                  currentPage === totalPages && "pointer-events-none opacity-50"
-                )}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+              {getPaginationRange(currentPage, totalPages).map((page) => (
+                <PaginationItem key={page}>
+                  <PaginationLink
+                    isActive={page === currentPage}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  aria-disabled={currentPage === totalPages}
+                  className={cn(
+                    "text-sm",
+                    currentPage === totalPages &&
+                      "pointer-events-none opacity-50"
+                  )}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       )}
     </div>
   );

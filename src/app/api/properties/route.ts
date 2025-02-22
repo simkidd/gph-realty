@@ -55,7 +55,7 @@ export async function GET(req: Request) {
       const roomsValue = parseInt(roomsParam);
       if (!isNaN(roomsValue)) {
         whereConditions.push(
-          Prisma.sql`json_array_length(rooms) = ${roomsValue}`
+          Prisma.sql`jsonb_array_length(rooms) = ${roomsValue}`
         );
       }
     }

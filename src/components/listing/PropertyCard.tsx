@@ -116,8 +116,8 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
                   priority
                   onLoad={(e) => {
                     // Add fade-in effect when image loads
-                    e.currentTarget.classList.remove('opacity-0')
-                    e.currentTarget.classList.add('opacity-100')
+                    e.currentTarget.classList.remove("opacity-0");
+                    e.currentTarget.classList.add("opacity-100");
                   }}
                 />
               </div>
@@ -163,7 +163,7 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
           href={
             pathname.includes("/admin")
               ? `/admin/properties/${property?.id}`
-              : `/listing/property/${property?.id}`
+              : `/listing/property/${property?.slug}`
           }
         >
           <h3 className="font-semibold line-clamp-2 group-hover:text-primary">
@@ -202,7 +202,7 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
           {detailItem(
             <SquareDotIcon className="w-4 h-4" />,
             "Sq Ft",
-            property?.squareFeet as number
+            property?.area as number
           )}
         </div>
 
@@ -214,9 +214,17 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
         >
           {/* <p className="text-gray-400 text-sm">August 4, 2022</p> */}
           {viewMode === "list" && (
-            <Button variant="outline" size="sm">
-              View Details
-            </Button>
+            <Link
+              href={
+                pathname.includes("/admin")
+                  ? `/admin/properties/${property?.id}`
+                  : `/listing/property/${property?.slug}`
+              }
+            >
+              <Button variant="outline" size="sm">
+                View Details
+              </Button>
+            </Link>
           )}
         </div>
       </div>

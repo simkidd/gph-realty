@@ -10,6 +10,7 @@ interface PropertyFilterProps {
   handleFilterChange: (key: string, value: string | [number, number]) => void;
   applyFilters: () => void;
   resetFilters: () => void;
+  disabled: boolean;
 }
 
 const PropertyFilter = ({
@@ -17,6 +18,7 @@ const PropertyFilter = ({
   filters,
   handleFilterChange,
   resetFilters,
+  disabled,
 }: PropertyFilterProps) => {
   return (
     <div className="p-[20px] lg:p-[30px] rounded-lg w-full h-fit">
@@ -54,7 +56,7 @@ const PropertyFilter = ({
             <div className="col-span-1 lg:col-span-2">
               <PropertyFilterDropdown
                 label="Max Rooms"
-                options={["1", "2", "3", "4", "5"]}
+                options={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
                 selectedValue={filters.rooms}
                 onSelect={(value) => handleFilterChange("rooms", value)}
               />
@@ -62,7 +64,7 @@ const PropertyFilter = ({
             <div className="col-span-1">
               <PropertyFilterDropdown
                 label="Bed"
-                options={["1", "2", "3", "4", "5"]}
+                options={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
                 selectedValue={filters.beds}
                 onSelect={(value) => handleFilterChange("beds", value)}
               />
@@ -70,7 +72,7 @@ const PropertyFilter = ({
             <div className="col-span-1">
               <PropertyFilterDropdown
                 label="Bath"
-                options={["1", "2", "3", "4", "5"]}
+                options={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
                 selectedValue={filters.baths}
                 onSelect={(value) => handleFilterChange("baths", value)}
               />
@@ -102,13 +104,18 @@ const PropertyFilter = ({
               <Button
                 variant={"outline"}
                 className="rounded-full w-full"
+                disabled={disabled}
                 onClick={resetFilters}
               >
                 Reset
               </Button>
             </div>
             <div className="col-span-1 mt-4">
-              <Button className="rounded-full w-full" onClick={applyFilters}>
+              <Button
+                className="rounded-full w-full"
+                disabled={disabled}
+                onClick={applyFilters}
+              >
                 Apply
               </Button>
             </div>

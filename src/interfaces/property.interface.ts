@@ -39,10 +39,10 @@ export interface PropertyFilterInput {
   status?: string;
   location?: string;
   type?: string;
-  rooms?: number;
-  beds?: number;
-  baths?: number;
-  priceRange?: [number, number];
-  area?: [number, number];
+  rooms?: string;
+  beds?: string;
+  baths?: string;
+  priceRange?: string;
+  area?: string;
   draft?: boolean;
 }
