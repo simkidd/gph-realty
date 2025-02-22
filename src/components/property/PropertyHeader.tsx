@@ -70,7 +70,7 @@ const PropertyHeader = ({ property }: { property: IProperty }) => {
                   <div className="flex items-center">
                     <RulerIcon size={16} className="mr-[10px]" />
                     <span className="text-sm">
-                      {property?.squareFeet} Sq ft
+                      {property?.area} Sq ft
                     </span>
                   </div>
                 </li>

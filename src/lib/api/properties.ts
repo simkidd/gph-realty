@@ -7,6 +7,16 @@ export const getAllProperties = async (params?: PropertyFilterInput) => {
   return res.data;
 };
 
+export const getPropertyById = async (id: string) => {
+  const res = await instance.get(`/properties/${id}`);
+  return res.data;
+};
+
+export const getPropertyBySlug = async (slug: string) => {
+  const res = await instance.get(`/properties/single/${slug}`);
+  return res.data;
+};
+
 export const createProperty = async (data: PropertyFormData) => {
   const res = await instance.post("/properties/create", data);
   return res.data;
