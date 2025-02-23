@@ -18,6 +18,8 @@ const Gallery = ({ images }: GalleryProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const thumbnailRefs = useRef<HTMLDivElement[]>([]);
   const mainImageRef = useRef<HTMLImageElement>(null);
 
@@ -33,6 +35,23 @@ const Gallery = ({ images }: GalleryProps) => {
       block: "nearest",
       inline: "center",
     });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isZoomed) {
+      const { left, top, width, height } =
+        e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - left) / width) * 100;
+      const y = ((e.clientY - top) / height) * 100;
+      setZoomPosition({ x, y });
+    }
+  };
+
+  const toggleZoom = () => {
+    setIsZoomed(!isZoomed);
+    if (!isZoomed) {
+      setZoomPosition({ x: 50, y: 50 }); // Reset to center when zooming in
+    }
   };
 
   return (
@@ -71,7 +90,11 @@ const Gallery = ({ images }: GalleryProps) => {
                   <ChevronLeftIcon className="size-6" />
                 </button>
 
-                <div className="relative w-full max-w-6xl h-full">
+                <div
+                  className="relative w-full max-w-6xl h-full cursor-zoom-in z-[1]"
+                  onMouseMove={handleMouseMove}
+                  onClick={toggleZoom}
+                >
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={selectedImageIndex}
@@ -80,6 +103,14 @@ const Gallery = ({ images }: GalleryProps) => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.2 }}
                       className="w-full h-full"
+                      style={{
+                        transform: isZoomed
+                          ? `scale(2) translate(${zoomPosition.x - 50}%, ${
+                              zoomPosition.y - 50
+                            }%)`
+                          : "scale(1)",
+                        transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                      }}
                     >
                       <Image
                         src={images[selectedImageIndex].imageUrl}
