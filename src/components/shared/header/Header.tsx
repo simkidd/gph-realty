@@ -137,7 +137,7 @@ const Header = () => {
 
         <nav className="mt-8">
           <ul className="flex flex-col items-start px-6">
-            {menuList.map((nav, i) => (
+            {filteredMenu.map((nav, i) => (
               <li
                 key={i}
                 className="py-2 w-full relative group hover:pl-2 transition-all duration-300"
