@@ -18,6 +18,8 @@ const Gallery = ({ images }: GalleryProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
   const thumbnailRefs = useRef<HTMLDivElement[]>([]);
   const mainImageRef = useRef<HTMLImageElement>(null);
 
@@ -28,12 +30,28 @@ const Gallery = ({ images }: GalleryProps) => {
   const handleImageChange = (newImage: number) => {
     setIsLoading(true);
     setSelectedImageIndex(newImage);
-    // Ensure the active thumbnail is in view
     thumbnailRefs.current[newImage]?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
       inline: "center",
     });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isZoomed) {
+      const { left, top, width, height } =
+        e.currentTarget.getBoundingClientRect();
+      const x = ((e.clientX - left) / width) * 100;
+      const y = ((e.clientY - top) / height) * 100;
+      setZoomPosition({ x, y });
+    }
+  };
+
+  const toggleZoom = () => {
+    setIsZoomed(!isZoomed);
+    if (!isZoomed) {
+      setZoomPosition({ x: 50, y: 50 }); // Reset to center when zooming in
+    }
   };
 
   return (
@@ -43,79 +61,108 @@ const Gallery = ({ images }: GalleryProps) => {
       </h4>
       <div className="w-full relative box-border">
         {/* Gallery Modal */}
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center z-50">
-            <div className="w-full h-16">
-              <button
-                className="absolute top-2 right-2 text-white bg-black p-2 rounded-full"
-                onClick={() => setIsModalOpen(false)}
-              >
-                <XIcon className="size-6" />
-              </button>
-            </div>
-
-            <div className="flex justify-center items-center h-full">
-              {/* left arrow */}
-              <button
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-3 rounded-full hover:bg-opacity-75 transition-all z-[1]"
-                onClick={() =>
-                  handleImageChange(
-                    (selectedImageIndex - 1 + images.length) % images.length
-                  )
-                }
-              >
-                <ChevronLeftIcon className="size-6" />
-              </button>
-              <div className="relative max-w-4xl w-full">
-                <Image
-                  src={images[selectedImageIndex].imageUrl}
-                  alt={`Selected Image ${selectedImageIndex + 1}`}
-                  width={800}
-                  height={800}
-                  className="w-full h-auto object-contain"
-                  loading="lazy"
-                />
-              </div>
-              {/* right arrow */}
-              <button
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-3 rounded-full hover:bg-opacity-75 transition-all z-[1]"
-                onClick={() =>
-                  handleImageChange((selectedImageIndex + 1) % images.length)
-                }
-              >
-                <ChevronRightIcon className="size-6" />
-              </button>
-            </div>
-
-            {/* Thumbnails in Modal */}
-            <div className="w-full flex items-center lg:justify-center gap-2 mt-auto my-8 overflow-x-auto scrollbar-none px-4 py-3">
-              {images.map((image, index) => (
-                <div
-                  key={index}
-                  ref={(el) => {
-                    if (el) thumbnailRefs.current[index] = el;
-                  }}
-                  className={`shrink-0 w-24 cursor-pointer border-2  hover:border-primary transition duration-300 rounded-md overflow-hidden ${
-                    selectedImageIndex === index
-                      ? "border-primary"
-                      : "opacity-50 border-transparent"
-                  }`}
-                  onClick={() => handleImageChange(index)}
+        <AnimatePresence>
+          {isModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center z-50"
+            >
+              <div className="w-full flex justify-end p-4">
+                <button
+                  className="text-white bg-black/50 p-2 rounded-full hover:bg-black/75 transition-colors"
+                  onClick={() => setIsModalOpen(false)}
                 >
-                  <Image
-                    src={image.imageUrl}
-                    alt={`Thumbnail ${index + 1}`}
-                    width={100}
-                    height={100}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+                  <XIcon className="size-6" />
+                </button>
+              </div>
 
-        {/* Display the main image */}
+              <div className="flex justify-center items-center h-[80vh] w-full px-4">
+                <button
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 p-3 rounded-full hover:bg-black/75 transition-colors z-10"
+                  onClick={() =>
+                    handleImageChange(
+                      (selectedImageIndex - 1 + images.length) % images.length
+                    )
+                  }
+                >
+                  <ChevronLeftIcon className="size-6" />
+                </button>
+
+                <div
+                  className="relative w-full max-w-6xl h-full cursor-zoom-in z-[1]"
+                  onMouseMove={handleMouseMove}
+                  onClick={toggleZoom}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={selectedImageIndex}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="w-full h-full"
+                      style={{
+                        transform: isZoomed
+                          ? `scale(2) translate(${zoomPosition.x - 50}%, ${
+                              zoomPosition.y - 50
+                            }%)`
+                          : "scale(1)",
+                        transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                      }}
+                    >
+                      <Image
+                        src={images[selectedImageIndex].imageUrl}
+                        alt={`Selected Image ${selectedImageIndex + 1}`}
+                        fill
+                        className="object-contain"
+                        onLoad={() => setIsLoading(false)}
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                <button
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 p-3 rounded-full hover:bg-black/75 transition-colors z-10"
+                  onClick={() =>
+                    handleImageChange((selectedImageIndex + 1) % images.length)
+                  }
+                >
+                  <ChevronRightIcon className="size-6" />
+                </button>
+              </div>
+
+              {/* Thumbnails in Modal */}
+              <div className="w-full flex justify-center gap-2 mt-4 pb-4 px-4 overflow-x-auto scrollbar-none">
+                {images.map((image, index) => (
+                  <div
+                    key={index}
+                    ref={(el) => {
+                      if (el) thumbnailRefs.current[index] = el;
+                    }}
+                    className={`shrink-0 w-20 h-14 cursor-pointer border-2 hover:border-primary transition-all duration-300 rounded-md overflow-hidden box-border ${
+                      selectedImageIndex === index
+                        ? "border-primary"
+                        : "border-transparent opacity-50"
+                    }`}
+                    onClick={() => handleImageChange(index)}
+                  >
+                    <Image
+                      src={image.imageUrl}
+                      alt={`Thumbnail ${index + 1}`}
+                      width={80}
+                      height={56}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Main Image */}
         <div className="mb-4 group w-full relative cursor-zoom-in bg-gray-100 rounded-lg overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
@@ -124,6 +171,7 @@ const Gallery = ({ images }: GalleryProps) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
+              className="w-full"
             >
               <Image
                 ref={mainImageRef}
@@ -145,28 +193,28 @@ const Gallery = ({ images }: GalleryProps) => {
             </div>
           )}
 
-          <div className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full">
+          <div className="absolute bottom-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-colors">
             <FullscreenIcon className="w-5 h-5" />
           </div>
         </div>
 
-        {/* Display the rest of the gallery images */}
-        <div className="w-full flex items-center gap-2 overflow-x-auto scrollbar-none">
+        {/* Thumbnail Strip */}
+        <div className="w-full flex gap-2 overflow-x-auto scrollbar-none pb-2">
           {images.map((image, index) => (
             <div
               key={index}
-              className={`shrink-0 lg:w-[90px] lg:h-[70px] h-[60px] rounded-md overflow-hidden border-2 ${
+              className={`shrink-0 w-20 h-14 rounded-md overflow-hidden border-2 box-border ${
                 selectedImageIndex === index
-                  ? " border-primary"
-                  : "bg-transparent"
+                  ? "border-primary"
+                  : "border-transparent"
               }`}
             >
               <Image
                 src={image.imageUrl}
                 alt={`Image ${index + 1}`}
-                width={500}
-                height={500}
-                className={`w-full h-full object-cover transition duration-300 ease-in-out cursor-pointer border-transparent ${
+                width={80}
+                height={56}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${
                   selectedImageIndex === index ? "" : "opacity-50"
                 }`}
                 loading="lazy"

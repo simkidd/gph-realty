@@ -27,13 +27,22 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const thumbnailRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   const scenes: Scene[] =
-    data?.rooms?.map((room) => ({
+    data?.rooms?.map((room, index) => ({
       sceneName: room.name,
       scenePanoImg: room.imageUrl,
+      hotSpots: [
+        {
+          pitch: 0,
+          yaw: 0,
+          targetScene: (index + 1) % (data.rooms?.length || 1),
+          tooltip: `Go to ${
+            data.rooms?.[(index + 1) % (data.rooms?.length || 1)]?.name
+          }`,
+        },
+      ],
     })) || [];
-
-  
 
   const handleSceneChange = (newScene: number) => {
     if (newScene < 0 || newScene >= scenes.length) return;
@@ -81,6 +90,7 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
           </div>
         )}
 
+        {/* Pannellum Viewer */}
         <Pannellum
           width="100%"
           height="600px"
@@ -96,7 +106,6 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
             setError(null);
           }}
           onError={(err: string) => setError(err)}
-          // ref={viewerRef}
         ></Pannellum>
 
         {/* Controls overlay */}
@@ -149,6 +158,12 @@ const VirtualTour = ({ data }: { data: IProperty | null }) => {
               onClick={() => handleSceneChange(index)}
               role="button"
               aria-label={`View ${scene.sceneName}`}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleSceneChange(index);
+                }
+              }}
             >
               <Image
                 src={scene.scenePanoImg}
