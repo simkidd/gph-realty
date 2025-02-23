@@ -1,21 +1,44 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
+    // Allow access during build process
+    const isBuildProcess =
+      process.env.NEXT_PHASE === "phase-production-build" ||
+      process.env.NEXT_PUBLIC_IS_BUILD_PROCESS === "true";
+
+    // Validate authentication except during build
+    if (!isBuildProcess) {
+      const token = await getToken({ req });
+      if (!token) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      }
+    }
+
     const { searchParams } = new URL(req.url);
+
+    // Add build-time restrictions
+    const whereConditions: Prisma.Sql[] = [];
+
+    if (isBuildProcess) {
+      // Only include published properties during build
+      whereConditions.push(Prisma.sql`draft = false`);
+    } else {
+      // Existing filter logic for normal requests
+      const draftParam = searchParams.get("draft");
+      const isDraft = draftParam ? draftParam === "true" : undefined;
+      if (typeof isDraft === "boolean") {
+        whereConditions.push(Prisma.sql`draft = ${isDraft}`);
+      }
+    }
 
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
     const skip = (page - 1) * limit;
-    const draftParam = searchParams.get("draft");
-
-    const isDraft = draftParam ? draftParam === "true" : undefined;
-
-    // Initialize base WHERE conditions
-    const whereConditions: Prisma.Sql[] = [];
 
     // Handle search query
     if (search) {
@@ -24,11 +47,6 @@ export async function GET(req: Request) {
         OR description ILIKE ${`%${search}%`} 
         OR location ILIKE ${`%${search}%`})
       `);
-    }
-
-    // Handle draft status
-    if (typeof isDraft === "boolean") {
-      whereConditions.push(Prisma.sql`draft = ${isDraft}`);
     }
 
     // Handle status filter
@@ -106,9 +124,14 @@ export async function GET(req: Request) {
         ? Prisma.sql`WHERE ${Prisma.join(whereConditions, " AND ")}`
         : Prisma.empty;
 
+    // Modified query for build process
+    const selectFields = isBuildProcess
+      ? Prisma.sql`slug, name, draft` // Limit exposed fields during build
+      : Prisma.sql`*`; // Full access for authenticated users
+
     // Fetch paginated results
     const query = Prisma.sql`
-      SELECT * FROM "properties"
+      SELECT ${selectFields} FROM "properties"
       ${whereClause}
       ORDER BY "createdAt" DESC
       LIMIT ${limit}
