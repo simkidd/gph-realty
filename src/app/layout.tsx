@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.scss";
 import QueryProvider from "@/providers/QueryProvider";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "GPH Realty",
@@ -34,6 +35,7 @@ export default async function Layout({
             <Toaster position="top-right" richColors expand={true} />
           </StoreProvider>
         </SessionProvider>
+        <Analytics />
       </body>
     </html>
   );
