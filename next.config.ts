@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.externals = [
+      ...config.externals,
+      "@prisma/client",
+      "./src/lib/prisma.ts",
+    ];
+    return config;
+  },
 };
 
 export default nextConfig;
