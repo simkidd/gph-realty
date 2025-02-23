@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { isAdmin } from "@/lib/roles";
 import { slugify } from "@/utils/helpers";
 import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const generatePropertyCode = async (): Promise<string> => {
@@ -21,13 +21,10 @@ const generatePropertyCode = async (): Promise<string> => {
     existingProperty = await prisma.property.findUnique({
       where: { propertyCode: code },
     });
-
   } while (existingProperty); // Keep generating if a duplicate is found
 
   return code;
 };
-
-
 
 // Zod schema for property validation
 const propertySchema = z.object({
@@ -56,7 +53,7 @@ const propertySchema = z.object({
   virtualTour: z.boolean().optional(),
 });
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
@@ -106,4 +103,3 @@ export async function POST(req: Request) {
     );
   }
 }
-
