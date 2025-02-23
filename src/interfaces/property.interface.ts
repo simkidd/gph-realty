@@ -2,31 +2,47 @@ export interface IProperty {
   id: string;
   name: string;
   description: string;
-  images: string[];
-  status:
-    | "development"
-    | "construction"
-    | "completed"
-    | "on-sale"
-    | "rent"
-    | "sold";
+  images: IImage[];
+  status: "available" | "unavailable";
   location: string;
   price: number;
   slug: string;
-  rooms: IRoom[];
+  rooms?: IRoom[];
   type?: string;
   beds?: number;
   baths?: number;
-  squareFeet?: number;
+  area?: number;
   amenities?: string[];
-  address?: string;
   features: string[];
   virtualTour?: boolean;
   createdAt: string;
   updatedAt: string;
+  draft: boolean;
+  lobbies?: number;
 }
 
 export interface IRoom {
   name: string;
-  url: string;
+  publicId: string; // Cloudinary public_id
+  imageUrl: string; // Cloudinary secure_url
+}
+
+export interface IImage {
+  publicId: string; // Cloudinary public_id
+  imageUrl: string; // Cloudinary secure_url
+}
+
+export interface PropertyFilterInput {
+  search?: string;
+  page?: number;
+  limit?: number;
+  status?: string;
+  location?: string;
+  type?: string;
+  rooms?: string;
+  beds?: string;
+  baths?: string;
+  priceRange?: string;
+  area?: string;
+  draft?: boolean;
 }

@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../ui/Card";
-import Skeleton from "../ui/Skeleton";
+import Card from "../ui-custom/Card";
+import Skeleton from "../ui-custom/Skeleton";
 
 const PropertyCardSkeleton = () => {
   return (

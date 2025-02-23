@@ -1,5 +1,4 @@
 import { IProperty } from "@/interfaces/property.interface";
-import { formatCurrency } from "@/utils/helpers/formatCurrency";
 import {
   Bath,
   Bed,
@@ -14,10 +13,12 @@ import Link from "next/link";
 import React from "react";
 import { PiRadioButtonFill } from "react-icons/pi";
 import Slider, { type Settings } from "react-slick";
-import Badge from "../ui/Badge";
-import Button from "../ui/Button";
-import Card from "../ui/Card";
+import Badge from "../ui-custom/Badge";
+import Button from "../ui-custom/Button";
+import Card from "../ui-custom/Card";
 import { StatusBadge } from "./StatusBadge";
+import { formatCurrency } from "@/utils/helpers";
+import { usePathname } from "next/navigation";
 
 interface PropertyCardProps {
   property: IProperty;
@@ -67,6 +68,8 @@ const NextArrow = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
 };
 
 const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
+  const pathname = usePathname();
+
   const settings: Settings = {
     dots: true,
     arrows: true,
@@ -97,26 +100,37 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
           viewMode === "list" ? "w-1/2 lg:w-1/3 h-full" : "w-full"
         }`}
       >
-        <Slider {...settings} className="overflow-hidden h-full">
-          {property.images.slice(0, 4).map((img, i) => (
-            <div
-              key={i}
-              className={`${viewMode === "list" ? "h-[180px]" : "h-[200px]"}`}
-            >
-              <Image
-                src={img}
-                alt={`image-${i}`}
-                className="object-cover w-full h-[200px]"
-                width={300}
-                height={300}
-                priority
-              />
-            </div>
-          ))}
-        </Slider>
+        {property?.images?.length > 0 ? (
+          <Slider {...settings} className="overflow-hidden h-[200px]">
+            {property?.images?.slice(0, 4).map((img, i) => (
+              <div
+                key={i}
+                className={`${viewMode === "list" ? "h-[180px]" : "h-[200px]"}`}
+              >
+                <Image
+                  src={img.imageUrl}
+                  alt={`image-${i}`}
+                  className="object-cover w-full h-[200px]"
+                  width={300}
+                  height={300}
+                  priority
+                  onLoad={(e) => {
+                    // Add fade-in effect when image loads
+                    e.currentTarget.classList.remove("opacity-0");
+                    e.currentTarget.classList.add("opacity-100");
+                  }}
+                />
+              </div>
+            ))}
+          </Slider>
+        ) : (
+          <div className="w-full h-[200px] bg-gray-300 flex items-center justify-center text-gray-500">
+            No Image Available
+          </div>
+        )}
 
         <StatusBadge
-          status={property.status}
+          status={property?.status}
           className="absolute top-4 left-4"
         />
 
@@ -125,7 +139,7 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
           size="sm"
         >
           <CameraIcon size={16} className="mr-2" />
-          {property.images.length}
+          {property?.images?.length || 0}
         </Badge>
         <Button
           size="icon"
@@ -143,22 +157,28 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
         }`}
       >
         <p className="text-xs font-semibold text-gray-500 uppercase">
-          {property.location}
+          {property?.location}
         </p>
-        <Link href={`/listing/property/${property.id}`}>
+        <Link
+          href={
+            pathname.includes("/admin")
+              ? `/admin/properties/${property?.id}`
+              : `/listing/property/${property?.slug}`
+          }
+        >
           <h3 className="font-semibold line-clamp-2 group-hover:text-primary">
-            {property.name}
+            {property?.name}
           </h3>
         </Link>
         <p className="text-primary font-bold mt-2">
-          {formatCurrency(property.price)}
+          {formatCurrency(property?.price)}
         </p>
         <p
           className={`text-gray-500 mt-1 text-sm ${
             viewMode === "list" ? "hidden" : " line-clamp-2"
           }`}
         >
-          {property.description}
+          {property?.description}
         </p>
 
         {/* Property Details */}
@@ -172,17 +192,17 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
           {detailItem(
             <Bed className="w-4 h-4" />,
             "Bed",
-            property.beds as number
+            property?.beds as number
           )}
           {detailItem(
             <Bath className="w-4 h-4" />,
             "Baths",
-            property.baths as number
+            property?.baths as number
           )}
           {detailItem(
             <SquareDotIcon className="w-4 h-4" />,
             "Sq Ft",
-            property.squareFeet as number
+            property?.area as number
           )}
         </div>
 
@@ -194,9 +214,17 @@ const PropertyCard = ({ property, viewMode = "grid" }: PropertyCardProps) => {
         >
           {/* <p className="text-gray-400 text-sm">August 4, 2022</p> */}
           {viewMode === "list" && (
-            <Button variant="outline" size="sm">
-              View Details
-            </Button>
+            <Link
+              href={
+                pathname.includes("/admin")
+                  ? `/admin/properties/${property?.id}`
+                  : `/listing/property/${property?.slug}`
+              }
+            >
+              <Button variant="outline" size="sm">
+                View Details
+              </Button>
+            </Link>
           )}
         </div>
       </div>

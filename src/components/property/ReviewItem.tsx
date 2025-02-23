@@ -1,7 +1,7 @@
-import { Review } from "@/interfaces/review.interface";
+import { IReview } from "@/interfaces/review.interface";
 import { StarHalfIcon, StarIcon } from "lucide-react";
 
-export const ReviewItem = ({ review }: { review: Review }) => {
+export const ReviewItem = ({ review }: { review: IReview }) => {
   const fullStars = Math.floor(review.rating);
   const hasHalfStar = review.rating % 1 !== 0;
 

@@ -8,9 +8,10 @@ import {
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { IImage } from "@/interfaces/property.interface";
 
 interface GalleryProps {
-  images: string[] | undefined;
+  images: IImage[];
 }
 
 const Gallery = ({ images }: GalleryProps) => {
@@ -67,7 +68,7 @@ const Gallery = ({ images }: GalleryProps) => {
               </button>
               <div className="relative max-w-4xl w-full">
                 <Image
-                  src={images[selectedImageIndex]}
+                  src={images[selectedImageIndex].imageUrl}
                   alt={`Selected Image ${selectedImageIndex + 1}`}
                   width={800}
                   height={800}
@@ -102,7 +103,7 @@ const Gallery = ({ images }: GalleryProps) => {
                   onClick={() => handleImageChange(index)}
                 >
                   <Image
-                    src={image}
+                    src={image.imageUrl}
                     alt={`Thumbnail ${index + 1}`}
                     width={100}
                     height={100}
@@ -126,7 +127,7 @@ const Gallery = ({ images }: GalleryProps) => {
             >
               <Image
                 ref={mainImageRef}
-                src={images[selectedImageIndex]}
+                src={images[selectedImageIndex].imageUrl}
                 alt="Main display"
                 width={1200}
                 height={800}
@@ -161,14 +162,12 @@ const Gallery = ({ images }: GalleryProps) => {
               }`}
             >
               <Image
-                src={image}
+                src={image.imageUrl}
                 alt={`Image ${index + 1}`}
                 width={500}
                 height={500}
                 className={`w-full h-full object-cover transition duration-300 ease-in-out cursor-pointer border-transparent ${
-                  selectedImageIndex === index
-                    ? ""
-                    : "opacity-50"
+                  selectedImageIndex === index ? "" : "opacity-50"
                 }`}
                 loading="lazy"
                 onClick={() => handleImageChange(index)}

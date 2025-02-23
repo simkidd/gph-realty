@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui-custom/Button";
 import { useIsMobile } from "@/hooks/useMobile";
 import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
@@ -7,8 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import { menuList, rightMenu } from "./menu";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Header = () => {
+  const { data: session } = useSession();
   const isMobile = useIsMobile();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,6 +42,12 @@ const Header = () => {
     );
   };
 
+  const userRole = session?.user?.role;
+
+  const filteredMenu = menuList.filter(
+    (nav) => !nav.roles || nav.roles.includes(userRole!)
+  );
+
   return (
     <header className="w-full absolute top-0 left-0 bg-[rgba(0,0,0,0.5)] z-40 text-white h-[60px] lg:h-[80px] flex items-center">
       <div className="container mx-auto px-3">
@@ -62,21 +70,23 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:block">
             <ul className="flex">
-              {menuList.map((nav, i) => (
-                <li
-                  key={i}
-                  className="py-7 block float-left border-b border-b-transparent group"
-                >
-                  <Link
-                    href={nav.href}
-                    className={`mr-10 text-sm font-bold uppercase tracking-[0.8px] hover:text-primary transition-colors duration-300 ease-in-out ${
-                      isActive(nav.href) && "text-primary"
-                    }`}
+              {filteredMenu.map((nav, i) => {
+                return (
+                  <li
+                    key={i}
+                    className="py-7 block float-left border-b border-b-transparent group"
                   >
-                    {nav.name}
-                  </Link>
-                </li>
-              ))}
+                    <Link
+                      href={nav.href}
+                      className={`mr-10 text-sm font-bold uppercase tracking-[0.8px] hover:text-primary transition-colors duration-300 ease-in-out ${
+                        isActive(nav.href) && "text-primary"
+                      }`}
+                    >
+                      {nav.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -127,7 +137,7 @@ const Header = () => {
 
         <nav className="mt-8">
           <ul className="flex flex-col items-start px-6">
-            {menuList.map((nav, i) => (
+            {filteredMenu.map((nav, i) => (
               <li
                 key={i}
                 className="py-2 w-full relative group hover:pl-2 transition-all duration-300"

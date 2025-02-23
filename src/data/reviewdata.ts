@@ -1,6 +1,6 @@
-import { Review } from "@/interfaces/review.interface";
+import { IReview } from "@/interfaces/review.interface";
 
-export const reviews: Review[] = [
+export const reviews: IReview[] = [
   {
     id: "1",
     author: "Sarah Johnson",

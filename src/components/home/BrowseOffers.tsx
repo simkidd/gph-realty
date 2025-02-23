@@ -1,33 +1,27 @@
 "use client";
-import { propertyData } from "@/data/propertyData";
-import { setProperties } from "@/store/features/property/propertySlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import useProperties from "@/hooks/useProperties";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import PropertyCard from "../listing/PropertyCard";
 import PropertyCardSkeleton from "../listing/PropertyCardSkeleton";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
+import { PropertyFilterInput } from "@/interfaces/property.interface";
 
 const BrowseOffers = () => {
-  const dispatch = useAppDispatch();
-  const { properties } = useAppSelector((state) => state.property);
-  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      dispatch(setProperties(propertyData));
-      setLoading(false);
-    }, 3000);
-  }, [dispatch]);
+  const params = useMemo<PropertyFilterInput>(
+    () => ({
+      type: filter !== "all" ? filter : undefined,
+      limit: 3,
+      draft: false,
+    }),
+    [filter]
+  );
 
-  const filteredProperties = properties.filter((property) => {
-    if (filter === "all") return true;
-    return property.type === filter;
-  });
+  const { properties, isPending } = useProperties(params);
 
   return (
     <section className="relative py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -61,7 +55,7 @@ const BrowseOffers = () => {
 
         {/* Filter Controls */}
         <div className="flex flex-wrap lg:justify-center gap-4 mb-12">
-          {["all", "house", "apartment", "villa"].map((type) => (
+          {["all", "sell", "rent"].map((type) => (
             <button
               key={type}
               onClick={() => setFilter(type)}
@@ -80,10 +74,10 @@ const BrowseOffers = () => {
 
         {/* Property Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {loading ? (
+          {isPending ? (
             [...Array(3)].map((_, i) => <PropertyCardSkeleton key={i} />)
-          ) : filteredProperties.length > 0 ? (
-            filteredProperties.slice(0, 3).map((property, i) => (
+          ) : properties.length > 0 ? (
+            properties.map((property, i) => (
               <motion.div
                 key={property.id}
                 initial={{ opacity: 0, y: 20 }}

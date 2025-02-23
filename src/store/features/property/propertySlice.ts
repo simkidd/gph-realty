@@ -6,6 +6,7 @@ interface PropertyState {
   properties: IProperty[];
   selectedProperty: IProperty | null;
   error: string | null;
+  currentStep: number;
 }
 
 export const SLICE_NAME = "property";
@@ -15,6 +16,7 @@ const initialState: PropertyState = {
   properties: [],
   selectedProperty: null,
   error: null,
+  currentStep: 1,
 };
 
 const propertySlice = createSlice({
@@ -31,10 +33,25 @@ const propertySlice = createSlice({
     setSelectedProperty(state, action: PayloadAction<IProperty | null>) {
       state.selectedProperty = action.payload;
     },
+    nextStep: (state) => {
+      state.currentStep += 1;
+    },
+    prevStep: (state) => {
+      state.currentStep -= 1;
+    },
+    setCurrentStep(state, action) {
+      state.currentStep = action.payload;
+    },
   },
 });
 
-export const { setLoading, setProperties, setSelectedProperty } =
-  propertySlice.actions;
+export const {
+  setLoading,
+  setProperties,
+  setSelectedProperty,
+  nextStep,
+  prevStep,
+  setCurrentStep,
+} = propertySlice.actions;
 
 export default propertySlice.reducer;

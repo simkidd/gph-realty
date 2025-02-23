@@ -1,7 +1,7 @@
 import React from "react";
 import { IService } from "./ServiceSection";
 import Link from "next/link";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
 
 const ServiceSectionCard = ({ service }: { service: IService }) => {
   return (
