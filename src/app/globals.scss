@@ -12,3 +12,25 @@
     max-width: 1400px;
   }
 }
+
+.react-dropzone-active {
+  @apply border-blue-500 bg-blue-50;
+}
+
+.react-dropzone-accept {
+  @apply border-green-500 bg-green-50;
+}
+
+.react-dropzone-reject {
+  @apply border-red-500 bg-red-50;
+}
+
+@keyframes indeterminate-progress {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-indeterminate-progress {
+  animation: indeterminate-progress 2s infinite linear;
+  width: 50%;
+}

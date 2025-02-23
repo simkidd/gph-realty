@@ -1,6 +1,5 @@
 "use client";
 import { IProperty } from "@/interfaces/property.interface";
-import { formatCurrency } from "@/utils/helpers/formatCurrency";
 import {
   BathIcon,
   BedDoubleIcon,
@@ -12,8 +11,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { StatusBadge } from "../listing/StatusBadge";
-import Badge from "../ui/Badge";
-import Button from "../ui/Button";
+import Badge from "../ui-custom/Badge";
+import Button from "../ui-custom/Button";
+import { formatCurrency } from "@/utils/helpers";
 
 const PropertyHeader = ({ property }: { property: IProperty }) => {
   return (
@@ -70,7 +70,7 @@ const PropertyHeader = ({ property }: { property: IProperty }) => {
                   <div className="flex items-center">
                     <RulerIcon size={16} className="mr-[10px]" />
                     <span className="text-sm">
-                      {property?.squareFeet} Sq ft
+                      {property?.area} Sq ft
                     </span>
                   </div>
                 </li>

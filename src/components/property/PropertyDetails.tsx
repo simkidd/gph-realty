@@ -1,7 +1,7 @@
 "use client";
 import { IProperty } from "@/interfaces/property.interface";
 import React, { Suspense, useMemo } from "react";
-import { TabContent, TabNav, Tabs } from "../ui/Tab";
+import { TabContent, TabNav, Tabs } from "../ui-custom/Tab";
 import Features from "./Features";
 import Gallery from "./Gallery";
 import VirtualTour from "./VirtualTour";

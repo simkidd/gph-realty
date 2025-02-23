@@ -1,7 +1,7 @@
 import React from "react";
 import { FiMapPin, FiLayout, FiSearch } from "react-icons/fi";
 import PropertyFilterDropdown from "../listing/PropertyFilterDropdown";
-import Button from "../ui/Button";
+import Button from "../ui-custom/Button";
 
 const HeroFilter = () => {
   return (

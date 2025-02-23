@@ -1,8 +1,7 @@
 "use client";
-import { propertyData } from "@/data/propertyData";
 import { useIsMobile, useIsTablet } from "@/hooks/useMobile";
-import { setProperties } from "@/store/features/property/propertySlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import useProperties from "@/hooks/useProperties";
+import { PropertyFilterInput } from "@/interfaces/property.interface";
 import {
   ArrowLeftCircleIcon,
   FilterIcon,
@@ -14,6 +13,17 @@ import PropertyCard from "./PropertyCard";
 import PropertyCardSkeleton from "./PropertyCardSkeleton";
 import PropertyFilter from "./PropertyFilter";
 import PropertyFilterDropdown from "./PropertyFilterDropdown";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/app/(dashboard)/components/ui/Pagination";
+import { cn } from "@/lib/utils";
+import { getPaginationRange } from "@/app/(dashboard)/components/DataTable";
 
 export interface FilterProps {
   status: string;
@@ -27,16 +37,16 @@ export interface FilterProps {
 }
 
 const PropertyGrid = () => {
-  const dispatch = useAppDispatch();
-  const { properties } = useAppSelector((state) => state.property);
-  const [filteredProperties, setFilteredProperties] = useState(properties);
-  const [sortBy, setSortBy] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [openFilter, setOpenFilter] = useState(false);
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
-  const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-
+  const [currentPage, setCurrentPage] = useState(
+    parseInt(searchParams.get("page") || "1", 10)
+  );
   const [filters, setFilters] = useState<FilterProps>({
     status: "",
     type: "",
@@ -47,78 +57,108 @@ const PropertyGrid = () => {
     priceRange: [0, 900000000],
     area: [0, 5000],
   });
+  const itemsPerPage = 6;
 
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      dispatch(setProperties(propertyData));
-      setLoading(false);
-    }, 3000);
-  }, [dispatch]);
+  const [params, setParams] = useState<PropertyFilterInput>({
+    page: currentPage,
+    limit: itemsPerPage,
+    draft: true,
+  });
 
-  useEffect(() => {
-    setFilteredProperties(properties);
-  }, [properties]);
+  const { totalPages, totalProperties, properties, isPending } =
+    useProperties(params);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFilterChange = (key: string, value: any) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    setFilters((prev) => {
+      // Handle array values for priceRange and area
+      if (key === "priceRange" || key === "area") {
+        const newValue = Array.isArray(value) ? value : [value, prev[key]?.[1]];
+        return { ...prev, [key]: newValue };
+      }
+      return { ...prev, [key]: value };
+    });
   };
 
+  useEffect(() => {
+    const newParams: PropertyFilterInput = {
+      page: currentPage,
+      limit: itemsPerPage,
+      draft: true,
+    };
+
+    // Explicitly check and add each filter parameter
+    const status = searchParams.get("status");
+    const type = searchParams.get("type");
+    const location = searchParams.get("location");
+    const rooms = searchParams.get("rooms");
+    const beds = searchParams.get("beds");
+    const baths = searchParams.get("baths");
+    const priceRange = searchParams.get("priceRange");
+    const area = searchParams.get("area");
+
+    // Set parameters only if they exist in URL
+    if (status) newParams.status = status;
+    if (type) newParams.type = type;
+    if (location) newParams.location = location;
+    if (rooms) newParams.rooms = rooms;
+    if (beds) newParams.beds = beds;
+    if (baths) newParams.baths = baths;
+    if (priceRange) newParams.priceRange = priceRange;
+    if (area) newParams.area = area;
+
+    const currentParams = new URLSearchParams(searchParams.toString());
+    currentParams.set("page", currentPage.toString());
+
+    router.push(`${pathname}?${currentParams.toString()}`);
+    setParams(newParams);
+  }, [currentPage, searchParams, pathname, router]);
+
+  // handling the apply filters
   const applyFilters = () => {
-    let filteredProperties = propertyData;
+    const params = new URLSearchParams(searchParams);
 
-    if (filters.status) {
-      filteredProperties = filteredProperties.filter(
-        (property) => property.status === filters.status
+    // Set filter parameters
+    if (filters.status) params.set("status", filters.status);
+    if (filters.type) params.set("type", filters.type);
+    if (filters.location) params.set("location", filters.location);
+    if (filters.rooms) params.set("rooms", filters.rooms);
+    if (filters.beds) params.set("beds", filters.beds);
+    if (filters.baths) params.set("baths", filters.baths);
+
+    // Handle price range
+    if (filters.priceRange[0] > 0 || filters.priceRange[1] < 900000000) {
+      params.set(
+        "priceRange",
+        `${filters.priceRange[0]},${filters.priceRange[1]}`
       );
-    }
-    if (filters.type) {
-      filteredProperties = filteredProperties.filter(
-        (property) => property.type === filters.type
-      );
-    }
-    if (filters.location) {
-      filteredProperties = filteredProperties.filter(
-        (property) => property.location === filters.location
-      );
-    }
-    if (filters.rooms) {
-      filteredProperties = filteredProperties.filter(
-        (property) => property.rooms.length === parseInt(filters.rooms)
-      );
-    }
-    if (filters.beds) {
-      filteredProperties = filteredProperties.filter(
-        (property) => property.beds === parseInt(filters.beds)
-      );
-    }
-    if (filters.baths) {
-      filteredProperties = filteredProperties.filter(
-        (property) => property.baths === parseInt(filters.baths)
-      );
-    }
-    if (filters.priceRange) {
-      filteredProperties = filteredProperties.filter(
-        (property) =>
-          (property.price as number) >= filters.priceRange[0] &&
-          (property.price as number) <= filters.priceRange[1]
-      );
-    }
-    if (filters.area) {
-      filteredProperties = filteredProperties.filter(
-        (property) =>
-          (property.squareFeet as number) >= filters.area[0] &&
-          (property.squareFeet as number) <= filters.area[1]
-      );
+    } else {
+      params.delete("priceRange");
     }
 
-    setFilteredProperties(filteredProperties);
+    // Handle area range
+    if (filters.area[0] > 0 || filters.area[1] < 5000) {
+      params.set("area", `${filters.area[0]},${filters.area[1]}`);
+    } else {
+      params.delete("area");
+    }
+
+    // Always reset to first page when applying filters
+    params.set("page", "1");
+    setCurrentPage(1);
+
+    // Update URL
+    router.push(`${pathname}?${params.toString()}`);
+
+    // Update params state
+    setParams((prev) => ({
+      ...prev,
+    }));
     setOpenFilter(false);
   };
 
   const resetFilters = () => {
-    setFilters({
+    const defaultFilters: FilterProps = {
       status: "",
       type: "",
       location: "",
@@ -127,45 +167,14 @@ const PropertyGrid = () => {
       baths: "",
       priceRange: [0, 900000000],
       area: [0, 5000],
-    });
+    };
 
-    setFilteredProperties(propertyData);
+    setFilters(defaultFilters);
+
+    // Clear URL parameters
+    router.push(pathname);
+    setCurrentPage(1);
     setOpenFilter(false);
-  };
-
-  const handleSortChange = (value: string) => {
-    setSortBy(value);
-
-    const sortedProperties = [...filteredProperties];
-
-    switch (value) {
-      case "price_asc":
-        sortedProperties.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-        break;
-
-      case "price-desc":
-        sortedProperties.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
-        break;
-
-      case "newest":
-        sortedProperties.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-        break;
-
-      case "oldest":
-        sortedProperties.sort(
-          (a, b) =>
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-        break;
-
-      default:
-        break;
-    }
-
-    setFilteredProperties(sortedProperties);
   };
 
   return (
@@ -180,6 +189,7 @@ const PropertyGrid = () => {
                 filters={filters}
                 handleFilterChange={handleFilterChange}
                 resetFilters={resetFilters}
+                disabled={!filters}
               />
             </div>
             {/* sidebar filter end */}
@@ -193,10 +203,18 @@ const PropertyGrid = () => {
                 <h2 className="font-bold text-[30px] capitalize leading-[1.1] tracking-[0.001em] mb-1">
                   Properties Listing
                 </h2>
-                <span className="text-gray-500">
-                  Showing <span className="text-primary">1-1 of 1</span>{" "}
+                <p className="text-sm text-gray-600 font-semibold">
+                  Showing{" "}
+                  <span className=" text-primary">
+                    {Math.min(
+                      (currentPage - 1) * itemsPerPage + 1,
+                      totalProperties
+                    )}{" "}
+                    - {Math.min(currentPage * itemsPerPage, totalProperties)} of{" "}
+                    {totalProperties}
+                  </span>{" "}
                   Listings
-                </span>
+                </p>
               </div>
               {/* right */}
               <div className="">
@@ -210,13 +228,13 @@ const PropertyGrid = () => {
                         "Newest",
                         "Oldest",
                       ]}
-                      selectedValue={sortBy}
-                      onSelect={handleSortChange}
+                      selectedValue={""}
+                      onSelect={() => {}}
                       className="w-fit !px-3"
                       position={isMobile ? "bottom-left" : "bottom-right"}
                     />
                   </li>
-                  
+
                   {isTablet && (
                     <li className="ml-auto">
                       <div className="border rounded relative">
@@ -265,10 +283,10 @@ const PropertyGrid = () => {
                     : "grid-cols-1"
                 } gap-6`}
               >
-                {loading ? (
+                {isPending ? (
                   [...Array(6)].map((_, i) => <PropertyCardSkeleton key={i} />)
-                ) : filteredProperties.length > 0 ? (
-                  filteredProperties.map((property, i) => (
+                ) : properties.length > 0 ? (
+                  properties.map((property, i) => (
                     <div
                       key={i}
                       className={viewMode === "list" ? "lg:col-span-3" : ""}
@@ -287,6 +305,56 @@ const PropertyGrid = () => {
                   </div>
                 )}
               </div>
+
+              {/* Pagination Controls */}
+              {properties.length > 0 && totalPages > 1 && (
+                <div className="mt-14">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() =>
+                            setCurrentPage((prev) => Math.max(prev - 1, 1))
+                          }
+                          aria-disabled={currentPage === 1}
+                          className={cn(
+                            "text-sm",
+                            currentPage === 1 &&
+                              "pointer-events-none opacity-50"
+                          )}
+                        />
+                      </PaginationItem>
+                      {getPaginationRange(currentPage, totalPages).map(
+                        (page) => (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              isActive={page === currentPage}
+                              onClick={() => setCurrentPage(page)}
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        )
+                      )}
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() =>
+                            setCurrentPage((prev) =>
+                              Math.min(prev + 1, totalPages)
+                            )
+                          }
+                          aria-disabled={currentPage === totalPages}
+                          className={cn(
+                            "text-sm",
+                            currentPage === totalPages &&
+                              "pointer-events-none opacity-50"
+                          )}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
             <div></div>
           </div>
@@ -321,6 +389,7 @@ const PropertyGrid = () => {
               filters={filters}
               handleFilterChange={handleFilterChange}
               resetFilters={resetFilters}
+              disabled={!filters}
             />
           </div>
         </div>
