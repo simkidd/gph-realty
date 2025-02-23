@@ -91,7 +91,7 @@ const Gallery = ({ images }: GalleryProps) => {
                 </button>
 
                 <div
-                  className="relative w-full max-w-6xl h-full cursor-zoom-in z-[1]"
+                  className="relative w-full max-w-4xl h-full cursor-zoom-in z-[1]"
                   onMouseMove={handleMouseMove}
                   onClick={toggleZoom}
                 >
