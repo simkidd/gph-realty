@@ -1,7 +1,8 @@
 import PropertyDetails from "@/components/property/PropertyDetails";
 import PropertyHeader from "@/components/property/PropertyHeader";
 import { IProperty } from "@/interfaces/property.interface";
-import { getAllProperties, getPropertyBySlug } from "@/lib/api/properties";
+import { getPropertyBySlug } from "@/lib/api/properties";
+import { getProperties } from "@/lib/properties";
 import { config } from "@/utils/config";
 
 export const generateMetadata = async ({
@@ -40,14 +41,12 @@ export const generateMetadata = async ({
 
 export const generateStaticParams = async () => {
   try {
-    const res = await getAllProperties({ limit: 1000 });
-    const properties: IProperty[] = res?.data;
-
+    const properties = await getProperties();
     return properties.map((property) => ({
       slug: property.slug,
     }));
   } catch (error) {
-    console.log(error);
+    console.error('Static generation failed:', error)
     return [];
   }
 };
