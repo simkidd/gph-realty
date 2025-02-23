@@ -1,6 +1,6 @@
 import { PropertyFormData } from "@/app/(dashboard)/components/properties/PropertyDetailsForm";
 import { PropertyFilterInput } from "@/interfaces/property.interface";
-import instance, { BASE_URL } from "@/services/axios";
+import instance from "@/services/axios";
 
 export const getAllProperties = async (params?: PropertyFilterInput) => {
   const res = await instance.get("/properties", { params });
@@ -41,30 +41,3 @@ export const upload = async (data: FormData) => {
   return res.data;
 };
 
-export const getPropertiesForParams = async (params?: PropertyFilterInput) => {
-  try {
-    const queryString = new URLSearchParams(
-      params as Record<string, string>
-    ).toString();
-    const url = `${BASE_URL}/properties${queryString ? `?${queryString}` : ""}`;
-
-    const res = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store", // Ensures fresh data (useful for SSR)
-    });
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch properties: ${res.statusText}`);
-    }
-
-    const data = await res.json();
-
-    return data; // Make sure to return the data
-  } catch (error) {
-    console.error("Error fetching properties:", error);
-    return []; // Avoid breaking the build
-  }
-};
