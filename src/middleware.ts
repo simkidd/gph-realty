@@ -48,10 +48,6 @@ const handleCors = (request: NextRequestWithAuth, response: NextResponse) => {
 
 export default withAuth(
   function middleware(request: NextRequestWithAuth) {
-    if (process.env.NEXT_PUBLIC_IS_BUILD_PROCESS === "true") {
-      return NextResponse.next();
-    }
-
     // Handle CORS first for API routes
     if (request.nextUrl.pathname.startsWith("/api")) {
       const response = NextResponse.next();
