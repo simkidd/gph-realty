@@ -13,7 +13,11 @@ export const getPropertyById = async (id: string) => {
 };
 
 export const getPropertyBySlug = async (slug: string) => {
-  const res = await instance.get(`/properties/single/${slug}`);
+  const res = await instance.get(`/properties/single/${slug}`, {
+    headers: {
+      Authorization: undefined, // 🚀 Override auth header
+    },
+  });
   return res.data;
 };
 
@@ -40,4 +44,3 @@ export const upload = async (data: FormData) => {
   });
   return res.data;
 };
-
