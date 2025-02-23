@@ -1,10 +1,7 @@
-import PropertyDetails from "@/components/property/PropertyDetails";
-import PropertyHeader from "@/components/property/PropertyHeader";
+import ClientPropertyDetails from "@/components/property/ClientPropertyDetails";
 import { IProperty } from "@/interfaces/property.interface";
 import { getPropertyBySlug } from "@/lib/api/properties";
 import { config } from "@/utils/config";
-
-export const dynamic = 'force-static'
 
 export const generateMetadata = async ({
   params,
@@ -40,24 +37,6 @@ export const generateMetadata = async ({
   };
 };
 
-// export const generateStaticParams = async () => {
-//   try {
-//     const res = await getPropertiesForParams({ limit: 1000});
-//     const properties: IProperty[] = res.data;
-
-//     console.log("static properties>>>", properties);
-//     return properties.map((property) => ({
-//       slug: property.slug,
-//     }));
-//   } catch (error) {
-//     console.log(error);
-//     return [];
-//   }
-// };
-
-export async function generateStaticParams() {
-  return []
-}
 
 const SinglePropertyPage = async ({
   params,
@@ -66,12 +45,9 @@ const SinglePropertyPage = async ({
 }) => {
   const { slug } = await params;
 
-  const property = await getPropertyBySlug(slug);
-
   return (
     <>
-      <PropertyHeader property={property} />
-      <PropertyDetails property={property} />
+      <ClientPropertyDetails slug={slug} />
     </>
   );
 };

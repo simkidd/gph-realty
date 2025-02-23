@@ -61,7 +61,7 @@ const AdminPropertiesList = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
   const [currentPage, setCurrentPage] = useState(

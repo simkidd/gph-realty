@@ -44,9 +44,7 @@ const PropertyGrid = () => {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get("page") || "1", 10)
-  );
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<FilterProps>({
     status: "",
     type: "",
@@ -62,7 +60,7 @@ const PropertyGrid = () => {
   const [params, setParams] = useState<PropertyFilterInput>({
     page: currentPage,
     limit: itemsPerPage,
-    draft: true,
+    draft: false,
   });
 
   const { totalPages, totalProperties, properties, isPending } =
@@ -84,7 +82,7 @@ const PropertyGrid = () => {
     const newParams: PropertyFilterInput = {
       page: currentPage,
       limit: itemsPerPage,
-      draft: true,
+      draft: false,
     };
 
     // Explicitly check and add each filter parameter
@@ -96,6 +94,7 @@ const PropertyGrid = () => {
     const baths = searchParams.get("baths");
     const priceRange = searchParams.get("priceRange");
     const area = searchParams.get("area");
+    const page = searchParams.get("page");
 
     // Set parameters only if they exist in URL
     if (status) newParams.status = status;
@@ -108,9 +107,11 @@ const PropertyGrid = () => {
     if (area) newParams.area = area;
 
     const currentParams = new URLSearchParams(searchParams.toString());
-    currentParams.set("page", currentPage.toString());
+    if (page) {
+      currentParams.set("page", currentPage.toString());
+    }
 
-    router.push(`${pathname}?${currentParams.toString()}`);
+    // router.push(`${pathname}?${currentParams.toString()}`);
     setParams(newParams);
   }, [currentPage, searchParams, pathname, router]);
 
