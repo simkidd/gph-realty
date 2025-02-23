@@ -24,12 +24,12 @@ const schema = z.object({
   name: z.string().min(3, "Property name is required"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   location: z.string().min(3, "Location is required"),
-  price: z.number().min(10000, "Price must be a positive number"),
+  price: z.number().min(10000, "Price must be not be less than 10,000"),
   type: z.enum(["", "rent", "sell"]),
   beds: z.number().min(2, "Beds must be a positive number").optional(),
   baths: z.number().min(2, "Baths must be a positive number").optional(),
   lobbies: z.number().min(0, "Lobbies must be a positive number").optional(),
-  squareFeet: z
+  area: z
     .number()
     .min(10, "Square feet must be a positive number")
     .optional(),
@@ -65,7 +65,7 @@ const PropertyDetailsForm = () => {
       beds: 0,
       baths: 0,
       lobbies: 0,
-      squareFeet: 0,
+      area: 0,
       amenities: [],
       features: [],
       virtualTour: false,
@@ -76,7 +76,8 @@ const PropertyDetailsForm = () => {
     mutationFn: createProperty,
     onSuccess: (data) => {
       console.log("Property created:", data); // Debugging
-      router.push(`?propertyId=${data.id}`);
+      toast.success(data?.message);
+      router.push(`?propertyId=${data?.property?.id}`);
       dispatch(nextStep());
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -283,7 +284,7 @@ const PropertyDetailsForm = () => {
             <Input
               id="squareFeet"
               type="number"
-              {...register("squareFeet", { valueAsNumber: true })}
+              {...register("area", { valueAsNumber: true })}
               suffix={
                 <div className="flex items-center gap-1 text-gray-500">
                   <span>sq ft</span>
@@ -291,9 +292,9 @@ const PropertyDetailsForm = () => {
                 </div>
               }
             />
-            {errors.squareFeet?.message && (
+            {errors.area?.message && (
               <p className="mt-1 text-sm text-red-600">
-                {errors.squareFeet.message}
+                {errors.area.message}
               </p>
             )}
           </div>

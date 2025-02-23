@@ -1,46 +1,76 @@
 import { PropertyFormData } from "@/app/(dashboard)/components/properties/PropertyDetailsForm";
 import { PropertyFilterInput } from "@/interfaces/property.interface";
-import instance from "@/services/axios";
+
+export const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+
+const defaultHeaders = {
+  "Content-Type": "application/json",
+  // Add any other default headers (like Authorization) here
+  // Authorization: `Bearer ${token}`,
+};
+
+const handleResponse = async (res: Response) => {
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Request failed");
+  }
+  return res.json();
+};
 
 export const getAllProperties = async (params?: PropertyFilterInput) => {
-  const res = await instance.get("/properties", { params });
-  return res.data;
+  const url = new URL(`${baseUrl}/properties`);
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        url.searchParams.append(key, String(value));
+      }
+    });
+  }
+  const res = await fetch(url.toString(), {
+    method: "GET",
+    headers: defaultHeaders,
+  });
+  return handleResponse(res);
 };
 
 export const getPropertyById = async (id: string) => {
-  const res = await instance.get(`/properties/${id}`);
-  return res.data;
+  const res = await fetch(`${baseUrl}/properties/${id}`, {
+    method: "GET",
+    headers: defaultHeaders,
+  });
+  return handleResponse(res);
 };
 
 export const getPropertyBySlug = async (slug: string) => {
-  const res = await instance.get(`/properties/single/${slug}`, {
-    headers: {
-      Authorization: undefined, // 🚀 Override auth header
-    },
+  const res = await fetch(`${baseUrl}/properties/single/${slug}`, {
+    method: "GET",
+    headers: defaultHeaders,
   });
-  return res.data;
+  return handleResponse(res);
 };
 
 export const createProperty = async (data: PropertyFormData) => {
-  const res = await instance.post("/properties/create", data);
-  return res.data;
+  const res = await fetch(`${baseUrl}/properties/create`, {
+    method: "POST",
+    headers: defaultHeaders,
+    body: JSON.stringify(data),
+  });
+  return handleResponse(res);
 };
 
 export const updateProperty = async (id: string, data: PropertyFormData) => {
-  const res = await instance.patch(`/properties/update/${id}`, data);
-  return res.data;
+  const res = await fetch(`${baseUrl}/properties/update/${id}`, {
+    method: "PATCH",
+    headers: defaultHeaders,
+    body: JSON.stringify(data),
+  });
+  return handleResponse(res);
 };
 
 export const deleteProperty = async (id: string) => {
-  const res = await instance.delete(`/properties/delete/${id}`);
-  return res.data;
-};
-
-export const upload = async (data: FormData) => {
-  const res = await instance.post("/upload", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+  const res = await fetch(`${baseUrl}/properties/delete/${id}`, {
+    method: "DELETE",
+    headers: defaultHeaders,
   });
-  return res.data;
+  return handleResponse(res);
 };
