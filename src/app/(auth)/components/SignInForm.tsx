@@ -51,7 +51,7 @@ const SignInForm = () => {
         toast.error(res?.error);
       } else {
         toast.success('Login successful');
-        router.push(callbackUrl);
+        router.replace(callbackUrl);
       }
     } catch (error) {
       console.log("error>>>", error);
