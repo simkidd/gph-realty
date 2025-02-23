@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const HeroSection = () => {
   return (
-    <section className="relative h-[90vh] flex items-center justify-center bg-gray-900 text-white overflow-hidden">
+    <section className="relative h-dvh flex items-center justify-center bg-gray-900 text-white overflow-hidden">
       {/* Background Image with Gradient Overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center"

@@ -60,13 +60,13 @@ const PropertyHeader = ({
                   />
                 )}
               </div>
-              <p className="mt-2 mb-4">
+              <div className="mt-2 mb-4">
                 {loading ? (
                   <Skeleton className="w-40 h-6" />
                 ) : (
-                  property?.location
+                  <p>{property?.location}</p>
                 )}
-              </p>
+              </div>
 
               <ul className="flex flex-wrap gap-4 mb-4">
                 {[...Array(4)].map((_, index) => (
