@@ -55,7 +55,7 @@ const Gallery = ({ images }: GalleryProps) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <h4 className="font-semibold mb-5 text-[22px] capitalize leading-[1.2] tracking-wide">
         Gallery
       </h4>
