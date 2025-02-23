@@ -39,6 +39,9 @@ const propertySlice = createSlice({
     prevStep: (state) => {
       state.currentStep -= 1;
     },
+    setCurrentStep(state, action) {
+      state.currentStep = action.payload;
+    },
   },
 });
 
@@ -48,6 +51,7 @@ export const {
   setSelectedProperty,
   nextStep,
   prevStep,
+  setCurrentStep,
 } = propertySlice.actions;
 
 export default propertySlice.reducer;

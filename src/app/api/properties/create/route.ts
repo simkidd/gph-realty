@@ -95,7 +95,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(property, { status: 201 });
+    // return NextResponse.json(property, { status: 201 });
+    return NextResponse.json({
+      success: true,
+      message: "Property Created Successfully",
+      property,
+    });
   } catch (error) {
     return NextResponse.json(
       { error: `Failed to create property>>> ${error}` },

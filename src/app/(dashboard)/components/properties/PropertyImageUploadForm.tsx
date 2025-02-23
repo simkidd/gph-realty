@@ -4,6 +4,8 @@ import Button from "@/components/ui-custom/Button";
 import { Input } from "@/components/ui-custom/Input";
 import { Progress } from "@/components/ui-custom/Progress";
 import instance from "@/services/axios";
+import { setCurrentStep } from "@/store/features/property/propertySlice";
+import { useAppDispatch } from "@/store/hooks";
 import { formatFileSize } from "@/utils/helpers";
 import { X } from "lucide-react";
 import Image from "next/image";
@@ -24,6 +26,7 @@ type PropertyFile = {
 };
 
 export function PropertyImageUploadForm() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
   const propertyId = searchParams.get("propertyId");
@@ -330,7 +333,12 @@ export function PropertyImageUploadForm() {
         <Button
           type="button"
           variant="destructive"
-          onClick={() => router.push("/admin/properties")}
+          onClick={() => {
+            router.push("/admin/properties");
+            setTimeout(() => {
+              dispatch(setCurrentStep(1));
+            }, 3000);
+          }}
         >
           Cancel
         </Button>
@@ -348,7 +356,12 @@ export function PropertyImageUploadForm() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => router.push("/admin/properties")}
+            onClick={() => {
+              router.push("/admin/properties");
+              setTimeout(() => {
+                dispatch(setCurrentStep(1));
+              }, 3000);
+            }}
           >
             Continue
           </Button>
